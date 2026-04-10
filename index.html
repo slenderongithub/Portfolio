@@ -3,840 +3,290 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portfolio - Shubhadeep Datta</title>
+  <title>Shubhadeep Datta | Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
-  <style>
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{
-      --gold:#c8a96e;--gold-dim:#7a6540;--ink:#0c0c0c;
-      --surf:#141414;--surf2:#1c1c1c;--surf3:#222;
-      --border:rgba(200,169,110,.15);--border2:rgba(200,169,110,.28);
-      --text:#e8e0d0;--muted:#6a6258;
-      --serif:'Cormorant Garamond',Georgia,serif;
-      --mono:'Space Mono',monospace;
-      --panel-w:310px;--radius:14px;
-      --ease:cubic-bezier(.4,0,.2,1);
-    }
-    html,body{height:100%;overflow:hidden}
-    body{background:var(--ink);color:var(--text);font-family:var(--mono);font-size:13px;line-height:1.7;cursor:none;display:flex;flex-direction:column}
-
-    /* cursor */
-    .cur{position:fixed;width:9px;height:9px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:difference}
-    .cur-r{position:fixed;width:32px;height:32px;border:1px solid var(--gold);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);opacity:.4;transition:opacity .2s}
-
-    /* top bar */
-    .topbar{height:52px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;border-bottom:1px solid var(--border);background:rgba(12,12,12,.92);backdrop-filter:blur(16px);position:relative;z-index:200}
-    .topbar-name{font-family:var(--serif);font-size:1.2rem;font-weight:300;color:var(--gold);letter-spacing:.04em}
-    .topbar-section{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);transition:color .3s;min-width:10ch;text-align:right}
-
-    /* 3-bar toggle */
-    .toggle-btn{width:36px;height:36px;border-radius:10px;border:1px solid var(--border2);background:var(--surf2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:none;transition:background .2s,border-color .2s}
-    .toggle-btn:hover{background:var(--surf3);border-color:var(--gold)}
-    .toggle-btn span{display:block;width:16px;height:1.5px;background:var(--text);border-radius:2px;transition:transform .35s var(--ease),opacity .25s,width .25s}
-    .toggle-btn.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
-    .toggle-btn.open span:nth-child(2){opacity:0;width:0}
-    .toggle-btn.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
-
-    /* workspace */
-    .workspace{flex:1;display:flex;overflow:hidden;position:relative}
-
-    /* stage manager panel */
-    .sm-panel{
-      position:absolute;left:0;top:0;bottom:0;width:var(--panel-w);
-      background:rgba(13,13,13,.94);backdrop-filter:blur(28px);
-      border-right:1px solid var(--border);z-index:100;
-      display:flex;flex-direction:column;padding:1.1rem .85rem;gap:.65rem;
-      transform:translateX(calc(-1 * var(--panel-w)));
-      transition:transform .44s var(--ease),box-shadow .44s;
-      overflow-y:auto;overflow-x:hidden;
-    }
-    .sm-panel::-webkit-scrollbar{width:3px}
-    .sm-panel::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
-    .sm-panel.open{transform:translateX(0);box-shadow:10px 0 48px rgba(0,0,0,.65)}
-
-    .panel-hdr{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);padding:.25rem .3rem .6rem;border-bottom:1px solid var(--border);margin-bottom:.2rem;flex-shrink:0}
-
-    /* sm card */
-    .sm-card{
-      border-radius:var(--radius);border:1px solid var(--border);background:var(--surf2);
-      padding:.95rem 1.05rem;cursor:none;position:relative;
-      transition:border-color .22s,transform .22s,box-shadow .22s,background .22s;
-      flex-shrink:0;overflow:hidden;
-    }
-    .sm-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(200,169,110,.07) 0%,transparent 60%);opacity:0;transition:opacity .2s}
-    .sm-card:hover{transform:scale(1.022) translateX(3px);border-color:var(--border2);box-shadow:0 8px 28px rgba(0,0,0,.5)}
-    .sm-card:hover::before{opacity:1}
-    .sm-card.active{border-color:var(--gold);background:var(--surf3);box-shadow:0 0 0 1px var(--gold-dim),0 6px 28px rgba(200,169,110,.12)}
-    .sm-card.active::before{opacity:1}
-
-    .sm-card-top{display:flex;align-items:center;gap:.65rem;margin-bottom:.55rem}
-    .sm-card-icon{width:34px;height:34px;border-radius:9px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;background:var(--surf);font-size:1.1rem;flex-shrink:0;transition:border-color .2s}
-    .sm-card.active .sm-card-icon{border-color:var(--gold-dim)}
-    .sm-card-meta{flex:1;min-width:0}
-    .sm-card-label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.15rem}
-    .sm-card-title{font-family:var(--serif);font-size:1.05rem;font-weight:300;color:var(--text);line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .sm-card-desc{font-size:10px;color:var(--muted);line-height:1.65}
-    .sm-card-dot{position:absolute;top:.8rem;right:.85rem;width:6px;height:6px;border-radius:50%;background:var(--gold);opacity:0;transition:opacity .2s;box-shadow:0 0 5px var(--gold)}
-    .sm-card.active .sm-card-dot{opacity:1}
-
-    /* stage */
-    .stage{flex:1;overflow:hidden;position:relative;transition:margin-left .44s var(--ease)}
-    .stage.shifted{margin-left:var(--panel-w)}
-
-    /* panes */
-    .pane{position:absolute;inset:0;padding:3.5rem 4.5rem 3rem;overflow-y:auto;opacity:0;transform:scale(.97) translateY(14px);transition:opacity .38s var(--ease),transform .38s var(--ease);pointer-events:none}
-    .pane::-webkit-scrollbar{width:3px}
-    .pane::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
-    .pane.active{opacity:1;transform:scale(1) translateY(0);pointer-events:all}
-
-    /* shared */
-    .sec-label{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem}
-    .sec-label::after{content:'';display:block;width:2.5rem;height:1px;background:var(--gold-dim)}
-    .sec-h1{font-family:var(--serif);font-size:clamp(2.8rem,5.5vw,5rem);font-weight:300;line-height:1.06;color:var(--text);margin-bottom:1.5rem}
-    .sec-h1 em{font-style:italic;color:var(--gold)}
-
-    /* hero */
-    #pane-hero{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:center;min-height:100%}
-    .hero-body p{color:var(--muted);max-width:38ch;line-height:2;margin-bottom:2rem;font-size:12px}
-    .hero-cta{display:inline-block;padding:.6rem 1.6rem;border:1px solid var(--gold);color:var(--gold);font-size:10px;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;cursor:none;transition:background .2s,color .2s}
-    .hero-cta:hover{background:var(--gold);color:var(--ink)}
-    .hero-portrait{height:460px;border:none;background:transparent;display:flex;align-items:center;justify-content:center;border-radius:0;position:relative;overflow:visible}
-    .hero-portrait img{width:100%;height:100%;object-fit:cover;opacity:.85;filter:grayscale(20%)}
-    .portrait-ph{display:none}
-    .hero-portrait::after{content:none}
-
-    .brain-shell{width:100%;height:100%;padding:0;background:none;display:flex;align-items:center;justify-content:center}
-    .brain-stage{position:relative;width:min(100%, 650px);height:100%;max-height:460px;display:flex;align-items:center;justify-content:center;overflow:visible;perspective:1200px}
-    .brain-stage::before{content:none}
-    .brain-art{position:relative;width:100%;height:100%;transform:rotateX(18deg) rotateY(-14deg) rotateZ(-7deg);transform-origin:50% 50%;animation:brainFloat 8s ease-in-out infinite;will-change:transform}
-    .brain-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 18px 30px rgba(0,0,0,.4))}
-    .brain-outline-back{fill:none;stroke:#0d5470;stroke-width:7;stroke-linecap:round;stroke-linejoin:round;opacity:.32}
-    .brain-outline{fill:none;stroke:url(#brainStroke);stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round}
-    .brain-outline-highlight{fill:none;stroke:#bafcff;stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round;opacity:.5}
-    .brain-fold{fill:none;stroke:#57e9ff;stroke-width:1.45;stroke-linecap:round;stroke-linejoin:round;opacity:.82}
-    .brain-wire{fill:none;stroke:#57e9ff;stroke-width:1;stroke-linecap:round;opacity:.26;stroke-dasharray:2 10}
-    .brain-stem{fill:none;stroke:#57e9ff;stroke-width:1.45;stroke-linecap:round;stroke-linejoin:round;opacity:.82}
-    .brain-node{position:absolute;transform:translate(-50%,-50%);width:10px;height:10px;border:none;border-radius:50%;background:radial-gradient(circle at 35% 30%, #dffcff 0%, #7df3ff 30%, #2ac7ef 58%, rgba(10,18,26,.95) 100%);box-shadow:0 0 0 4px rgba(68,230,255,.08),0 0 18px rgba(68,230,255,.85);cursor:pointer;transition:transform .2s,box-shadow .2s,background .2s;z-index:3}
-    .brain-node:hover,.brain-node:focus-visible{transform:translate(-50%,-50%) scale(1.35);box-shadow:0 0 0 6px rgba(68,230,255,.12),0 0 28px rgba(68,230,255,.98);outline:none}
-    .brain-tooltip{position:fixed;z-index:9999;min-width:160px;max-width:240px;padding:.55rem .7rem;border-radius:12px;background:rgba(7,12,18,.88);backdrop-filter:blur(14px);box-shadow:0 18px 40px rgba(0,0,0,.35);color:var(--text);pointer-events:none;opacity:0;transform:none;transition:opacity .14s ease}
-    .brain-tooltip.visible{opacity:1}
-    .brain-tooltip-title{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#7feaff;margin-bottom:.25rem}
-    .brain-tooltip-desc{font-size:9px;line-height:1.55;color:var(--text);opacity:.92;white-space:pre-line}
-    #brainStage canvas{display:block;width:100% !important;height:100% !important}
-    @keyframes brainFloat{0%,100%{transform:rotateX(18deg) rotateY(-14deg) rotateZ(-7deg) translateY(0)}50%{transform:rotateX(18deg) rotateY(-14deg) rotateZ(-7deg) translateY(-8px)}}
-
-    /* about */
-    #pane-about .about-cols{display:grid;grid-template-columns:1fr 2fr;gap:3.5rem;margin-top:1.5rem}
-    .trait-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1.25rem}
-    .tag{padding:.22rem .6rem;border:1px solid var(--border);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border-radius:3px;transition:border-color .2s,color .2s;cursor:none}
-    .tag:hover{border-color:var(--gold);color:var(--gold)}
-    .about-body p{font-family:var(--serif);font-size:1.25rem;font-weight:300;line-height:1.85;color:var(--text);margin-bottom:1.6rem}
-    .about-body p span{color:var(--gold)}
-    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-top:2.25rem}
-    .stat{background:var(--surf);padding:1.6rem 1.1rem;text-align:center}
-    .stat-n{font-family:var(--serif);font-size:2.6rem;font-weight:600;color:var(--gold);display:block}
-    .stat-l{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-top:.2rem}
-
-    /* achievements */
-    .ach-list{margin-top:2.25rem}
-    .ach-row{display:grid;grid-template-columns:4.5rem 1fr auto;gap:2rem;align-items:center;padding:1.6rem 0;border-top:1px solid var(--border);transition:padding-left .2s;cursor:none}
-    .ach-row:last-child{border-bottom:1px solid var(--border)}
-    .ach-row:hover{padding-left:.75rem}
-    .ach-row:hover .ach-yr{color:var(--gold)}
-    .ach-yr{font-family:var(--serif);font-size:1.05rem;color:var(--muted);transition:color .2s}
-    .ach-t{font-family:var(--serif);font-size:1.15rem;font-weight:300;color:var(--text)}
-    .ach-s{font-size:10px;color:var(--muted);margin-top:.2rem}
-    .ach-badge{font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .55rem;border:1px solid var(--border);color:var(--muted);white-space:nowrap;border-radius:3px}
-
-    /* aspirations */
-    .asp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1.15rem;margin-top:2.25rem}
-    .asp-card{background:var(--surf2);border:1px solid var(--border);padding:1.85rem 1.65rem;border-radius:10px;position:relative;overflow:hidden;transition:border-color .2s,transform .2s;cursor:none}
-    .asp-card:hover{border-color:var(--gold);transform:translateY(-5px)}
-    .asp-card::before{content:attr(data-n);position:absolute;bottom:-.5rem;right:.75rem;font-family:var(--serif);font-size:5rem;font-weight:600;color:rgba(200,169,110,.05);line-height:1}
-    .asp-card h3{font-family:var(--serif);font-size:1.2rem;font-weight:300;color:var(--text);margin-bottom:.45rem}
-    .asp-card p{font-size:11px;color:var(--muted);line-height:1.8}
-
-    /* qualifications */
-    .qual-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;background:var(--border);border:1px solid var(--border);margin-top:2.25rem}
-    .qual-card{background:var(--surf);padding:2.1rem;transition:background .2s;cursor:none}
-    .qual-card:hover{background:var(--surf2)}
-    .qual-type{font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem}
-    .qual-title{font-family:var(--serif);font-size:1.25rem;font-weight:300;color:var(--text);margin-bottom:.3rem}
-    .qual-inst{font-size:11px;color:var(--muted);margin-bottom:1.15rem}
-    .skill-pills{display:flex;flex-wrap:wrap;gap:.35rem}
-    .sp{font-size:9px;padding:.2rem .55rem;border:1px solid var(--border);color:var(--muted);letter-spacing:.05em;border-radius:2px}
-
-    /* projects */
-    .proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.15rem;margin-top:2.25rem}
-    .proj-card{background:var(--surf2);border:1px solid var(--border);padding:1.65rem;border-radius:10px;position:relative;overflow:hidden;transition:border-color .3s,transform .3s;cursor:none}
-    .proj-card:hover{border-color:var(--gold);transform:translateY(-6px)}
-    .proj-card::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .3s}
-    .proj-card:hover::after{transform:scaleX(1)}
-    .proj-card.active{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold-dim),0 12px 30px rgba(200,169,110,.14);transform:translateY(-4px)}
-    .proj-card.active::after{transform:scaleX(1)}
-    .proj-card.active .proj-title{color:var(--gold)}
-    .proj-status{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:.9rem}
-    .proj-title{font-family:var(--serif);font-size:1.35rem;font-weight:300;color:var(--text);margin-bottom:.55rem;line-height:1.2}
-    .proj-desc{font-size:11px;color:var(--muted);line-height:1.85;margin-bottom:1.15rem}
-    .proj-tags{display:flex;flex-wrap:wrap;gap:.35rem}
-    .pt{font-size:9px;padding:.2rem .5rem;border:1px solid var(--border);color:var(--muted);letter-spacing:.04em;border-radius:2px}
-
-    /* noise */
-    body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.025;pointer-events:none;z-index:9000}
-
-    @media(max-width:800px){
-      .pane{padding:2.5rem 1.5rem 2rem}
-      #pane-hero{grid-template-columns:1fr}
-      .hero-portrait{height:320px}
-      .brain-stage{max-height:320px}
-      .brain-node{width:8px;height:8px}
-      .brain-tooltip{min-width:130px;max-width:180px;padding:.45rem .55rem}
-      .brain-tooltip-title{font-size:8px}
-      #pane-about .about-cols{grid-template-columns:1fr}
-      .qual-grid{grid-template-columns:1fr}
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=Sora:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-
-<div class="cur" id="cur"></div>
-<div class="cur-r" id="curR"></div>
-
-<!-- Top bar -->
-<div class="topbar">
-  <button class="toggle-btn" id="toggleBtn">
-    <span></span><span></span><span></span>
-  </button>
-  <span class="topbar-name">Shubhadeep Datta</span>
-  <span class="topbar-section" id="topLabel">Home</span>
-</div>
-
-<!-- Workspace -->
-<div class="workspace">
-
-  <!-- ── Stage Manager Panel ── -->
-  <div class="sm-panel" id="smPanel">
-    <div class="panel-hdr">Stage Manager</div>
-
-    <div class="sm-card active" data-target="pane-hero" data-label="Home">
-      <div class="sm-card-dot"></div>
-      <div class="sm-card-top">
-        <div class="sm-card-icon">🏠</div>
-        <div class="sm-card-meta">
-          <div class="sm-card-label">Start Here</div>
-          <div class="sm-card-title">Home</div>
-        </div>
-      </div>
-      <div class="sm-card-desc">Computer Science student at VIT-AP specializing in AI/ML.</div>
+  <header class="topbar">
+    <button class="stage-toggle" id="stageToggle" aria-label="Toggle stage manager">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 6H20" />
+        <path d="M4 12H20" />
+        <path d="M4 18H20" />
+      </svg>
+    </button>
+    <div class="brand-lockup">
+      <span>Portfolio Stage</span>
+      <h1>Shubhadeep Datta</h1>
     </div>
+  </header>
 
-    <div class="sm-card" data-target="pane-about" data-label="Who I Am">
-      <div class="sm-card-dot"></div>
-      <div class="sm-card-top">
-        <div class="sm-card-icon">✦</div>
-        <div class="sm-card-meta">
-          <div class="sm-card-label">Identity</div>
-          <div class="sm-card-title">Who I Am</div>
+  <div class="workspace">
+    <aside class="stage-manager" id="stageManager">
+      <p class="manager-title">Stage Manager</p>
+
+      <button class="dock-item active" data-window="window-home" data-label="Home">
+        <span class="dock-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M4 11L12 4L20 11" /><path d="M6.5 9.5V20H17.5V9.5" /></svg>
+        </span>
+        <span class="dock-label">Home</span>
+      </button>
+
+      <button class="dock-item" data-window="window-repos" data-label="Project Stage">
+        <span class="dock-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M3 7L12 3L21 7L12 11L3 7Z" /><path d="M3 12L12 16L21 12" /><path d="M3 17L12 21L21 17" /></svg>
+        </span>
+        <span class="dock-label">Projects</span>
+      </button>
+
+      <button class="dock-item" data-window="window-experience" data-label="Experience">
+        <span class="dock-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="12" rx="2" /><path d="M8 7V5H16V7" /><path d="M3 13H21" /></svg>
+        </span>
+        <span class="dock-label">Experience</span>
+      </button>
+
+      <button class="dock-item" data-window="window-education" data-label="Education">
+        <span class="dock-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M2.5 8.5L12 4L21.5 8.5L12 13L2.5 8.5Z" /><path d="M6 10.5V15.5C6 17.2 8.7 19 12 19C15.3 19 18 17.2 18 15.5V10.5" /></svg>
+        </span>
+        <span class="dock-label">Education</span>
+      </button>
+
+      <button class="dock-item" data-window="window-skills" data-label="Skills">
+        <span class="dock-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 3V7" /><path d="M12 17V21" /><path d="M3 12H7" /><path d="M17 12H21" /><circle cx="12" cy="12" r="4.5" /></svg>
+        </span>
+        <span class="dock-label">Skills</span>
+      </button>
+    </aside>
+
+    <main class="stage-scene" id="stageScene">
+      <section class="stage-window theme-neo active" id="window-home" data-label="Home">
+        <div class="window-chrome">
+          <div class="window-lights"><span></span><span></span><span></span></div>
+          <span>Home / Interactive Brain Node Map</span>
         </div>
-      </div>
-      <div class="sm-card-desc">My background, values, leadership journey, and impact metrics.</div>
-    </div>
+        <div class="window-scroll">
+          <div class="hero-grid">
+            <div class="hero-copy">
+              <p class="eyebrow">Welcome</p>
+              <h2>Hello, I'm <span>Shubhadeep Datta</span></h2>
+              <p>
+                Computer Science student at VIT-AP specializing in AI/ML. I build practical systems across healthcare,
+                emotional well-being, and productivity with clean engineering and strong data-driven thinking.
+              </p>
+              <a class="hero-cta" data-open="window-repos">Open Project Stage</a>
+              <a class="hero-cta" href="mailto:slenderisincollege@gmail.com">Email Me</a>
 
-    <div class="sm-card" data-target="pane-achievements" data-label="Achievements">
-      <div class="sm-card-dot"></div>
-      <div class="sm-card-top">
-        <div class="sm-card-icon">◈</div>
-        <div class="sm-card-meta">
-          <div class="sm-card-label">Milestones</div>
-          <div class="sm-card-title">Achievements</div>
-        </div>
-      </div>
-      <div class="sm-card-desc">Hackathon rankings, chapter leadership, and measurable outcomes.</div>
-    </div>
+              <ul class="quick-lines">
+                <li>B.Tech CSE (AI/ML) - Expected 2027</li>
+                <li>1st place in App Development Hackathon with CareLink</li>
+                <li>Marketing Lead (Microsoft Student Chapter), Vice President (Northeast Cultural Club)</li>
+              </ul>
 
-    <div class="sm-card" data-target="pane-aspirations" data-label="Aspirations">
-      <div class="sm-card-dot"></div>
-      <div class="sm-card-top">
-        <div class="sm-card-icon">◎</div>
-        <div class="sm-card-meta">
-          <div class="sm-card-label">The Vision</div>
-          <div class="sm-card-title">Aspirations</div>
-        </div>
-      </div>
-      <div class="sm-card-desc">The problems I want to solve using intelligent systems.</div>
-    </div>
+              <div class="hero-chips">
+                <span class="hero-chip">Python</span>
+                <span class="hero-chip">React Native</span>
+                <span class="hero-chip">NLP</span>
+                <span class="hero-chip">Embedded Systems</span>
+                <span class="hero-chip">FastAPI</span>
+              </div>
+            </div>
 
-    <div class="sm-card" data-target="pane-qualifications" data-label="Qualifications">
-      <div class="sm-card-dot"></div>
-      <div class="sm-card-top">
-        <div class="sm-card-icon">▣</div>
-        <div class="sm-card-meta">
-          <div class="sm-card-label">Background</div>
-          <div class="sm-card-title">Qualifications</div>
-        </div>
-      </div>
-      <div class="sm-card-desc">Education, leadership roles, and technical strengths.</div>
-    </div>
-
-    <div class="sm-card" data-target="pane-projects" data-label="Future Projects">
-      <div class="sm-card-dot"></div>
-      <div class="sm-card-top">
-        <div class="sm-card-icon">⬡</div>
-        <div class="sm-card-meta">
-          <div class="sm-card-label">What's Next</div>
-          <div class="sm-card-title">Future Projects</div>
-        </div>
-      </div>
-      <div class="sm-card-desc">High-impact projects from healthcare, AI, and embedded systems.</div>
-    </div>
-
-  </div>
-
-  <!-- ── Main Stage ── -->
-  <div class="stage" id="stage">
-
-    <!-- HOME -->
-    <div class="pane active" id="pane-hero">
-      <div class="hero-body">
-        <div class="sec-label">Welcome</div>
-        <h1 class="sec-h1">Hello, I'm<br /><em>Shubhadeep Datta</em><br />.</h1>
-        <p>Computer Science student at VIT-AP with a specialization in AI and ML. I build practical products across healthcare, emotional well-being, and productivity using data, intelligence, and strong engineering fundamentals.</p>
-        <a href="#" class="hero-cta" onclick="switchPane('pane-about');return false">Discover More</a>
-      </div>
-      <div class="hero-portrait brain-shell">
-        <div class="brain-stage" id="brainStage" aria-label="3D brain scene"></div>
-        <div class="brain-tooltip" id="brainTooltip" aria-hidden="true">
-          <div class="brain-tooltip-title" id="brainTooltipTitle"></div>
-          <div class="brain-tooltip-desc" id="brainTooltipDesc"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- WHO I AM -->
-    <div class="pane" id="pane-about">
-      <div class="sec-label">Who I Am</div>
-      <h1 class="sec-h1">A student of<br />AI, systems,<br />and <em>impact.</em></h1>
-      <div class="about-cols">
-        <div>
-          <div class="trait-tags">
-            <span class="tag">AI/ML</span>
-            <span class="tag">NLP</span>
-            <span class="tag">Builder</span>
-            <span class="tag">Leadership</span>
-            <span class="tag">Hackathons</span>
-            <span class="tag">Problem Solving</span>
+            <div class="brain-shell">
+              <div class="brain-stage" id="brainStage" aria-label="Interactive project brain"></div>
+              <div class="brain-tooltip" id="brainTooltip" aria-hidden="true">
+                <small>Project Node</small>
+                <h4 id="brainTooltipTitle"></h4>
+                <p id="brainTooltipDesc"></p>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="about-body">
-          <p>I am <span>Shubhadeep Datta</span>, currently pursuing B.Tech in Computer Science and Engineering (AI/ML) at VIT-AP, expected to graduate in 2027. I enjoy building products where machine intelligence can create meaningful everyday value.</p>
-          <p>My work combines technical execution with real user impact. From caregiving apps and NLP companions to embedded safety systems, I focus on solutions that are <span>useful, measurable, and human-centered</span>.</p>
-          <p>Beyond building, I contribute through leadership and community. As Marketing Lead at the Microsoft Student Chapter and Vice President of the Northeast Cultural Club, I have worked on initiatives that brought students together and increased participation.</p>
-          <div class="stats">
-            <div class="stat"><span class="stat-n">2027</span><span class="stat-l">Expected Grad</span></div>
-            <div class="stat"><span class="stat-n">5+</span><span class="stat-l">Projects Built</span></div>
-            <div class="stat"><span class="stat-n">250+</span><span class="stat-l">Students Impacted</span></div>
+      </section>
+
+      <section class="stage-window theme-neo" id="window-repos" data-label="Project Stage">
+        <div class="window-chrome">
+          <div class="window-lights"><span></span><span></span><span></span></div>
+          <span>Neo Brutalism / Repo Orbit</span>
+        </div>
+        <div class="window-scroll">
+          <h2 class="neo-title">Repo Orbit Playground</h2>
+          <p class="neo-sub">
+            Your repositories are shown in a 3D orbit deck. Drag horizontally or scroll to rotate the deck and click any card to open GitHub.
+          </p>
+
+          <div class="repo-orbit-wrap">
+            <div class="repo-orbit" id="repoOrbit">
+              <article class="repo-orbit-card" data-key="carelink">
+                <span class="repo-tag">Hackathon Winner</span>
+                <h3>Care</h3>
+                <p>Care coordination app with reminders, adherence scoring, shared tracking, and AI wellness insights.</p>
+                <a class="repo-link" href="https://github.com/slenderongithub/CareLink" target="_blank" rel="noreferrer noopener">Open GitHub Repo</a>
+              </article>
+
+              <article class="repo-orbit-card" data-key="smart-glove">
+                <span class="repo-tag">Embedded Safety</span>
+                <h3>Glove</h3>
+                <p>Wearable emergency communication glove using gesture triggers and embedded sensor logic.</p>
+                <a class="repo-link" href="https://github.com/slenderongithub/Smart-Glove-Safety-Device" target="_blank" rel="noreferrer noopener">Open GitHub Repo</a>
+              </article>
+
+              <article class="repo-orbit-card" data-key="habit-forge">
+                <span class="repo-tag">Productivity Stack</span>
+                <h3>Forge</h3>
+                <p>Habit platform with reminders, streak analytics, and persistence for consistent progress tracking.</p>
+                <a class="repo-link" href="https://github.com/slenderongithub/HabitTrackerForge" target="_blank" rel="noreferrer noopener">Open GitHub Repo</a>
+              </article>
+
+              <article class="repo-orbit-card" data-key="hack-me">
+                <span class="repo-tag">Hackathon Qualifier</span>
+                <h3>HackMe</h3>
+                <p>Gamified quiz system with dynamic scoring, responsive flows, and leaderboard-driven gameplay.</p>
+                <a class="repo-link" href="https://github.com/slenderongithub/HACK-ME-IF-YOU-CAN" target="_blank" rel="noreferrer noopener">Open GitHub Repo</a>
+              </article>
+
+              <article class="repo-orbit-card" data-key="ai-companion">
+                <span class="repo-tag">NLP / Research Build</span>
+                <h3>Companion</h3>
+                <p>Privacy-focused emotional support assistant using sentiment analysis and distress-pattern detection.</p>
+                <span class="repo-link" aria-disabled="true">Showcase Node</span>
+              </article>
+            </div>
+          </div>
+
+          <p class="repo-hint">Tip: Hover the brain nodes on Home and jump directly to matching repos here.</p>
+        </div>
+      </section>
+
+      <section class="stage-window theme-neo" id="window-experience" data-label="Experience">
+        <div class="window-chrome">
+          <div class="window-lights"><span></span><span></span><span></span></div>
+          <span>Neo Brutalism / Leadership Experience</span>
+        </div>
+        <div class="window-scroll">
+          <h2 class="neo-title">Experience Orbit</h2>
+          <p class="neo-sub">Leadership milestones in floating tiles. Drag or scroll to rotate.</p>
+
+          <div class="float-orbit-wrap">
+            <div class="float-orbit" id="expOrbit">
+              <article class="float-card exp-float-card">
+                <small>2024-25</small>
+                <h3>Marketing Lead</h3>
+                <p>Microsoft Student Chapter, VIT-AP</p>
+              </article>
+
+              <article class="float-card exp-float-card">
+                <small>2025</small>
+                <h3>Vice President</h3>
+                <p>Northeast Cultural Club</p>
+              </article>
+
+              <article class="float-card exp-float-card">
+                <small>Hackathon</small>
+                <h3>App Winner</h3>
+                <p>CareLink - 1st Place</p>
+              </article>
+
+              <article class="float-card exp-float-card">
+                <small>Hackathon</small>
+                <h3>Top 4 Finalist</h3>
+                <p>Smart Glove - 1000+ teams</p>
+              </article>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+      </section>
 
-    <!-- ACHIEVEMENTS -->
-    <div class="pane" id="pane-achievements">
-      <div class="sec-label">Milestones</div>
-      <h1 class="sec-h1">Achieve<em>ments.</em></h1>
-      <div class="ach-list">
-        <div class="ach-row">
-          <span class="ach-yr">2025</span>
-          <div><div class="ach-t">1st Place - CareLink (App Development Hackathon)</div><div class="ach-s">Ranked first among 50+ participating teams</div></div>
-          <span class="ach-badge">Winner</span>
+      <section class="stage-window theme-neo" id="window-education" data-label="Education">
+        <div class="window-chrome">
+          <div class="window-lights"><span></span><span></span><span></span></div>
+          <span>Neo Brutalism / Education Track</span>
         </div>
-        <div class="ach-row">
-          <span class="ach-yr">2025</span>
-          <div><div class="ach-t">Vice President - Northeast Cultural Club</div><div class="ach-s">Built a 40+ active member base and coordinated campus events</div></div>
-          <span class="ach-badge">Leadership</span>
-        </div>
-        <div class="ach-row">
-          <span class="ach-yr">2024</span>
-          <div><div class="ach-t">Marketing Lead - Microsoft Student Chapter</div><div class="ach-s">Organized 3+ ML workshops attended by 100+ students</div></div>
-          <span class="ach-badge">Community</span>
-        </div>
-        <div class="ach-row">
-          <span class="ach-yr">2024</span>
-          <div><div class="ach-t">Top 4 - Smart Glove Safety Device</div><div class="ach-s">Finished in top 4 among 1000+ hackathon teams</div></div>
-          <span class="ach-badge">Top 4</span>
-        </div>
-        <div class="ach-row">
-          <span class="ach-yr">2024</span>
-          <div><div class="ach-t">Hack Me If You Can - Qualifier Round</div><div class="ach-s">Advanced among 200+ competing teams</div></div>
-          <span class="ach-badge">Qualifier</span>
-        </div>
-      </div>
-    </div>
+        <div class="window-scroll">
+          <h2 class="neo-title">Education Orbit</h2>
+          <p class="neo-sub">Academic track and contact nodes in the same floating interaction style.</p>
 
-    <!-- ASPIRATIONS -->
-    <div class="pane" id="pane-aspirations">
-      <div class="sec-label">The Vision</div>
-      <h1 class="sec-h1">Driven by<br /><em>purpose.</em></h1>
-      <p style="color:var(--muted);max-width:50ch;font-size:12px;line-height:2">I want to build intelligent systems that improve quality of life, especially in healthcare, emotional well-being, and productivity. My long-term goal is to combine strong machine learning foundations with product thinking to solve real problems at scale.</p>
-      <div class="asp-grid">
-        <div class="asp-card" data-n="01"><h3>Build Responsible AI Products</h3><p>Design AI systems that are practical, ethical, and accessible for everyday users.</p></div>
-        <div class="asp-card" data-n="02"><h3>Advance Mental Health Support Tech</h3><p>Expand NLP and sentiment-aware tools that can offer timely, privacy-first support.</p></div>
-        <div class="asp-card" data-n="03"><h3>Lead High-Impact Engineering Teams</h3><p>Grow as a technically strong and collaborative leader who ships meaningful products.</p></div>
-        <div class="asp-card" data-n="04"><h3>Bridge Research and Real-World Use</h3><p>Translate AI/ML concepts into deployable solutions with measurable human impact.</p></div>
-      </div>
-    </div>
+          <div class="float-orbit-wrap">
+            <div class="float-orbit" id="eduOrbit">
+              <article class="float-card edu-float-card">
+                <small>2027</small>
+                <h3>B.Tech AI/ML</h3>
+                <p>VIT-AP</p>
+              </article>
 
-    <!-- QUALIFICATIONS -->
-    <div class="pane" id="pane-qualifications">
-      <div class="sec-label">Background</div>
-      <h1 class="sec-h1">Qualifi<em>cations.</em></h1>
-      <div class="qual-grid">
-        <div class="qual-card">
-          <div class="qual-type">Education</div>
-          <div class="qual-title">B.Tech CSE (AI/ML)</div>
-          <div class="qual-inst">VIT-AP University · Sep 2023 - Present (Expected 2027)</div>
-          <div class="skill-pills"><span class="sp">AI/ML</span><span class="sp">Data Structures</span><span class="sp">Algorithms</span></div>
-        </div>
-        <div class="qual-card">
-          <div class="qual-type">Education</div>
-          <div class="qual-title">CBSE Class XII & X</div>
-          <div class="qual-inst">Bhavan's Tripura Vidya Mandir · 2021 and 2019</div>
-          <div class="skill-pills"><span class="sp">Core STEM</span><span class="sp">Academic Discipline</span><span class="sp">Foundations</span></div>
-        </div>
-        <div class="qual-card">
-          <div class="qual-type">Leadership</div>
-          <div class="qual-title">Student Chapter and Club Leadership</div>
-          <div class="qual-inst">Microsoft Student Chapter + Northeast Cultural Club</div>
-          <div class="skill-pills"><span class="sp">Workshops</span><span class="sp">Team Building</span><span class="sp">Community Growth</span></div>
-        </div>
-        <div class="qual-card">
-          <div class="qual-type">Technical Stack</div>
-          <div class="qual-title">AI, Full Stack, and Engineering Tools</div>
-          <div class="qual-inst">Python, Java, C/C++, JavaScript, SQL, React, Node.js, FastAPI</div>
-          <div class="skill-pills"><span class="sp">TensorFlow</span><span class="sp">PyTorch</span><span class="sp">Scikit-learn</span></div>
-        </div>
-      </div>
-    </div>
+              <article class="float-card edu-float-card">
+                <small>2021</small>
+                <h3>Class XII</h3>
+                <p>CBSE</p>
+              </article>
 
-    <!-- FUTURE PROJECTS -->
-    <div class="pane" id="pane-projects">
-      <div class="sec-label">What's Next</div>
-      <h1 class="sec-h1">Future <em>Projects.</em></h1>
-      <div class="proj-grid">
-        <div class="proj-card" data-project="carelink">
-          <div class="proj-status">▸ Hackathon Winner</div>
-          <div class="proj-title">CareLink</div>
-          <p class="proj-desc">A caregiving coordination app with medication reminders, adherence scoring, shared activity tracking, and AI-powered health insights.</p>
-          <div class="proj-tags"><span class="pt">React Native</span><span class="pt">TypeScript</span><span class="pt">Healthcare</span></div>
-        </div>
-        <div class="proj-card" data-project="ai-companion">
-          <div class="proj-status">▸ AI/NLP Build</div>
-          <div class="proj-title">AI Anti Self-Harm Companion</div>
-          <p class="proj-desc">An NLP-based emotional support chatbot using sentiment analysis to detect distress patterns with privacy-focused conversational design.</p>
-          <div class="proj-tags"><span class="pt">Python</span><span class="pt">NLP</span><span class="pt">Machine Learning</span></div>
-        </div>
-        <div class="proj-card" data-project="smart-glove">
-          <div class="proj-status">▸ Top 4 Hackathon Project</div>
-          <div class="proj-title">Smart Glove Safety Device</div>
-          <p class="proj-desc">A wearable emergency communication glove that triggers gesture-based safety alerts using embedded sensors and hardware logic.</p>
-          <div class="proj-tags"><span class="pt">Arduino</span><span class="pt">Embedded Systems</span><span class="pt">Safety Tech</span></div>
-        </div>
-        <div class="proj-card" data-project="habit-forge">
-          <div class="proj-status">▸ Productivity Platform</div>
-          <div class="proj-title">Habit Tracker Forge</div>
-          <p class="proj-desc">A habit tracking platform with streak analytics, reminder functionality, persistent storage, and productivity insights from behavior patterns.</p>
-          <div class="proj-tags"><span class="pt">Python</span><span class="pt">React</span><span class="pt">Analytics</span></div>
-        </div>
-        <div class="proj-card" data-project="hack-me">
-          <div class="proj-status">▸ Hackathon Qualifier</div>
-          <div class="proj-title">Hack Me If You Can</div>
-          <p class="proj-desc">A gamified quiz application with dynamic scoring, leaderboard flow, and a responsive interface built for a competitive hackathon qualifier.</p>
-          <div class="proj-tags"><span class="pt">HTML</span><span class="pt">CSS</span><span class="pt">JavaScript</span></div>
-        </div>
-      </div>
-    </div>
+              <article class="float-card edu-float-card">
+                <small>2019</small>
+                <h3>Class X</h3>
+                <p>CBSE</p>
+              </article>
 
+              <article class="float-card edu-float-card">
+                <small>Contact</small>
+                <h3>Reach Out</h3>
+                <p>slenderisincollege@gmail.com</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="stage-window theme-neo" id="window-skills" data-label="Skills">
+        <div class="window-chrome">
+          <div class="window-lights"><span></span><span></span><span></span></div>
+          <span>Neo Brutalism / Technical Console</span>
+        </div>
+        <div class="window-scroll">
+          <h2 class="neo-title">Skills Sphere</h2>
+          <p class="neo-sub">Skill nodes orbit a central sphere in full 3D directions.</p>
+
+          <div class="skill-cosmos-wrap">
+            <div class="skill-cosmos" id="skillCosmos">
+              <div class="skill-core">Skill Core</div>
+
+              <span class="skill-node">Python</span>
+              <span class="skill-node">Java</span>
+              <span class="skill-node">C/C++</span>
+              <span class="skill-node">JavaScript</span>
+              <span class="skill-node">SQL</span>
+              <span class="skill-node">TensorFlow</span>
+              <span class="skill-node">PyTorch</span>
+              <span class="skill-node">Scikit-learn</span>
+              <span class="skill-node">NLP</span>
+              <span class="skill-node">Computer Vision</span>
+              <span class="skill-node">FastAPI</span>
+              <span class="skill-node">React</span>
+              <span class="skill-node">Node.js</span>
+              <span class="skill-node">Docker</span>
+              <span class="skill-node">GCP</span>
+              <span class="skill-node">Git</span>
+            </div>
+          </div>
+
+          <div class="metric-strip">
+            <div class="metric-card"><strong>5+</strong><span>Projects</span></div>
+            <div class="metric-card"><strong>3+</strong><span>ML Workshops</span></div>
+            <div class="metric-card"><strong>100+</strong><span>Students Mentored</span></div>
+            <div class="metric-card"><strong>1st</strong><span>Hackathon Rank</span></div>
+          </div>
+
+          <p class="window-footer-note">Unified neo palette with orbit-based interaction across all sections.</p>
+        </div>
+      </section>
+    </main>
   </div>
-</div>
 
-<script>
-  /* cursor */
-  const cur=document.getElementById('cur'),curR=document.getElementById('curR');
-  let mx=0,my=0,rx=0,ry=0;
-  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
-  (function raf(){rx+=(mx-rx)*.13;ry+=(my-ry)*.13;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(raf)})();
-
-  /* panel */
-  const btn=document.getElementById('toggleBtn'),panel=document.getElementById('smPanel'),stageEl=document.getElementById('stage');
-  let open=false;
-  btn.addEventListener('click',()=>{
-    open=!open;
-    panel.classList.toggle('open',open);
-    stageEl.classList.toggle('shifted',open);
-    btn.classList.toggle('open',open);
-  });
-
-  /* switching */
-  const cards=document.querySelectorAll('.sm-card');
-  const panes=document.querySelectorAll('.pane');
-  const topLabel=document.getElementById('topLabel');
-  const projectCards=document.querySelectorAll('.proj-card');
-  const brainNodes=document.querySelectorAll('.brain-node');
-  const brainStage=document.getElementById('brainStage');
-  const brainTooltip=document.getElementById('brainTooltip');
-  const brainTooltipTitle=document.getElementById('brainTooltipTitle');
-  const brainTooltipDesc=document.getElementById('brainTooltipDesc');
-
-  const projectDetails={
-    'carelink':{title:'CareLink',desc:'A caregiving coordination app with medication reminders, adherence scoring, shared activity tracking, and AI-powered health insights.',tags:['React Native','TypeScript','Healthcare']},
-    'ai-companion':{title:'AI Anti Self-Harm Companion',desc:'An NLP-based emotional support chatbot using sentiment analysis to detect distress patterns with privacy-focused conversational design.',tags:['Python','NLP','Machine Learning']},
-    'smart-glove':{title:'Smart Glove Safety Device',desc:'A wearable emergency communication glove that triggers gesture-based safety alerts using embedded sensors and hardware logic.',tags:['Arduino','Embedded Systems','Safety Tech']},
-    'habit-forge':{title:'Habit Tracker Forge',desc:'A habit tracking platform with streak analytics, reminder functionality, persistent storage, and productivity insights from behavior patterns.',tags:['Python','React','Analytics']},
-    'hack-me':{title:'Hack Me If You Can',desc:'A gamified quiz application with dynamic scoring, leaderboard flow, and a responsive interface built for a competitive hackathon qualifier.',tags:['HTML','CSS','JavaScript']}
-  };
-
-  function setActiveProjectCard(projectKey){
-    projectCards.forEach(card=>card.classList.toggle('active', card.dataset.project===projectKey));
-  }
-
-  function focusProject(projectKey){
-    const targetCard=document.querySelector(`.proj-card[data-project="${projectKey}"]`);
-    if(!targetCard)return;
-    setActiveProjectCard(projectKey);
-    targetCard.scrollIntoView({behavior:'smooth',block:'center'});
-  }
-
-  function positionBrainTooltip(node){
-    const stageRect=brainStage.getBoundingClientRect();
-    const nodeRect=node.getBoundingClientRect();
-    const centerX=nodeRect.left-stageRect.left+(nodeRect.width/2);
-    const showBelow=(nodeRect.top-stageRect.top)<120;
-    brainTooltip.style.left=centerX+'px';
-    if(showBelow){
-      brainTooltip.classList.add('below');
-      brainTooltip.style.top=(nodeRect.bottom-stageRect.top+14)+'px';
-    } else {
-      brainTooltip.classList.remove('below');
-      brainTooltip.style.top=(nodeRect.top-stageRect.top-14)+'px';
-    }
-  }
-
-  function showBrainTooltip(node){
-    const details=projectDetails[node.dataset.project];
-    if(!details)return;
-    brainTooltipTitle.textContent=details.title;
-    brainTooltipDesc.textContent=details.desc+'\n'+details.tags.join(' · ');
-    positionBrainTooltip(node);
-    brainTooltip.classList.add('visible');
-    brainTooltip.setAttribute('aria-hidden','false');
-  }
-
-  function hideBrainTooltip(){
-    brainTooltip.classList.remove('visible');
-    brainTooltip.setAttribute('aria-hidden','true');
-  }
-
-  brainNodes.forEach(node=>{
-    node.addEventListener('mouseenter',()=>showBrainTooltip(node));
-    node.addEventListener('mousemove',()=>positionBrainTooltip(node));
-    node.addEventListener('focus',()=>showBrainTooltip(node));
-    node.addEventListener('blur',hideBrainTooltip);
-    node.addEventListener('mouseleave',hideBrainTooltip);
-    node.addEventListener('click',()=>{
-      hideBrainTooltip();
-      switchPane('pane-projects');
-      focusProject(node.dataset.project);
-    });
-  });
-  projectCards.forEach(card=>card.addEventListener('click',()=>focusProject(card.dataset.project)));
-
-  function switchPane(id){
-    hideBrainTooltip();
-    panes.forEach(p=>p.classList.remove('active'));
-    cards.forEach(c=>c.classList.remove('active'));
-    const p=document.getElementById(id);
-    if(p)p.classList.add('active');
-    const c=document.querySelector(`.sm-card[data-target="${id}"]`);
-    if(c){c.classList.add('active');topLabel.textContent=c.dataset.label}
-    if(window.innerWidth<700&&open){open=false;panel.classList.remove('open');stageEl.classList.remove('shifted');btn.classList.remove('open')}
-  }
-  window.switchPane=switchPane;
-  cards.forEach(c=>c.addEventListener('click',()=>switchPane(c.dataset.target)));
-
-  /* keyboard */
-  const order=['pane-hero','pane-about','pane-achievements','pane-aspirations','pane-qualifications','pane-projects'];
-  document.addEventListener('keydown',e=>{
-    const idx=order.indexOf(document.querySelector('.pane.active')?.id);
-    if(e.key==='ArrowRight'&&idx<order.length-1)switchPane(order[idx+1]);
-    if(e.key==='ArrowLeft'&&idx>0)switchPane(order[idx-1]);
-  });
-</script>
-
-<script type="module">
-  import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
-  import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
-
-  const threeBrainStage = document.getElementById('brainStage');
-  const threeBrainTooltip = document.getElementById('brainTooltip');
-  const threeBrainTooltipTitle = document.getElementById('brainTooltipTitle');
-  const threeBrainTooltipDesc = document.getElementById('brainTooltipDesc');
-
-  if (threeBrainStage && threeBrainTooltip && threeBrainTooltipTitle && threeBrainTooltipDesc) {
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
-    camera.position.set(0, 0.15, 3.35);
-    camera.lookAt(0, 0, 0);
-
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-    renderer.setClearColor(0x000000, 0);
-    renderer.domElement.style.display = 'block';
-    renderer.domElement.style.width = '100%';
-    renderer.domElement.style.height = '100%';
-    renderer.domElement.setAttribute('aria-hidden', 'true');
-    threeBrainStage.appendChild(renderer.domElement);
-
-    const brainRoot = new THREE.Group();
-    brainRoot.rotation.set(0.07, -0.42, 0.03);
-    scene.add(brainRoot);
-
-    const raycaster = new THREE.Raycaster();
-    const pointer = new THREE.Vector2();
-    const projectNodes = [
-      {
-        x: -0.95,
-        y: 0.38,
-        z: 0.32,
-        title: 'CareLink',
-        description: 'Caregiving coordination app with reminders, adherence scoring, shared activity tracking, and AI-powered health insights.',
-      },
-      {
-        x: 0.05,
-        y: 0.92,
-        z: -0.08,
-        title: 'AI Anti Self-Harm Companion',
-        description: 'NLP-based emotional support chatbot with sentiment analysis and privacy-focused conversational design.',
-      },
-      {
-        x: 0.92,
-        y: 0.33,
-        z: 0.24,
-        title: 'Smart Glove Safety Device',
-        description: 'Wearable emergency communication glove with gesture-based safety alerts using embedded sensors.',
-      },
-      {
-        x: -0.55,
-        y: -0.72,
-        z: 0.38,
-        title: 'Habit Tracker Forge',
-        description: 'Habit tracking platform with streak analytics, reminders, persistent storage, and productivity insights.',
-      },
-      {
-        x: 0.68,
-        y: -0.58,
-        z: 0.46,
-        title: 'Hack Me If You Can',
-        description: 'Gamified quiz application with dynamic scoring, leaderboard flow, and responsive competition UI.',
-      },
-    ];
-
-    const nodeMeshes = [];
-    const nodeGeometry = new THREE.SphereGeometry(0.035, 20, 20);
-    const nodeBaseMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
-    let hoveredNode = null;
-    let latestPointer = { x: 0, y: 0 };
-    let hasPointer = false;
-
-    function fitBrainModel(model) {
-      const bounds = new THREE.Box3().setFromObject(model);
-      const size = new THREE.Vector3();
-      const center = new THREE.Vector3();
-      bounds.getSize(size);
-      bounds.getCenter(center);
-
-      model.position.sub(center);
-
-      const maxDim = Math.max(size.x, size.y, size.z) || 1;
-      const scale = 2.5 / maxDim;
-      brainRoot.scale.setScalar(scale);
-
-      const spread = maxDim * 0.72;
-      projectNodes.forEach(project => {
-        const node = new THREE.Mesh(nodeGeometry, nodeBaseMaterial.clone());
-        node.position.set(project.x * spread, project.y * spread, project.z * spread);
-        node.userData = {
-          title: project.title,
-          description: project.description,
-        };
-        brainRoot.add(node);
-        nodeMeshes.push(node);
-      });
-    }
-
-    const goldenWireMaterial = new THREE.MeshBasicMaterial({
-      color: 0xffd700,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.8,
-      depthWrite: false,
-    });
-
-    function createProceduralBrain() {
-      const brainGroup = new THREE.Group();
-
-      // Main brain hemisphere using icosahedron as base
-      const brainGeometry = new THREE.IcosahedronGeometry(1, 5);
-      const brainMesh = new THREE.Mesh(brainGeometry, goldenWireMaterial.clone());
-      brainGroup.add(brainMesh);
-
-      // Brain stem
-      const stemGeometry = new THREE.ConeGeometry(0.3, 1, 16);
-      const stemMesh = new THREE.Mesh(stemGeometry, goldenWireMaterial.clone());
-      stemMesh.position.y = -1.2;
-      brainMesh.add(stemMesh);
-
-      // Add some cortical folds using small spheres
-      const foldPositions = [
-        [0.6, 0.4, 0.3],
-        [-0.5, 0.6, 0.2],
-        [0.3, -0.4, 0.5],
-        [-0.7, -0.3, 0.4],
-        [0.1, 0.8, -0.2],
-      ];
-
-      foldPositions.forEach(pos => {
-        const foldGeom = new THREE.SphereGeometry(0.15, 8, 8);
-        const foldMesh = new THREE.Mesh(foldGeom, goldenWireMaterial.clone());
-        foldMesh.position.set(pos[0], pos[1], pos[2]);
-        brainMesh.add(foldMesh);
-      });
-
-      return brainGroup;
-    }
-
-    const loader = new GLTFLoader();
-    loader.load(
-      './brain.glb',
-      gltf => {
-        const model = gltf.scene;
-        model.traverse(child => {
-          if (child.isMesh) {
-            child.material = goldenWireMaterial.clone();
-          }
-        });
-
-        fitBrainModel(model);
-        brainRoot.add(model);
-      },
-      undefined,
-      error => {
-        console.warn('brain.glb not found, using procedural brain instead');
-        const proceduralBrain = createProceduralBrain();
-        fitBrainModel(proceduralBrain);
-        brainRoot.add(proceduralBrain);
-      }
-    );
-
-    function resizeScene() {
-      const rect = threeBrainStage.getBoundingClientRect();
-      if (rect.width === 0 || rect.height === 0) {
-        return;
-      }
-
-      renderer.setSize(rect.width, rect.height, false);
-      camera.aspect = rect.width / rect.height;
-      camera.updateProjectionMatrix();
-    }
-
-    function clampTooltipPosition(left, top) {
-      const padding = 12;
-      const tooltipRect = threeBrainTooltip.getBoundingClientRect();
-      const maxLeft = Math.max(padding, window.innerWidth - tooltipRect.width - padding);
-      const maxTop = Math.max(padding, window.innerHeight - tooltipRect.height - padding);
-
-      threeBrainTooltip.style.left = `${Math.min(Math.max(padding, left + 16), maxLeft)}px`;
-      threeBrainTooltip.style.top = `${Math.min(Math.max(padding, top + 16), maxTop)}px`;
-    }
-
-    function clearHoverState() {
-      if (hoveredNode) {
-        hoveredNode.material.color.set(0xffffff);
-        hoveredNode.scale.setScalar(1);
-        hoveredNode = null;
-      }
-
-      threeBrainTooltip.classList.remove('visible');
-      threeBrainTooltip.setAttribute('aria-hidden', 'true');
-      threeBrainStage.style.cursor = 'default';
-    }
-
-    function setHoverState(node, clientX, clientY) {
-      if (hoveredNode !== node) {
-        clearHoverState();
-        hoveredNode = node;
-        hoveredNode.material.color.set(0xffd700);
-        hoveredNode.scale.setScalar(1.25);
-      }
-
-      threeBrainStage.style.cursor = 'pointer';
-      threeBrainTooltipTitle.textContent = node.userData.title;
-      threeBrainTooltipDesc.textContent = node.userData.description;
-      threeBrainTooltip.classList.add('visible');
-      threeBrainTooltip.setAttribute('aria-hidden', 'false');
-      clampTooltipPosition(clientX, clientY);
-    }
-
-    function updateHover() {
-      if (!hasPointer || nodeMeshes.length === 0) {
-        clearHoverState();
-        return;
-      }
-
-      raycaster.setFromCamera(pointer, camera);
-      const intersections = raycaster.intersectObjects(nodeMeshes, false);
-      const target = intersections.length > 0 ? intersections[0].object : null;
-
-      if (target) {
-        setHoverState(target, latestPointer.x, latestPointer.y);
-      } else {
-        clearHoverState();
-      }
-    }
-
-    brainStage.addEventListener('pointermove', event => {
-      const rect = threeBrainStage.getBoundingClientRect();
-      latestPointer = { x: event.clientX, y: event.clientY };
-      pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-      pointer.y = -(((event.clientY - rect.top) / rect.height) * 2 - 1);
-      hasPointer = true;
-      updateHover();
-    });
-
-    threeBrainStage.addEventListener('pointerleave', () => {
-      hasPointer = false;
-      clearHoverState();
-    });
-
-    window.addEventListener('resize', resizeScene);
-    if (window.ResizeObserver) {
-      const observer = new ResizeObserver(resizeScene);
-      observer.observe(threeBrainStage);
-    }
-    resizeScene();
-
-    function animate() {
-      requestAnimationFrame(animate);
-      brainRoot.rotation.y += 0.002;
-      if (hasPointer) {
-        updateHover();
-      }
-      renderer.render(scene, camera);
-    }
-
-    animate();
-  }
-</script>
+  <script src="./app.js"></script>
+  <script type="module" src="./brain.js"></script>
 </body>
 </html>
