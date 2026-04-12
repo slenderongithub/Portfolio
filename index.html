@@ -7,68 +7,63 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=Sora:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-  <header class="topbar">
-    <button class="stage-toggle" id="stageToggle" aria-label="Toggle stage manager">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M4 6H20" />
-        <path d="M4 12H20" />
-        <path d="M4 18H20" />
-      </svg>
-    </button>
-    <div class="brand-lockup">
-      <span>Portfolio Stage</span>
-      <h1>Shubhadeep Datta</h1>
-    </div>
-  </header>
+  <div class="dot-bg" id="dotBg">
+    <canvas id="dotCanvas" aria-hidden="true"></canvas>
+    <div class="dot-content">
+      <header class="topbar">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" aria-pressed="false">
+          <span class="icon-container" aria-hidden="true">
+            <span class="sun-icon">
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+              </svg>
+            </span>
+            <span class="moon-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+            </span>
+          </span>
+        </button>
 
-  <div class="workspace">
-    <aside class="stage-manager" id="stageManager">
-      <p class="manager-title">Stage Manager</p>
+        <nav class="top-nav" aria-label="Primary">
+          <div class="top-nav-slider" id="topNavSlider" aria-hidden="true"></div>
+          <button class="top-nav-item active" data-window="window-home">Home</button>
+          <button class="top-nav-item" data-window="window-repos">Project Terminal</button>
+          <button class="top-nav-item" data-window="window-experience">Experience</button>
+          <button class="top-nav-item" data-window="window-education">Education</button>
+          <button class="top-nav-item" data-window="window-skills">Skills</button>
+        </nav>
 
-      <button class="dock-item active" data-window="window-home" data-label="Home">
-        <span class="dock-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M4 11L12 4L20 11" /><path d="M6.5 9.5V20H17.5V9.5" /></svg>
-        </span>
-        <span class="dock-label">Home</span>
-      </button>
+        <a class="header-cta" href="mailto:slenderisincollege@gmail.com">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="3" y="4" width="18" height="17" rx="2" ry="2" />
+            <path d="M16 2v4" />
+            <path d="M8 2v4" />
+            <path d="M3 10h18" />
+          </svg>
+          <span>Contact</span>
+        </a>
+      </header>
 
-      <button class="dock-item" data-window="window-repos" data-label="Project Stage">
-        <span class="dock-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M3 7L12 3L21 7L12 11L3 7Z" /><path d="M3 12L12 16L21 12" /><path d="M3 17L12 21L21 17" /></svg>
-        </span>
-        <span class="dock-label">Projects</span>
-      </button>
-
-      <button class="dock-item" data-window="window-experience" data-label="Experience">
-        <span class="dock-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="12" rx="2" /><path d="M8 7V5H16V7" /><path d="M3 13H21" /></svg>
-        </span>
-        <span class="dock-label">Experience</span>
-      </button>
-
-      <button class="dock-item" data-window="window-education" data-label="Education">
-        <span class="dock-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M2.5 8.5L12 4L21.5 8.5L12 13L2.5 8.5Z" /><path d="M6 10.5V15.5C6 17.2 8.7 19 12 19C15.3 19 18 17.2 18 15.5V10.5" /></svg>
-        </span>
-        <span class="dock-label">Education</span>
-      </button>
-
-      <button class="dock-item" data-window="window-skills" data-label="Skills">
-        <span class="dock-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M12 3V7" /><path d="M12 17V21" /><path d="M3 12H7" /><path d="M17 12H21" /><circle cx="12" cy="12" r="4.5" /></svg>
-        </span>
-        <span class="dock-label">Skills</span>
-      </button>
-    </aside>
-
-    <main class="stage-scene" id="stageScene">
+      <div class="workspace">
+        <main class="stage-scene" id="stageScene">
       <section class="stage-window theme-neo active" id="window-home" data-label="Home">
         <div class="window-chrome">
           <div class="window-lights"><span></span><span></span><span></span></div>
-          <span>Home / Interactive Brain Node Map</span>
+          <span>Home</span>
         </div>
         <div class="window-scroll">
           <div class="hero-grid">
@@ -82,12 +77,6 @@
               <a class="hero-cta" data-open="window-repos">Open Project Stage</a>
               <a class="hero-cta" href="mailto:slenderisincollege@gmail.com">Email Me</a>
 
-              <ul class="quick-lines">
-                <li>B.Tech CSE (AI/ML) - Expected 2027</li>
-                <li>1st place in App Development Hackathon with CareLink</li>
-                <li>Marketing Lead (Microsoft Student Chapter), Vice President (Northeast Cultural Club)</li>
-              </ul>
-
               <div class="hero-chips">
                 <span class="hero-chip">Python</span>
                 <span class="hero-chip">React Native</span>
@@ -98,11 +87,12 @@
             </div>
 
             <div class="brain-shell">
+              <div class="brain-wire-fallback" aria-hidden="true"></div>
               <div class="brain-stage" id="brainStage" aria-label="Interactive project brain"></div>
               <div class="brain-tooltip" id="brainTooltip" aria-hidden="true">
-                <small>Project Node</small>
-                <h4 id="brainTooltipTitle"></h4>
-                <p id="brainTooltipDesc"></p>
+                <div class="brain-tooltip-title" id="brainTooltipTitle"></div>
+                <div class="brain-tooltip-desc" id="brainTooltipDesc"></div>
+                <div class="brain-tooltip-tags" id="brainTooltipTags"></div>
               </div>
             </div>
           </div>
@@ -112,90 +102,239 @@
       <section class="stage-window theme-neo" id="window-repos" data-label="Project Stage">
         <div class="window-chrome">
           <div class="window-lights"><span></span><span></span><span></span></div>
-          <span>Neo Brutalism / Repo Orbit</span>
+          <span>Project Terminal</span>
         </div>
         <div class="window-scroll">
-          <h2 class="neo-title">Repo Orbit Playground</h2>
-          <p class="neo-sub">
-            Your repositories are shown in a 3D orbit deck. Drag horizontally or scroll to rotate the deck and click any card to open GitHub.
-          </p>
+          <h2 class="neo-title">Project Terminal</h2>
 
-          <div class="repo-orbit-wrap">
-            <div class="repo-orbit" id="repoOrbit">
-              <article class="repo-orbit-card" data-key="carelink">
-                <span class="repo-tag">Hackathon Winner</span>
-                <h3>Care</h3>
-                <p>Care coordination app with reminders, adherence scoring, shared tracking, and AI wellness insights.</p>
-                <a class="repo-link" href="https://github.com/slenderongithub/CareLink" target="_blank" rel="noreferrer noopener">Open GitHub Repo</a>
-              </article>
+          <div class="repo-terminal-grid" id="repoTerminalGrid">
+            <article class="repo-terminal-card" data-key="carelink">
+              <div class="repo-terminal-head">
+                <div class="repo-terminal-dots"><span></span><span></span><span></span></div>
+                <span class="repo-terminal-label">carelink.repo</span>
+              </div>
+              <div class="repo-terminal-body">
+                <div class="repo-terminal-line">
+                  <span class="repo-terminal-prompt">$</span>
+                  <span class="repo-terminal-text">git clone <a class="repo-terminal-anchor" href="https://github.com/slenderongithub/CareLink" target="_blank" rel="noreferrer noopener">github.com/slenderongithub/CareLink</a></span>
+                </div>
+                <div class="repo-terminal-line">
+                  <span class="repo-terminal-prompt">$</span>
+                  <span class="repo-terminal-comment"># healthcare coordination platform | app development hackathon winner</span>
+                </div>
+                <div class="repo-terminal-line">
+                  <span class="repo-terminal-prompt">></span>
+                  <span class="repo-terminal-text">Shipped medication reminders, adherence scoring, shared caregiver timelines, and AI wellness check-ins.</span>
+                </div>
+                <div class="repo-terminal-line">
+                  <span class="repo-terminal-prompt">></span>
+                  <span class="repo-terminal-text">Implemented role-based family access so caregivers and patients can collaborate safely in one flow.</span>
+                </div>
+                <div class="repo-terminal-line">
+                  <span class="repo-terminal-prompt">></span>
+                  <span class="repo-terminal-text">Focused on practical UX for older users: clear reminders, low-friction updates, and readable health summaries.</span>
+                </div>
+                <div class="repo-terminal-tags">
+                  <span>React Native</span><span>TypeScript</span><span>Healthcare</span><span>AI</span>
+                </div>
+                <div class="repo-terminal-stats">
+                  <span>status: active</span><span>impact: hackathon winner</span><span>focus: family care ops</span>
+                </div>
+              </div>
+            </article>
 
-              <article class="repo-orbit-card" data-key="smart-glove">
-                <span class="repo-tag">Embedded Safety</span>
-                <h3>Glove</h3>
-                <p>Wearable emergency communication glove using gesture triggers and embedded sensor logic.</p>
-                <a class="repo-link" href="https://github.com/slenderongithub/Smart-Glove-Safety-Device" target="_blank" rel="noreferrer noopener">Open GitHub Repo</a>
-              </article>
+            <article class="repo-terminal-card" data-key="smart-glove">
+              <div class="repo-terminal-head">
+                <div class="repo-terminal-dots"><span></span><span></span><span></span></div>
+                <span class="repo-terminal-label">smart-glove.repo</span>
+              </div>
+              <div class="repo-terminal-body">
+                <div class="repo-terminal-line">
+                  <span class="repo-terminal-prompt">$</span>
+                  <span class="repo-terminal-text">git clone <a class="repo-terminal-anchor" href="https://github.com/slenderongithub/Smart-Glove-Safety-Device" target="_blank" rel="noreferrer noopener">github.com/slenderongithub/Smart-Glove-Safety-Device</a></span>
+                </div>
+                <div class="repo-terminal-line">
+                  <span class="repo-terminal-prompt">$</span>
+                  <span class="repo-terminal-comment"># embedded safety wearable | top 4 finalist among 1000+ teams</span>
+                </div>
+                <div class="repo-terminal-line">
+                  <span class="repo-terminal-prompt">></span>
+                  <span class="repo-terminal-text">Built gesture-triggered emergency signaling with low-latency sensor interpretation.</span>
+                </div>
+                <div class="repo-terminal-line">
+                  <span class="repo-terminal-prompt">></span>
+                  <span class="repo-terminal-text">Designed hardware-software coordination for reliability under real movement and noise.</span>
+                </div>
+                <div class="repo-terminal-line">
+                  <span class="repo-terminal-prompt">></span>
+                  <span class="repo-terminal-text">Optimized for fast alerting, battery-aware operation, and portable field use.</span>
+                </div>
+                <div class="repo-terminal-tags">
+                  <span>Arduino</span><span>IoT</span><span>C++</span><span>Embedded</span>
+                </div>
+                <div class="repo-terminal-stats">
+                  <span>status: active prototype</span><span>impact: top 4 finalist</span><span>focus: safety response</span>
+                </div>
+              </div>
+            </article>
 
-              <article class="repo-orbit-card" data-key="habit-forge">
-                <span class="repo-tag">Productivity Stack</span>
-                <h3>Forge</h3>
-                <p>Habit platform with reminders, streak analytics, and persistence for consistent progress tracking.</p>
-                <a class="repo-link" href="https://github.com/slenderongithub/HabitTrackerForge" target="_blank" rel="noreferrer noopener">Open GitHub Repo</a>
-              </article>
+            <article class="repo-terminal-card" data-key="habit-forge">
+              <div class="repo-terminal-head">
+                <div class="repo-terminal-dots"><span></span><span></span><span></span></div>
+                <span class="repo-terminal-label">habit-forge.repo</span>
+              </div>
+              <div class="repo-terminal-body">
+                <div class="repo-terminal-line">
+                  <span class="repo-terminal-prompt">$</span>
+                  <span class="repo-terminal-text">git clone <a class="repo-terminal-anchor" href="https://github.com/slenderongithub/HabitTrackerForge" target="_blank" rel="noreferrer noopener">github.com/slenderongithub/HabitTrackerForge</a></span>
+                </div>
+                <div class="repo-terminal-line">
+                  <span class="repo-terminal-prompt">$</span>
+                  <span class="repo-terminal-comment"># productivity behavior engine | reminders + streak analytics</span>
+                </div>
+                <div class="repo-terminal-line">
+                  <span class="repo-terminal-prompt">></span>
+                  <span class="repo-terminal-text">Developed a routine tracking flow with reminder scheduling and streak persistence.</span>
+                </div>
+                <div class="repo-terminal-line">
+                  <span class="repo-terminal-prompt">></span>
+                  <span class="repo-terminal-text">Added visual habit progress analytics for trend clarity and better retention behavior.</span>
+                </div>
+                <div class="repo-terminal-line">
+                  <span class="repo-terminal-prompt">></span>
+                  <span class="repo-terminal-text">Structured backend APIs to keep updates lightweight and easy to extend.</span>
+                </div>
+                <div class="repo-terminal-tags">
+                  <span>Python</span><span>React</span><span>FastAPI</span><span>Analytics</span>
+                </div>
+                <div class="repo-terminal-stats">
+                  <span>status: active build</span><span>impact: consistency tracking</span><span>focus: user retention</span>
+                </div>
+              </div>
+            </article>
 
-              <article class="repo-orbit-card" data-key="hack-me">
-                <span class="repo-tag">Hackathon Qualifier</span>
-                <h3>HackMe</h3>
-                <p>Gamified quiz system with dynamic scoring, responsive flows, and leaderboard-driven gameplay.</p>
-                <a class="repo-link" href="https://github.com/slenderongithub/HACK-ME-IF-YOU-CAN" target="_blank" rel="noreferrer noopener">Open GitHub Repo</a>
-              </article>
+            <article class="repo-terminal-card" data-key="hack-me">
+              <div class="repo-terminal-head">
+                <div class="repo-terminal-dots"><span></span><span></span><span></span></div>
+                <span class="repo-terminal-label">hack-me.repo</span>
+              </div>
+              <div class="repo-terminal-body">
+                <div class="repo-terminal-line">
+                  <span class="repo-terminal-prompt">$</span>
+                  <span class="repo-terminal-text">git clone <a class="repo-terminal-anchor" href="https://github.com/slenderongithub/HACK-ME-IF-YOU-CAN" target="_blank" rel="noreferrer noopener">github.com/slenderongithub/HACK-ME-IF-YOU-CAN</a></span>
+                </div>
+                <div class="repo-terminal-line">
+                  <span class="repo-terminal-prompt">$</span>
+                  <span class="repo-terminal-comment"># competitive quiz platform | dynamic scoring + game loops</span>
+                </div>
+                <div class="repo-terminal-line">
+                  <span class="repo-terminal-prompt">></span>
+                  <span class="repo-terminal-text">Built timed quiz mechanics with score progression and immediate feedback loops.</span>
+                </div>
+                <div class="repo-terminal-line">
+                  <span class="repo-terminal-prompt">></span>
+                  <span class="repo-terminal-text">Designed responsive gameplay screens to keep interaction smooth across devices.</span>
+                </div>
+                <div class="repo-terminal-line">
+                  <span class="repo-terminal-prompt">></span>
+                  <span class="repo-terminal-text">Added leaderboard-style motivation and replayability through challenge-based rounds.</span>
+                </div>
+                <div class="repo-terminal-tags">
+                  <span>JavaScript</span><span>HTML</span><span>CSS</span><span>Game UX</span>
+                </div>
+                <div class="repo-terminal-stats">
+                  <span>status: active demo</span><span>impact: engagement-focused</span><span>focus: gamified learning</span>
+                </div>
+              </div>
+            </article>
 
-              <article class="repo-orbit-card" data-key="ai-companion">
-                <span class="repo-tag">NLP / Research Build</span>
-                <h3>Companion</h3>
-                <p>Privacy-focused emotional support assistant using sentiment analysis and distress-pattern detection.</p>
-                <span class="repo-link" aria-disabled="true">Showcase Node</span>
-              </article>
-            </div>
+            <article class="repo-terminal-card" data-key="ai-companion">
+              <div class="repo-terminal-head">
+                <div class="repo-terminal-dots"><span></span><span></span><span></span></div>
+                <span class="repo-terminal-label">ai-companion.showcase</span>
+              </div>
+              <div class="repo-terminal-body">
+                <div class="repo-terminal-line">
+                  <span class="repo-terminal-prompt">$</span>
+                  <span class="repo-terminal-text">echo "AI Anti Self-Harm Companion"</span>
+                </div>
+                <div class="repo-terminal-line">
+                  <span class="repo-terminal-prompt">$</span>
+                  <span class="repo-terminal-comment"># privacy-first nlp support assistant | early risk signal detection</span>
+                </div>
+                <div class="repo-terminal-line">
+                  <span class="repo-terminal-prompt">></span>
+                  <span class="repo-terminal-text">Created intent and sentiment interpretation layers for emotionally sensitive interactions.</span>
+                </div>
+                <div class="repo-terminal-line">
+                  <span class="repo-terminal-prompt">></span>
+                  <span class="repo-terminal-text">Integrated distress-pattern cues to support early intervention workflows.</span>
+                </div>
+                <div class="repo-terminal-line">
+                  <span class="repo-terminal-prompt">></span>
+                  <span class="repo-terminal-text">Designed with strict privacy boundaries and supportive response templates.</span>
+                </div>
+                <div class="repo-terminal-tags">
+                  <span>Python</span><span>NLP</span><span>ML</span><span>Research</span>
+                </div>
+                <div class="repo-terminal-stats">
+                  <span>status: research showcase</span><span>impact: mental health support</span><span>focus: safe interaction</span>
+                </div>
+              </div>
+            </article>
           </div>
 
-          <p class="repo-hint">Tip: Hover the brain nodes on Home and jump directly to matching repos here.</p>
         </div>
       </section>
 
       <section class="stage-window theme-neo" id="window-experience" data-label="Experience">
         <div class="window-chrome">
           <div class="window-lights"><span></span><span></span><span></span></div>
-          <span>Neo Brutalism / Leadership Experience</span>
+          <span>Experience</span>
         </div>
         <div class="window-scroll">
-          <h2 class="neo-title">Experience Orbit</h2>
-          <p class="neo-sub">Leadership milestones in floating tiles. Drag or scroll to rotate.</p>
+          <h2 class="neo-title">Experience</h2>
 
           <div class="float-orbit-wrap">
             <div class="float-orbit" id="expOrbit">
               <article class="float-card exp-float-card">
-                <small>2024-25</small>
-                <h3>Marketing Lead</h3>
-                <p>Microsoft Student Chapter, VIT-AP</p>
+                <small class="edu-tl-date">2024-2025</small>
+                <h3 class="edu-tl-card-title">Marketing Lead</h3>
+                <p class="edu-tl-card-org">Microsoft Student Chapter, VIT-AP</p>
+                <ul class="edu-tl-points exp-card-points">
+                  <li>Led outreach strategy and campaign messaging for chapter initiatives.</li>
+                  <li>Coordinated event promotion with cross-team execution and partner support.</li>
+                </ul>
               </article>
 
               <article class="float-card exp-float-card">
-                <small>2025</small>
-                <h3>Vice President</h3>
-                <p>Northeast Cultural Club</p>
+                <small class="edu-tl-date">2025</small>
+                <h3 class="edu-tl-card-title">Vice President</h3>
+                <p class="edu-tl-card-org">Northeast Cultural Club</p>
+                <ul class="edu-tl-points exp-card-points">
+                  <li>Managed planning cadence, delegation, and delivery across major events.</li>
+                  <li>Aligned performers, volunteers, and campus stakeholders on execution timelines.</li>
+                </ul>
               </article>
 
               <article class="float-card exp-float-card">
-                <small>Hackathon</small>
-                <h3>App Winner</h3>
-                <p>CareLink - 1st Place</p>
+                <small class="edu-tl-date">Hackathon</small>
+                <h3 class="edu-tl-card-title">App Winner</h3>
+                <p class="edu-tl-card-org">CareLink - 1st Place</p>
+                <ul class="edu-tl-points exp-card-points">
+                  <li>Built caregiver-patient coordination flows with reminder intelligence and tracking.</li>
+                  <li>Delivered a polished demo under deadline with a clear product story.</li>
+                </ul>
               </article>
 
               <article class="float-card exp-float-card">
-                <small>Hackathon</small>
-                <h3>Top 4 Finalist</h3>
-                <p>Smart Glove - 1000+ teams</p>
+                <small class="edu-tl-date">Hackathon</small>
+                <h3 class="edu-tl-card-title">Top 4 Finalist</h3>
+                <p class="edu-tl-card-org">Smart Glove - 1000+ teams</p>
+                <ul class="edu-tl-points exp-card-points">
+                  <li>Designed a wearable safety concept for rapid emergency communication use cases.</li>
+                  <li>Ranked in the top finalists with strong prototype clarity and impact framing.</li>
+                </ul>
               </article>
             </div>
           </div>
@@ -205,36 +344,99 @@
       <section class="stage-window theme-neo" id="window-education" data-label="Education">
         <div class="window-chrome">
           <div class="window-lights"><span></span><span></span><span></span></div>
-          <span>Neo Brutalism / Education Track</span>
+          <span>Education</span>
         </div>
         <div class="window-scroll">
-          <h2 class="neo-title">Education Orbit</h2>
-          <p class="neo-sub">Academic track and contact nodes in the same floating interaction style.</p>
+          <div class="education-timeline-shell" id="educationTimelineShell">
+            <header class="edu-timeline-head">
+              <h2 class="edu-timeline-title">Academic Timeline</h2>
+            </header>
 
-          <div class="float-orbit-wrap">
-            <div class="float-orbit" id="eduOrbit">
-              <article class="float-card edu-float-card">
-                <small>2027</small>
-                <h3>B.Tech AI/ML</h3>
-                <p>VIT-AP</p>
+            <div class="edu-timeline" id="eduTimeline">
+              <div class="edu-tl-line" id="eduTimelineLine" aria-hidden="true"></div>
+
+              <article class="edu-tl-item side-right">
+                <div class="edu-tl-left-slot edu-tl-empty"></div>
+                <div class="edu-tl-node" aria-hidden="true">
+                  <span class="edu-tl-arm-tip tip-left"></span>
+                  <span class="edu-tl-node-circle"></span>
+                  <span class="edu-tl-arm-tip tip-right"></span>
+                </div>
+                <div class="edu-tl-right-slot">
+                  <div class="edu-tl-card">
+                    <p class="edu-tl-date">2021-2025</p>
+                    <h3 class="edu-tl-card-title">B.Tech CSE</h3>
+                    <p class="edu-tl-card-org">VIT-AP University</p>
+                    <ul class="edu-tl-points">
+                      <li>Specialized in AI and machine learning systems.</li>
+                      <li>Built production-focused projects through hackathons and coursework.</li>
+                      <li>Current CGPA: 8.7.</li>
+                    </ul>
+                  </div>
+                </div>
               </article>
 
-              <article class="float-card edu-float-card">
-                <small>2021</small>
-                <h3>Class XII</h3>
-                <p>CBSE</p>
+              <article class="edu-tl-item side-left">
+                <div class="edu-tl-left-slot">
+                  <div class="edu-tl-card">
+                    <p class="edu-tl-date">2021</p>
+                    <h3 class="edu-tl-card-title">Class XII (Science)</h3>
+                    <p class="edu-tl-card-org">CBSE</p>
+                    <ul class="edu-tl-points">
+                      <li>Completed PCM with Computer Science.</li>
+                      <li>Strengthened analytical reasoning and competitive coding fundamentals.</li>
+                      <li>Scored 89.6% overall.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="edu-tl-node" aria-hidden="true">
+                  <span class="edu-tl-arm-tip tip-left"></span>
+                  <span class="edu-tl-node-circle"></span>
+                  <span class="edu-tl-arm-tip tip-right"></span>
+                </div>
+                <div class="edu-tl-right-slot edu-tl-empty"></div>
               </article>
 
-              <article class="float-card edu-float-card">
-                <small>2019</small>
-                <h3>Class X</h3>
-                <p>CBSE</p>
+              <article class="edu-tl-item side-right">
+                <div class="edu-tl-left-slot edu-tl-empty"></div>
+                <div class="edu-tl-node" aria-hidden="true">
+                  <span class="edu-tl-arm-tip tip-left"></span>
+                  <span class="edu-tl-node-circle"></span>
+                  <span class="edu-tl-arm-tip tip-right"></span>
+                </div>
+                <div class="edu-tl-right-slot">
+                  <div class="edu-tl-card">
+                    <p class="edu-tl-date">2019</p>
+                    <h3 class="edu-tl-card-title">Class X</h3>
+                    <p class="edu-tl-card-org">CBSE</p>
+                    <ul class="edu-tl-points">
+                      <li>Built a strong base in mathematics and core sciences.</li>
+                      <li>Started exploring programming and practical problem solving.</li>
+                      <li>Scored 92.4% overall.</li>
+                    </ul>
+                  </div>
+                </div>
               </article>
 
-              <article class="float-card edu-float-card">
-                <small>Contact</small>
-                <h3>Reach Out</h3>
-                <p>slenderisincollege@gmail.com</p>
+              <article class="edu-tl-item side-left">
+                <div class="edu-tl-left-slot">
+                  <div class="edu-tl-card">
+                    <p class="edu-tl-date">2023-2026</p>
+                    <h3 class="edu-tl-card-title">Applied Learning</h3>
+                    <p class="edu-tl-card-org">Self-driven + Online Programs</p>
+                    <ul class="edu-tl-points">
+                      <li>Extended academics through full-stack and ML courses.</li>
+                      <li>Converted theory into 12+ working projects across domains.</li>
+                      <li>Focused on production quality, deployment, and collaboration.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="edu-tl-node" aria-hidden="true">
+                  <span class="edu-tl-arm-tip tip-left"></span>
+                  <span class="edu-tl-node-circle"></span>
+                  <span class="edu-tl-arm-tip tip-right"></span>
+                </div>
+                <div class="edu-tl-right-slot edu-tl-empty"></div>
               </article>
             </div>
           </div>
@@ -244,46 +446,21 @@
       <section class="stage-window theme-neo" id="window-skills" data-label="Skills">
         <div class="window-chrome">
           <div class="window-lights"><span></span><span></span><span></span></div>
-          <span>Neo Brutalism / Technical Console</span>
+          <span>Skills</span>
         </div>
         <div class="window-scroll">
-          <h2 class="neo-title">Skills Sphere</h2>
-          <p class="neo-sub">Skill nodes orbit a central sphere in full 3D directions.</p>
+          <h2 class="neo-title">Skills</h2>
 
-          <div class="skill-cosmos-wrap">
-            <div class="skill-cosmos" id="skillCosmos">
-              <div class="skill-core">Skill Core</div>
-
-              <span class="skill-node">Python</span>
-              <span class="skill-node">Java</span>
-              <span class="skill-node">C/C++</span>
-              <span class="skill-node">JavaScript</span>
-              <span class="skill-node">SQL</span>
-              <span class="skill-node">TensorFlow</span>
-              <span class="skill-node">PyTorch</span>
-              <span class="skill-node">Scikit-learn</span>
-              <span class="skill-node">NLP</span>
-              <span class="skill-node">Computer Vision</span>
-              <span class="skill-node">FastAPI</span>
-              <span class="skill-node">React</span>
-              <span class="skill-node">Node.js</span>
-              <span class="skill-node">Docker</span>
-              <span class="skill-node">GCP</span>
-              <span class="skill-node">Git</span>
-            </div>
+          <div class="skills-globe-wrap" id="skillsGlobe" aria-label="Interactive skills globe">
+            <canvas class="skills-bg-canvas" id="skillsBgCanvas" aria-hidden="true"></canvas>
+            <canvas class="skills-wire-canvas" id="skillsGlobeCanvas" aria-hidden="true"></canvas>
+            <div class="skills-pill-layer" id="skillsPillLayer" aria-hidden="true"></div>
           </div>
-
-          <div class="metric-strip">
-            <div class="metric-card"><strong>5+</strong><span>Projects</span></div>
-            <div class="metric-card"><strong>3+</strong><span>ML Workshops</span></div>
-            <div class="metric-card"><strong>100+</strong><span>Students Mentored</span></div>
-            <div class="metric-card"><strong>1st</strong><span>Hackathon Rank</span></div>
-          </div>
-
-          <p class="window-footer-note">Unified neo palette with orbit-based interaction across all sections.</p>
         </div>
       </section>
-    </main>
+        </main>
+      </div>
+  </div>
   </div>
 
   <script src="./app.js"></script>
