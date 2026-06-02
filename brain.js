@@ -5,43 +5,7 @@ const brainTooltipDesc = document.getElementById("brainTooltipDesc");
 const brainTooltipTags = document.getElementById("brainTooltipTags");
 const brainShell = brainStage ? brainStage.closest(".brain-shell") : null;
 
-const projectNodes = [
-  {
-    key: "carelink",
-    title: "CareLink",
-    description: "Caregiving coordination app with reminders, adherence scoring, and AI health insights.",
-    tags: ["React Native", "TypeScript", "Healthcare"],
-    position: { x: -0.95, y: 0.52, z: 0.34 },
-  },
-  {
-    key: "smart-glove",
-    title: "Smart Glove Safety Device",
-    description: "Wearable emergency communication device using gesture-triggered safety alerts.",
-    tags: ["Arduino", "IoT", "Embedded"],
-    position: { x: 1.02, y: 0.34, z: -0.22 },
-  },
-  {
-    key: "habit-forge",
-    title: "Habit Tracker Forge",
-    description: "Productivity tracker with reminders, streak intelligence, and behavioral analytics.",
-    tags: ["Python", "React", "Analytics"],
-    position: { x: -0.52, y: -0.86, z: 0.44 },
-  },
-  {
-    key: "hack-me",
-    title: "HACK-ME-IF-YOU-CAN",
-    description: "Gamified quiz system with dynamic scoring and replay-focused challenge rounds.",
-    tags: ["JavaScript", "HTML", "CSS"],
-    position: { x: 0.86, y: -0.62, z: 0.52 },
-  },
-  {
-    key: "ai-companion",
-    title: "AI Anti Self-Harm Companion",
-    description: "NLP support assistant with sentiment-aware response patterns and privacy-first design.",
-    tags: ["Python", "NLP", "ML"],
-    position: { x: 0.08, y: 0.98, z: -0.08 },
-  },
-];
+let projectNodes = [];
 
 const brainPalettes = {
   light: {
@@ -53,18 +17,25 @@ const brainPalettes = {
     nodeHalo: 0x6fa8ff,
   },
   dark: {
-    domeWire: 0xe0b169,
-    domeWireSoft: 0xf2cf9b,
-    domeFill: 0x4a3723,
-    nodeCore: 0xf2bf73,
-    nodeHover: 0xffd99e,
-    nodeHalo: 0xe8b678,
+    domeWire: 0x22d3ee,
+    domeWireSoft: 0x60a5fa,
+    domeFill: 0x062332,
+    nodeCore: 0xf4c85a,
+    nodeHover: 0xffe18f,
+    nodeHalo: 0xf4c85a,
   },
 };
 
-if (brainStage && brainTooltip && brainTooltipTitle && brainTooltipDesc && brainTooltipTags) {
-  initializeInteractiveBrain();
-}
+(async () => {
+  if (window.loadProjectsFromGitHub) {
+    const { projectNodes: ghProjects } = await window.loadProjectsFromGitHub();
+    projectNodes = ghProjects;
+  }
+
+  if (brainStage && brainTooltip && brainTooltipTitle && brainTooltipDesc && brainTooltipTags) {
+    initializeInteractiveBrain();
+  }
+})();
 
 function initializeInteractiveBrain() {
   let tooltipVisible = false;
@@ -151,7 +122,7 @@ function initializeInteractiveBrain() {
       node.style.border = "none";
       node.style.background = "radial-gradient(circle, rgba(255, 236, 160, 0.98) 0%, rgba(241, 190, 74, 0.9) 72%, rgba(228, 171, 49, 0.85) 100%)";
       node.style.boxShadow = darkThemeActive
-        ? "0 0 0 4px rgba(224, 177, 105, 0.52), 0 0 14px rgba(194, 134, 69, 0.42)"
+        ? "0 0 0 4px rgba(244, 200, 90, 0.46), 0 0 18px rgba(244, 200, 90, 0.5)"
         : "0 0 0 4px rgba(110, 165, 255, 0.62), 0 0 14px rgba(92, 148, 247, 0.46)";
       node.style.pointerEvents = "auto";
       node.style.cursor = "pointer";
@@ -236,12 +207,12 @@ function initializeInteractiveBrain() {
       brainGroup.add(dome);
 
       const domeSoft = new THREE.Mesh(
-        new THREE.IcosahedronGeometry(1.08, 0),
+        new THREE.TetrahedronGeometry(1.08, 0),
         new THREE.MeshBasicMaterial({
           color: initialPalette.domeWireSoft,
           wireframe: true,
           transparent: true,
-          opacity: 0.24,
+          opacity: 0.2,
           depthWrite: false,
         }),
       );

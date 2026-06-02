@@ -224,6 +224,7 @@
 
     function setTheme(mode) {
       const isDark = mode === "dark";
+      document.documentElement.classList.toggle("theme-midnight", isDark);
       document.body.classList.toggle("theme-midnight", isDark);
       document.documentElement.classList.toggle("dark-theme", isDark);
 
@@ -285,44 +286,6 @@
         themeToggle.classList.remove("clicked");
         themeToggleClickTimeoutId = null;
       }, 620);
-    }
-
-    function initializeThemeStars() {
-      let stars = document.getElementById("themeStars");
-
-      if (!stars) {
-        stars = document.createElement("div");
-        stars.id = "themeStars";
-        stars.className = "theme-stars";
-        stars.setAttribute("aria-hidden", "true");
-        document.body.insertBefore(stars, document.body.firstChild);
-      }
-
-      if (stars.childElementCount > 0) {
-        return;
-      }
-
-      const fragment = document.createDocumentFragment();
-      const starCount = 84;
-
-      for (let index = 0; index < starCount; index += 1) {
-        const star = document.createElement("span");
-        const size = 1 + Math.random() * 2;
-        const twinkleDelay = Math.random() * 3;
-        const twinkleDuration = 2.2 + Math.random() * 2.2;
-
-        star.className = "star";
-        star.style.left = `${(Math.random() * 100).toFixed(2)}%`;
-        star.style.top = `${(Math.random() * 100).toFixed(2)}%`;
-        star.style.width = `${size.toFixed(2)}px`;
-        star.style.height = `${size.toFixed(2)}px`;
-        star.style.animationDelay = `${twinkleDelay.toFixed(2)}s`;
-        star.style.animationDuration = `${twinkleDuration.toFixed(2)}s`;
-
-        fragment.appendChild(star);
-      }
-
-      stars.appendChild(fragment);
     }
 
     function getDotThemePalette() {
@@ -388,8 +351,6 @@
       const palette = getDotThemePalette();
 
       dotCtx.clearRect(0, 0, dotWidth, dotHeight);
-      dotCtx.fillStyle = palette.bg;
-      dotCtx.fillRect(0, 0, dotWidth, dotHeight);
 
       drawDotGrid(
         dotCtx,
@@ -727,9 +688,107 @@
       redrawBoxDotCanvases();
     });
 
-    const repoCards = Array.from(document.querySelectorAll(".repo-terminal-card"));
+    const repoTerminalGrid = document.getElementById("repoTerminalGrid");
+    let repoCards = Array.from(document.querySelectorAll(".repo-terminal-card"));
+    let projectDetails = {};
     const expOrbit = document.getElementById("expOrbit");
     const expCards = Array.from(document.querySelectorAll(".exp-float-card"));
+    const expPrevButton = document.querySelector(".exp-nav-prev");
+    const expNextButton = document.querySelector(".exp-nav-next");
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    async function loadProjectDetails() {
+      try {
+        const response = await fetch("./projects-details.json");
+        if (response.ok) {
+          projectDetails = await response.json();
+        }
+      } catch (error) {
+        console.warn("Could not load project detail copy:", error);
+      }
+    }
+
+    function updateRepoCards() {
+      repoCards = Array.from(document.querySelectorAll(".repo-terminal-card"));
+
+      repoCards.forEach(card => {
+        card.addEventListener("click", () => {
+          focusRepoCard(card.dataset.key);
+        });
+      });
+    }
+
+    async function populateRepoTerminal() {
+      if (!repoTerminalGrid || typeof window.loadProjectsFromGitHub !== "function") {
+        updateRepoCards();
+        return;
+      }
+
+      await loadProjectDetails();
+
+      try {
+        const { terminalCards } = await window.loadProjectsFromGitHub();
+
+        if (!terminalCards || terminalCards.length === 0) {
+          updateRepoCards();
+          return;
+        }
+
+        const detailsByName = Object.fromEntries(
+          Object.entries(projectDetails).map(([name, details]) => [name.toLowerCase(), details]),
+        );
+
+        repoTerminalGrid.innerHTML = terminalCards.map(card => {
+          const details = detailsByName[card.name.toLowerCase()] || {};
+          const description = details.description || card.description || "Project repository";
+          const points = Array.isArray(details.points) && details.points.length > 0
+            ? details.points
+            : [
+                "Built the core workflow with clear project structure and reusable implementation pieces.",
+                "Kept the interface practical so the project can be explored, tested, and extended quickly.",
+                "Focused on clean delivery with readable logic and a maintainable codebase.",
+              ];
+
+          return `
+            <article class="repo-terminal-card" data-key="${escapeHtml(card.key)}">
+              <div class="repo-terminal-head">
+                <div class="repo-terminal-dots"><span></span><span></span><span></span></div>
+                <span class="repo-terminal-label">${escapeHtml(card.name.toLowerCase())}.repo</span>
+              </div>
+              <div class="repo-terminal-body">
+                <div class="repo-terminal-line">
+                  <span class="repo-terminal-prompt">$</span>
+                  <span class="repo-terminal-text">git clone <a class="repo-terminal-anchor" href="${escapeHtml(card.url)}" target="_blank" rel="noreferrer noopener">github.com/slenderongithub/${escapeHtml(card.name)}</a></span>
+                </div>
+                <div class="repo-terminal-line">
+                  <span class="repo-terminal-prompt">$</span>
+                  <span class="repo-terminal-comment"># ${escapeHtml(description)}</span>
+                </div>
+                ${points.slice(0, 3).map(point => `
+                  <div class="repo-terminal-line">
+                    <span class="repo-terminal-prompt">&gt;</span>
+                    <span class="repo-terminal-text">${escapeHtml(point)}</span>
+                  </div>
+                `).join("")}
+              </div>
+            </article>
+          `;
+        }).join("");
+
+        updateRepoCards();
+      } catch (error) {
+        console.warn("Could not populate repository terminal:", error);
+        updateRepoCards();
+      }
+    }
 
     function initializeExperienceCarousel() {
       if (!expOrbit || expCards.length === 0) {
@@ -738,12 +797,6 @@
 
       let current = 0;
       let autoTimer = null;
-      let dragStartX = 0;
-      let wheelDeltaAccumulator = 0;
-      let wheelLockUntil = 0;
-
-      const WHEEL_STEP_THRESHOLD = 150;
-      const WHEEL_COOLDOWN_MS = 220;
 
       function render() {
         const leadCardWidth = expCards[0]?.getBoundingClientRect().width || 320;
@@ -807,89 +860,24 @@
         });
       });
 
-      function normalizeWheelDelta(event) {
-        if (event.deltaMode === 1) {
-          return event.deltaY * 16;
-        }
-
-        if (event.deltaMode === 2) {
-          return event.deltaY * (expOrbit.clientHeight || 600);
-        }
-
-        return event.deltaY;
-      }
-
-      expOrbit.addEventListener("wheel", event => {
-        event.preventDefault();
-
-        const now = performance.now();
-        wheelDeltaAccumulator += normalizeWheelDelta(event);
-
-        if (now < wheelLockUntil) {
-          return;
-        }
-
-        if (Math.abs(wheelDeltaAccumulator) < WHEEL_STEP_THRESHOLD) {
-          return;
-        }
-
-        if (wheelDeltaAccumulator > 0) {
-          goNext();
-        } else {
-          goPrev();
-        }
-
-        wheelDeltaAccumulator = 0;
-        wheelLockUntil = now + WHEEL_COOLDOWN_MS;
-      }, { passive: false });
-
-      expOrbit.addEventListener("pointerdown", event => {
-        dragStartX = event.clientX;
-        expOrbit.classList.add("dragging");
-        expOrbit.setPointerCapture(event.pointerId);
-      });
-
-      expOrbit.addEventListener("pointerup", event => {
-        expOrbit.classList.remove("dragging");
-        const deltaX = event.clientX - dragStartX;
-        if (Math.abs(deltaX) < 34) {
-          return;
-        }
-        if (deltaX < 0) {
-          goNext();
-        } else {
-          goPrev();
-        }
-      });
-
-      expOrbit.addEventListener("pointercancel", () => {
-        expOrbit.classList.remove("dragging");
-      });
-
-      expOrbit.addEventListener("touchstart", event => {
-        if (!event.touches || event.touches.length === 0) {
-          return;
-        }
-        dragStartX = event.touches[0].clientX;
-      }, { passive: true });
-
-      expOrbit.addEventListener("touchend", event => {
-        if (!event.changedTouches || event.changedTouches.length === 0) {
-          return;
-        }
-        const deltaX = event.changedTouches[0].clientX - dragStartX;
-        if (Math.abs(deltaX) < 34) {
-          return;
-        }
-        if (deltaX < 0) {
-          goNext();
-        } else {
-          goPrev();
-        }
-      }, { passive: true });
-
       expOrbit.addEventListener("mouseenter", stopAuto);
       expOrbit.addEventListener("mouseleave", startAuto);
+
+      if (expPrevButton) {
+        expPrevButton.addEventListener("click", () => {
+          stopAuto();
+          goPrev();
+          startAuto();
+        });
+      }
+
+      if (expNextButton) {
+        expNextButton.addEventListener("click", () => {
+          stopAuto();
+          goNext();
+          startAuto();
+        });
+      }
 
       document.addEventListener("keydown", event => {
         if (activeWindowId !== "window-experience") {
@@ -909,6 +897,7 @@
       startAuto();
     }
 
+    populateRepoTerminal();
     initializeExperienceCarousel();
 
     function initializeEducationTimeline() {
@@ -1178,10 +1167,20 @@
 
         globeCtx.clearRect(0, 0, rect.width, rect.height);
 
-        const wireColor = darkThemeActive ? "224, 177, 105" : "77, 134, 255";
-        const latAlpha = darkThemeActive ? 0.22 : 0.19;
-        const lonAlpha = darkThemeActive ? 0.19 : 0.16;
+        const wireColor = darkThemeActive ? "34, 211, 238" : "77, 134, 255";
+        const glowColor = darkThemeActive ? "96, 165, 250" : "77, 134, 255";
+        const latAlpha = darkThemeActive ? 0.28 : 0.19;
+        const lonAlpha = darkThemeActive ? 0.23 : 0.16;
         const steps = 116;
+        const coreGlow = globeCtx.createRadialGradient(centerX, centerY, sphereRadius * 0.2, centerX, centerY, sphereRadius * 1.18);
+        coreGlow.addColorStop(0, `rgba(${glowColor}, ${darkThemeActive ? 0.12 : 0.08})`);
+        coreGlow.addColorStop(0.58, `rgba(${wireColor}, ${darkThemeActive ? 0.07 : 0.04})`);
+        coreGlow.addColorStop(1, "rgba(0, 0, 0, 0)");
+
+        globeCtx.beginPath();
+        globeCtx.arc(centerX, centerY, sphereRadius * 1.16, 0, Math.PI * 2);
+        globeCtx.fillStyle = coreGlow;
+        globeCtx.fill();
 
         const projectPoint = (x, y, z) => {
           const scale = fov / (fov + z * sphereRadius);
@@ -1364,8 +1363,10 @@
     window.focusRepoCard = focusRepoCard;
 
     initializeBoxDotCanvases();
-    initializeThemeStars();
     initializeTheme();
+    window.setTimeout(() => {
+      document.documentElement.classList.remove("theme-booting");
+    }, 80);
     resizeDotCanvas();
     drawDotBackground();
     syncInitialTopNavState();

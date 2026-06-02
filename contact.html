@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Shubhadeep Datta</title>
+  <meta name="description" content="Contact Shubhadeep Datta for projects, collaborations, internships, and technical conversations." />
+  <script>
+    (function () {
+      try {
+        var theme = localStorage.getItem("portfolio-theme") || localStorage.getItem("theme");
+        if (!theme && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+          theme = "dark";
+        }
+        document.documentElement.classList.add("theme-booting");
+        if (theme === "dark") {
+          document.documentElement.classList.add("theme-midnight");
+        }
+      } catch (error) {}
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=Sora:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html.theme-booting *,
+    html.theme-booting *::before,
+    html.theme-booting *::after {
+      transition: none !important;
+      animation-duration: 0s !important;
+    }
+
+    :root {
+      --dot-bg: #f4f9ff;
+      --dot-base-rgb: 123, 168, 223;
+      --dot-glow-rgb: 84, 184, 255;
+      --text: #1a2638;
+      --muted: #5f738f;
+      --line: rgba(39, 69, 104, 0.18);
+      --accent: #3f7dff;
+      --accent-strong: #285fdb;
+      --accent-soft: rgba(63, 125, 255, 0.13);
+      --surface: rgba(255, 255, 255, 0.68);
+      --field-bg: rgba(255, 255, 255, 0.82);
+      --field-border: rgba(39, 69, 104, 0.22);
+      --window-blue: #1e314d;
+      --window-text: #d7e8ff;
+      --shadow: 0 22px 54px rgba(51, 84, 125, 0.18);
+      --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+
+    body.theme-midnight {
+      --dot-bg: #030508;
+      --dot-base-rgb: 54, 73, 103;
+      --dot-glow-rgb: 34, 211, 238;
+      --text: #f4f7fb;
+      --muted: #94a3b8;
+      --line: rgba(148, 163, 184, 0.18);
+      --accent: #22d3ee;
+      --accent-strong: #60a5fa;
+      --accent-soft: rgba(34, 211, 238, 0.13);
+      --surface: rgba(15, 23, 42, 0.72);
+      --field-bg: rgba(3, 7, 18, 0.74);
+      --field-border: rgba(148, 163, 184, 0.2);
+      --window-blue: #0b111d;
+      --window-text: #67e8f9;
+      --neon-shadow: rgba(34, 211, 238, 0.46);
+      --neon-shadow-soft: rgba(34, 211, 238, 0.22);
+      --shadow: 0 28px 72px rgba(0, 0, 0, 0.6);
+    }
+
+    html, body { width: 100%; min-height: 100%; }
+
+    body {
+      min-height: 100vh;
+      background: var(--dot-bg);
+      color: var(--text);
+      font-family: "Outfit", sans-serif;
+      overflow-x: hidden;
+      transition: background 0.35s ease, color 0.35s ease;
+    }
+
+    html.theme-midnight body {
+      --dot-bg: #030508;
+      --dot-base-rgb: 54, 73, 103;
+      --dot-glow-rgb: 34, 211, 238;
+      --text: #f4f7fb;
+      --muted: #94a3b8;
+      --line: rgba(148, 163, 184, 0.18);
+      --accent: #22d3ee;
+      --accent-strong: #60a5fa;
+      --accent-soft: rgba(34, 211, 238, 0.13);
+      --surface: rgba(15, 23, 42, 0.72);
+      --field-bg: rgba(3, 7, 18, 0.74);
+      --field-border: rgba(148, 163, 184, 0.2);
+      --window-blue: #0b111d;
+      --window-text: #67e8f9;
+      --neon-shadow: rgba(34, 211, 238, 0.46);
+      --neon-shadow-soft: rgba(34, 211, 238, 0.22);
+      --shadow: 0 28px 72px rgba(0, 0, 0, 0.6);
+    }
+
+    #dotCanvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      display: block;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      width: min(calc(100% - 2rem), 1080px);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 1.1rem 0 4rem;
+    }
+
+    .topbar {
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: clamp(2.6rem, 7vw, 5.2rem);
+    }
+
+    .back-link,
+    .theme-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--text);
+      backdrop-filter: blur(16px) saturate(130%);
+      -webkit-backdrop-filter: blur(16px) saturate(130%);
+      box-shadow: 0 10px 26px rgba(31, 60, 96, 0.1);
+      transition: transform 0.22s var(--ease), border-color 0.22s var(--ease);
+    }
+
+    body.theme-midnight .back-link,
+    body.theme-midnight .theme-toggle {
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.045);
+    }
+
+    .back-link {
+      gap: 0.48rem;
+      min-height: 44px;
+      border-radius: 999px;
+      padding: 0 0.92rem;
+      text-decoration: none;
+      font-family: "Sora", sans-serif;
+      font-size: 0.74rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .theme-toggle {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(160deg, rgba(24, 28, 52, 0.56), rgba(16, 19, 38, 0.46));
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      cursor: pointer;
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 4px 12px rgba(10, 13, 31, 0.24);
+    }
+
+    .back-link:hover,
+    .theme-toggle:hover {
+      transform: translateY(-1px);
+      border-color: rgba(63, 125, 255, 0.42);
+    }
+
+    body.theme-midnight .back-link:hover,
+    body.theme-midnight .theme-toggle:hover {
+      border-color: rgba(34, 211, 238, 0.46);
+    }
+
+    .back-link svg,
+    .theme-toggle svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.08) rotate(8deg);
+      box-shadow: 0 6px 20px rgba(10, 13, 31, 0.42);
+    }
+
+    .theme-toggle:active { transform: scale(0.95); }
+
+    .theme-toggle .icon-container {
+      position: relative;
+      width: 28px;
+      height: 28px;
+      z-index: 1;
+    }
+
+    .theme-toggle .sun-icon,
+    .theme-toggle .moon-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .theme-toggle .sun-icon {
+      transform: translate(-50%, -50%) rotate(0deg) scale(1);
+      opacity: 1;
+    }
+
+    .theme-toggle .moon-icon {
+      transform: translate(-50%, -50%) rotate(90deg) scale(0);
+      opacity: 0;
+    }
+
+    body.theme-midnight .theme-toggle .sun-icon {
+      transform: translate(-50%, -50%) rotate(-90deg) scale(0);
+      opacity: 0;
+    }
+
+    body.theme-midnight .theme-toggle .moon-icon {
+      transform: translate(-50%, -50%) rotate(0deg) scale(1);
+      opacity: 1;
+    }
+
+    .theme-toggle svg {
+      width: 28px;
+      height: 28px;
+      stroke: #fbbf24;
+    }
+
+    .theme-toggle .moon-icon svg,
+    body.theme-midnight .theme-toggle .moon-icon svg {
+      stroke: #67e8f9;
+    }
+
+    .theme-toggle::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      background: linear-gradient(45deg, rgba(251, 191, 36, 0.3), rgba(251, 191, 36, 0.1));
+      border-radius: 50%;
+      opacity: 1;
+      z-index: -1;
+      transition: opacity 0.4s ease;
+      filter: blur(8px);
+    }
+
+    body.theme-midnight .theme-toggle::before {
+      background: linear-gradient(45deg, rgba(34, 211, 238, 0.3), rgba(96, 165, 250, 0.12));
+    }
+
+    @keyframes theme-toggle-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0.3); }
+      50% { box-shadow: 0 0 0 10px rgba(34, 211, 238, 0); }
+    }
+
+    body.theme-midnight .theme-toggle {
+      background: linear-gradient(160deg, rgba(15, 23, 42, 0.9), rgba(3, 7, 18, 0.78));
+      border-color: rgba(34, 211, 238, 0.28);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.42);
+      animation: theme-toggle-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    .theme-toggle::after {
+      content: "";
+      position: absolute;
+      width: 120%;
+      height: 120%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      transform: scale(0);
+      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .theme-toggle.clicked::after { transform: scale(1); }
+
+    .contact-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 0.92fr) minmax(360px, 1.08fr);
+      gap: clamp(1.4rem, 4vw, 3rem);
+      align-items: start;
+    }
+
+    .intro { padding-top: 0.45rem; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.58rem;
+      margin-bottom: 1rem;
+      font-family: "Sora", sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 20px;
+      height: 1px;
+      background: currentColor;
+    }
+
+    h1 {
+      font-family: "DM Serif Display", serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      line-height: 0.94;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--accent);
+      margin-bottom: 1.1rem;
+    }
+
+    h1 .white-text { color: white; }
+    body:not(.theme-midnight) h1 .white-text { color: black; }
+
+    .intro-copy {
+      max-width: 45ch;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.82;
+      margin-bottom: 1.4rem;
+    }
+
+    .signal-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.62rem;
+      margin: 1.6rem 0 1.8rem;
+    }
+
+    .signal-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.42rem;
+      min-height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--muted);
+      padding: 0 0.72rem;
+      font-family: "Sora", sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+
+    .signal-pill::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #34d399;
+      box-shadow: 0 0 10px rgba(52, 211, 153, 0.6);
+    }
+
+    .direct-card {
+      width: min(100%, 440px);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: linear-gradient(160deg, var(--surface), rgba(255, 255, 255, 0.28));
+      box-shadow: var(--shadow);
+      padding: 1rem;
+      backdrop-filter: blur(18px) saturate(132%);
+      -webkit-backdrop-filter: blur(18px) saturate(132%);
+    }
+
+    body.theme-midnight .direct-card {
+      background: linear-gradient(160deg, rgba(15, 23, 42, 0.86), rgba(5, 9, 16, 0.86));
+      border-color: rgba(34, 211, 238, 0.26);
+      box-shadow: 8px 8px 0 var(--neon-shadow-soft), 18px 24px 48px rgba(0, 0, 0, 0.58);
+    }
+
+    .direct-card p {
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.65;
+      margin-bottom: 0.84rem;
+    }
+
+    .direct-email {
+      display: inline-flex;
+      gap: 0.5rem;
+      color: var(--text);
+      text-decoration: none;
+      font-family: "Sora", sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      overflow-wrap: anywhere;
+    }
+
+    .direct-email span {
+      color: var(--accent);
+      text-shadow: 0 0 14px rgba(34, 211, 238, 0.26);
+    }
+
+    .form-card {
+      overflow: hidden;
+      background: linear-gradient(145deg, #f8fbff 0%, #e8f0ff 100%);
+      border: 3px solid var(--window-blue);
+      border-radius: 26px;
+      box-shadow: 12px 12px 0 rgba(126, 149, 182, 0.44), 24px 30px 52px rgba(55, 83, 123, 0.18);
+    }
+
+    body.theme-midnight .form-card {
+      background: linear-gradient(160deg, rgba(15, 23, 42, 0.98), rgba(5, 9, 16, 0.98));
+      border: 2px solid rgba(34, 211, 238, 0.38);
+      box-shadow: 12px 12px 0 rgba(34, 211, 238, 0.38), 24px 30px 62px rgba(0, 0, 0, 0.6), 0 0 34px var(--neon-shadow-soft);
+    }
+
+    .window-bar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 0.72rem;
+      min-height: 52px;
+      padding: 0 1rem;
+      background: var(--window-blue);
+      border-bottom: 3px solid var(--window-blue);
+      color: var(--window-text);
+    }
+
+    body.theme-midnight .window-bar {
+      background: linear-gradient(180deg, rgba(18, 25, 38, 0.96), rgba(9, 14, 24, 0.98));
+      border-bottom: 1px solid rgba(34, 211, 238, 0.24);
+    }
+
+    .window-dots {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .window-dots span {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      display: inline-block;
+      border: 1px solid rgba(0, 0, 0, 0.16);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.34);
+    }
+    .window-dots span:nth-child(1) { background: #ff5f57; }
+    .window-dots span:nth-child(2) { background: #ffbd2e; }
+    .window-dots span:nth-child(3) { background: #29ca42; }
+
+    .window-label {
+      font-family: "Sora", sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--window-text);
+    }
+
+    .form-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: clamp(1.1rem, 3vw, 1.7rem) clamp(1.1rem, 3vw, 1.7rem) 0;
+      margin-bottom: 1.3rem;
+    }
+
+    .form-head h2 {
+      font-family: "DM Serif Display", serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      line-height: 1;
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 0.55rem;
+    }
+
+    body.theme-midnight .form-head h2 {
+      color: #f4f7fb;
+      text-shadow: none;
+    }
+
+    .form-head p,
+    .fine-print {
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.55;
+    }
+
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      min-height: 30px;
+      border: 1px solid rgba(52, 211, 153, 0.26);
+      border-radius: 999px;
+      background: rgba(52, 211, 153, 0.08);
+      color: #10b981;
+      padding: 0 0.62rem;
+      font-family: "Sora", sans-serif;
+      font-size: 0.64rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    body.theme-midnight .status-chip { color: #34d399; }
+
+    form {
+      padding: 0 clamp(1.1rem, 3vw, 1.7rem) clamp(1.1rem, 3vw, 1.7rem);
+    }
+
+    .intent-grid,
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.7rem;
+    }
+
+    .intent-grid { margin-bottom: 1rem; }
+
+    .intent-chip {
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: rgba(255, 255, 255, 0.38);
+      color: var(--muted);
+      padding: 0 0.78rem;
+      font: 600 0.78rem "Outfit", sans-serif;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    body.theme-midnight .intent-chip { background: rgba(15, 23, 42, 0.62); }
+
+    .intent-chip:hover,
+    .intent-chip.active {
+      border-color: rgba(63, 125, 255, 0.42);
+      background: var(--accent-soft);
+      color: var(--text);
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 0.38rem;
+      font-family: "Sora", sans-serif;
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .field.full { grid-column: 1 / -1; }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      border: 1px solid var(--field-border);
+      border-radius: 14px;
+      background: var(--field-bg);
+      color: var(--text);
+      font: 500 0.92rem "Outfit", sans-serif;
+      outline: none;
+      padding: 0.82rem 0.9rem;
+    }
+
+    textarea {
+      min-height: 148px;
+      resize: vertical;
+      line-height: 1.65;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: rgba(34, 211, 238, 0.56);
+      box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.12);
+    }
+
+    .hidden-honey {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .send-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.52rem;
+      min-height: 48px;
+      border: 1px solid rgba(63, 125, 255, 0.42);
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      color: #03111d;
+      padding: 0 1.14rem;
+      font-family: "Sora", sans-serif;
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .send-btn svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 1.3rem;
+      z-index: 20;
+      transform: translate(-50%, 70px);
+      opacity: 0;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #0b101a;
+      color: #f8fafc;
+      padding: 0.7rem 1rem;
+      box-shadow: var(--shadow);
+      font-size: 0.84rem;
+      font-weight: 600;
+      transition: transform 0.32s var(--ease), opacity 0.32s var(--ease);
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    .toast.show { transform: translate(-50%, 0); opacity: 1; }
+
+    @media (max-width: 840px) {
+      .contact-shell { grid-template-columns: 1fr; }
+      .direct-card { width: 100%; }
+    }
+
+    @media (max-width: 560px) {
+      .page { width: min(calc(100% - 1.2rem), 1080px); padding-top: 0.7rem; }
+      .back-link span { display: none; }
+      .form-head,
+      .form-actions { flex-direction: column; align-items: stretch; }
+      .intent-grid,
+      .form-grid { grid-template-columns: 1fr; }
+      .send-btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    (function () {
+      if (document.documentElement.classList.contains("theme-midnight")) {
+        document.body.classList.add("theme-midnight");
+      }
+    })();
+  </script>
+  <canvas id="dotCanvas" aria-hidden="true"></canvas>
+
+  <div class="page">
+    <header class="topbar">
+      <a class="back-link" href="./index.html" aria-label="Back to portfolio">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5" /><path d="m12 19-7-7 7-7" /></svg>
+        <span>Portfolio</span>
+      </a>
+
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme" aria-pressed="false">
+        <span class="icon-container" aria-hidden="true">
+          <span class="sun-icon">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+          </span>
+          <span class="moon-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </span>
+        </span>
+      </button>
+    </header>
+
+    <main class="contact-shell">
+      <section class="intro" aria-labelledby="contactTitle">
+        <p class="eyebrow">Contact</p>
+        <h1 id="contactTitle"><span class="white-text">Let's build</span> something useful.</h1>
+        <p class="intro-copy">
+          Send the context, constraints, and goal. I am happiest around AI/ML,
+          full-stack builds, product experiments, and practical systems that need careful engineering.
+        </p>
+
+        <div class="signal-row" aria-label="Availability signals">
+          <span class="signal-pill">Open to collaboration</span>
+          <span class="signal-pill">Project-first conversations</span>
+          <span class="signal-pill">Replies when available</span>
+        </div>
+
+        <aside class="direct-card" aria-label="Direct email">
+          <p>Prefer your own mail app? This reaches the same inbox.</p>
+          <a class="direct-email" href="mailto:slenderisprogramming@gmail.com">
+            <span>mail</span>
+            slenderisprogramming@gmail.com
+          </a>
+        </aside>
+      </section>
+
+      <section class="form-card" aria-label="Send a message">
+        <div class="window-bar" aria-hidden="true">
+          <div class="window-dots"><span></span><span></span><span></span></div>
+          <span class="window-label">message.box</span>
+        </div>
+
+        <div class="form-head">
+          <div>
+            <h2>Start the thread</h2>
+            <p>Short and specific is perfect. The form sends to my programming inbox.</p>
+          </div>
+          <span class="status-chip">Direct form</span>
+        </div>
+
+        <form id="contactForm" action="/.netlify/functions/contact" method="POST">
+          <input type="hidden" name="_subject" id="mailSubject" value="Portfolio contact" />
+          <input type="hidden" name="_template" value="table" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="_next" id="nextUrl" value="" />
+          <input type="hidden" name="redirect" id="redirectUrl" value="/contact.html?sent=1" />
+          <input class="hidden-honey" type="text" name="_honey" tabindex="-1" autocomplete="off" />
+
+          <div class="intent-grid" aria-label="Message shortcuts">
+            <button class="intent-chip active" type="button" data-intent="Project collaboration">Project collaboration</button>
+            <button class="intent-chip" type="button" data-intent="Hiring / internship">Hiring / internship</button>
+            <button class="intent-chip" type="button" data-intent="Code review">Code review</button>
+            <button class="intent-chip" type="button" data-intent="Speaking / event">Speaking / event</button>
+          </div>
+
+          <div class="form-grid">
+            <label>Name<input name="name" type="text" autocomplete="name" placeholder="Your name" required /></label>
+            <label>Email<input name="email" type="email" autocomplete="email" placeholder="you@example.com" required /></label>
+            <label>Intent<select name="intent" id="intentSelect" required><option>Project collaboration</option><option>Hiring / internship</option><option>Code review</option><option>Speaking / event</option><option>Just saying hi</option></select></label>
+            <label>Subject<input name="subject" id="subjectInput" type="text" placeholder="What should I know first?" required /></label>
+            <label class="field full">Message<textarea name="message" placeholder="A few lines about the idea, timeline, links, or what you need help with." required></textarea></label>
+          </div>
+
+          <div class="form-actions">
+            <p class="fine-print">No newsletter. No noise. Just your message landing in my inbox.</p>
+            <button class="send-btn" type="submit">
+              Send message
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14" /><path d="m13 6 6 6-6 6" /></svg>
+            </button>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const themeToggle = document.getElementById("themeToggle");
+    const dotCanvas = document.getElementById("dotCanvas");
+    const dotCtx = dotCanvas ? dotCanvas.getContext("2d") : null;
+    const toast = document.getElementById("toast");
+    const contactForm = document.getElementById("contactForm");
+    const intentSelect = document.getElementById("intentSelect");
+    const subjectInput = document.getElementById("subjectInput");
+    const mailSubject = document.getElementById("mailSubject");
+    const nextUrl = document.getElementById("nextUrl");
+    const redirectUrl = document.getElementById("redirectUrl");
+    const intentChips = Array.from(document.querySelectorAll(".intent-chip"));
+    const mouse = { x: -9999, y: -9999 };
+    let dotWidth = 0;
+    let dotHeight = 0;
+    let toastTimer = null;
+
+    function showToast(message) {
+      if (!toast) return;
+      toast.textContent = message;
+      toast.classList.add("show");
+      window.clearTimeout(toastTimer);
+      toastTimer = window.setTimeout(() => toast.classList.remove("show"), 3600);
+    }
+
+    function setTheme(mode) {
+      const isDark = mode === "dark";
+      document.documentElement.classList.toggle("theme-midnight", isDark);
+      document.body.classList.toggle("theme-midnight", isDark);
+      document.documentElement.classList.toggle("dark-theme", isDark);
+      if (themeToggle) themeToggle.setAttribute("aria-pressed", String(isDark));
+      try {
+        window.localStorage.setItem("portfolio-theme", mode);
+        window.localStorage.setItem("theme", mode);
+      } catch {}
+    }
+
+    function loadTheme() {
+      try {
+        const saved = window.localStorage.getItem("portfolio-theme") || window.localStorage.getItem("theme");
+        if (saved === "dark" || saved === "light") return setTheme(saved);
+      } catch {}
+      const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      setTheme(prefersDark ? "dark" : "light");
+    }
+
+    function getDotPalette() {
+      const styles = getComputedStyle(document.body);
+      return {
+        bg: styles.getPropertyValue("--dot-bg").trim() || "#f4f9ff",
+        base: styles.getPropertyValue("--dot-base-rgb").trim() || "123, 168, 223",
+        glow: styles.getPropertyValue("--dot-glow-rgb").trim() || "84, 184, 255",
+      };
+    }
+
+    function resizeDotCanvas() {
+      if (!dotCanvas || !dotCtx) return;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      dotWidth = window.innerWidth;
+      dotHeight = window.innerHeight;
+      dotCanvas.width = Math.floor(dotWidth * dpr);
+      dotCanvas.height = Math.floor(dotHeight * dpr);
+      dotCanvas.style.width = `${dotWidth}px`;
+      dotCanvas.style.height = `${dotHeight}px`;
+      dotCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function drawDots() {
+      if (!dotCanvas || !dotCtx) return;
+      const palette = getDotPalette();
+      dotCtx.clearRect(0, 0, dotWidth, dotHeight);
+
+      for (let y = 16; y < dotHeight; y += 32) {
+        for (let x = 16; x < dotWidth; x += 32) {
+          const distance = Math.hypot(x - mouse.x, y - mouse.y);
+          const proximity = Math.max(0, 1 - distance / 112);
+          const radius = 1.4 + proximity * 1.8;
+          const alpha = proximity > 0 ? Math.min(1, 0.12 + proximity * 0.14) : 0.12;
+          dotCtx.beginPath();
+          dotCtx.arc(x, y, radius, 0, Math.PI * 2);
+          dotCtx.fillStyle = `rgba(${proximity > 0 ? palette.glow : palette.base}, ${alpha.toFixed(3)})`;
+          dotCtx.fill();
+        }
+      }
+
+      window.requestAnimationFrame(drawDots);
+    }
+
+    function setIntent(intent) {
+      if (intentSelect) intentSelect.value = intent;
+      intentChips.forEach(chip => chip.classList.toggle("active", chip.dataset.intent === intent));
+      if (subjectInput && !subjectInput.value.trim()) subjectInput.value = intent;
+    }
+
+    function setFormSending(isSending) {
+      if (!contactForm) return;
+      const sendButton = contactForm.querySelector(".send-btn");
+      if (!sendButton) return;
+      sendButton.disabled = isSending;
+      sendButton.setAttribute("aria-busy", String(isSending));
+    }
+
+    intentChips.forEach(chip => chip.addEventListener("click", () => setIntent(chip.dataset.intent)));
+    if (intentSelect) intentSelect.addEventListener("change", () => setIntent(intentSelect.value));
+
+    if (contactForm) {
+      contactForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const subject = subjectInput?.value.trim() || "Portfolio contact";
+        const intent = intentSelect?.value || "Contact";
+        if (mailSubject) mailSubject.value = `[Portfolio: ${intent}] ${subject}`;
+
+        const formData = new FormData(contactForm);
+        const payload = Object.fromEntries(formData.entries());
+        payload.subject = subject;
+        payload.intent = intent;
+        payload.honey = payload._honey || "";
+
+        try {
+          setFormSending(true);
+          const response = await fetch(contactForm.action, {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+              "accept": "application/json",
+            },
+            body: JSON.stringify(payload),
+          });
+
+          const result = await response.json().catch(() => ({}));
+          if (!response.ok || result.ok === false) {
+            const message = result.error || "Message not sent. Please try again.";
+            showToast(message);
+            return;
+          }
+
+          contactForm.reset();
+          setIntent(intentSelect?.value || "Project collaboration");
+          showToast("Message sent. I will read it soon.");
+        } catch (error) {
+          showToast("Network issue. Please try again in a moment.");
+        } finally {
+          setFormSending(false);
+        }
+      });
+    }
+
+    if (nextUrl && window.location.protocol !== "file:") {
+      const successPath = `${window.location.pathname}?sent=1`;
+      nextUrl.value = `${window.location.origin}${successPath}`;
+      if (redirectUrl) redirectUrl.value = successPath;
+    }
+
+    if (new URLSearchParams(window.location.search).get("sent") === "1") {
+      showToast("Message sent. I will read it soon.");
+      window.history.replaceState({}, "", window.location.pathname);
+    }
+
+    if (themeToggle) {
+      themeToggle.addEventListener("click", () => {
+        themeToggle.classList.add("clicked");
+        window.setTimeout(() => themeToggle.classList.remove("clicked"), 600);
+        setTheme(document.body.classList.contains("theme-midnight") ? "light" : "dark");
+      });
+    }
+
+    window.addEventListener("resize", resizeDotCanvas);
+    window.addEventListener("pointermove", event => {
+      mouse.x = event.clientX;
+      mouse.y = event.clientY;
+    }, { passive: true });
+    window.addEventListener("pointerleave", () => {
+      mouse.x = -9999;
+      mouse.y = -9999;
+    });
+
+    loadTheme();
+    window.setTimeout(() => {
+      document.documentElement.classList.remove("theme-booting");
+    }, 80);
+    resizeDotCanvas();
+    drawDots();
+  </script>
+</body>
+</html>
