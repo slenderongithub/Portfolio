@@ -1,18 +1,18 @@
 /**
  * lens.js — Glass magnifying lens effect
  *
- * Geometry notes
- * ──────────────
- * The clone is position:fixed, full-viewport. We zoom it 2× by
- * setting transform-origin to the cursor position and applying
- * scale(2). Because the scale anchor IS the cursor, content at
- * the cursor stays put while everything around it expands outward.
+ * The toggle button is created here (not in HTML) as a fixed
+ * circular element in the bottom-right corner, z-index 10000,
+ * so it stays visible and clickable even when the lens clone
+ * (z-index 9997) is covering the entire page.
  *
- * clip-path: circle(R_pre at cx cy) where R_pre = HALF / ZOOM
- *   → after scale(2) that circle becomes HALF radius (= 90 px)
- *   → 180 px diameter visible window, centred on cursor ✓
- *
- * No decoration layer — the magnification window is the cursor.
+ * Geometry
+ * ────────
+ * Clone: position fixed, full viewport.
+ * transform-origin → cursor position, transform → scale(2).
+ * Because the scale anchor IS the cursor, content under it stays put.
+ * clip-path: circle(PRE_R px at cx cy)  — PRE_R = HALF / ZOOM = 45 px
+ *   after scale(2) → visible circle radius = 90 px = 180 px diameter ✓
  */
 
 (function () {
@@ -22,11 +22,7 @@
   var LENS_SIZE = 180;
   var HALF      = LENS_SIZE / 2;   // 90 px
   var ZOOM      = 2;
-  var PRE_R     = HALF / ZOOM;     // 45 px — clip radius before scale
-
-  /* ── find the toggle button ─────────────────────────────── */
-  var btn = document.getElementById('lensToggle');
-  if (!btn) return;
+  var PRE_R     = HALF / ZOOM;     // 45 px — pre-scale clip radius
 
   /* ── state ──────────────────────────────────────────────── */
   var active  = false;
@@ -39,49 +35,66 @@
   var styleEl = document.createElement('style');
   styleEl.id  = 'glass-lens-styles';
   styleEl.textContent = [
-    /* ── Toggle button ───────────────────────────────────── */
-    '#lensToggle {',
-    '  display: inline-flex;',
-    '  align-items: center;',
-    '  gap: 0.38rem;',
-    '  min-height: 44px;',
-    '  padding: 0 0.86rem;',
-    '  border: 1px solid rgba(39,69,104,0.22);',
-    '  border-radius: 999px;',
-    '  background: rgba(255,255,255,0.52);',
-    '  backdrop-filter: blur(14px) saturate(130%);',
-    '  -webkit-backdrop-filter: blur(14px) saturate(130%);',
+    /* ── Circular fixed button — bottom-right ────────────── */
+    '#glass-lens-btn {',
+    '  position: fixed;',
+    '  bottom: 1.6rem;',
+    '  right: 1.6rem;',
+    '  z-index: 10000;',        /* above clone (9997) at all times */
+    '  width: 52px;',
+    '  height: 52px;',
+    '  border-radius: 50%;',
+    '  border: 1.5px solid rgba(39,69,104,0.22);',
+    '  background: rgba(255,255,255,0.62);',
+    '  backdrop-filter: blur(16px) saturate(140%);',
+    '  -webkit-backdrop-filter: blur(16px) saturate(140%);',
+    '  box-shadow: 0 6px 20px rgba(31,60,96,0.12), inset 0 1px 0 rgba(255,255,255,0.7);',
     '  color: #1e314d;',
-    '  font: 700 0.7rem "Sora", sans-serif;',
-    '  letter-spacing: 0.1em;',
-    '  text-transform: uppercase;',
     '  cursor: pointer;',
-    '  box-shadow: 0 6px 16px rgba(31,60,96,0.08);',
-    '  transition: border-color 0.22s, transform 0.22s, background 0.22s, box-shadow 0.22s;',
+    '  display: flex;',
+    '  align-items: center;',
+    '  justify-content: center;',
+    '  transition: transform 0.22s cubic-bezier(0.22,0.61,0.36,1),',
+    '              border-color 0.22s ease,',
+    '              box-shadow 0.22s ease,',
+    '              background 0.22s ease;',
     '  user-select: none;',
     '}',
-    'body.theme-midnight #lensToggle {',
-    '  border-color: rgba(148,163,184,0.2);',
-    '  background: rgba(15,23,42,0.72);',
+    'body.theme-midnight #glass-lens-btn {',
+    '  border-color: rgba(148,163,184,0.22);',
+    '  background: rgba(15,23,42,0.76);',
+    '  box-shadow: 0 6px 20px rgba(0,0,0,0.36), inset 0 1px 0 rgba(255,255,255,0.04);',
     '  color: #94a3b8;',
     '}',
-    '#lensToggle:hover {',
-    '  transform: translateY(-1px);',
-    '  border-color: rgba(63,125,255,0.52);',
-    '  box-shadow: 0 8px 22px rgba(31,60,96,0.14);',
+    '#glass-lens-btn:hover {',
+    '  transform: scale(1.1);',
+    '  border-color: rgba(63,125,255,0.5);',
+    '  box-shadow: 0 10px 28px rgba(63,125,255,0.18), inset 0 1px 0 rgba(255,255,255,0.7);',
     '}',
-    'body.theme-midnight #lensToggle:hover {',
-    '  border-color: rgba(34,211,238,0.44);',
+    'body.theme-midnight #glass-lens-btn:hover {',
+    '  border-color: rgba(34,211,238,0.46);',
+    '  box-shadow: 0 10px 28px rgba(34,211,238,0.14), inset 0 1px 0 rgba(255,255,255,0.04);',
     '}',
-    '#lensToggle.lens-on {',
+    '#glass-lens-btn.lens-on {',
     '  border-color: rgba(63,125,255,0.6);',
-    '  background: rgba(63,125,255,0.1);',
+    '  background: rgba(63,125,255,0.12);',
     '  color: #3f7dff;',
     '}',
-    'body.theme-midnight #lensToggle.lens-on {',
-    '  border-color: rgba(34,211,238,0.52);',
-    '  background: rgba(34,211,238,0.08);',
+    'body.theme-midnight #glass-lens-btn.lens-on {',
+    '  border-color: rgba(34,211,238,0.54);',
+    '  background: rgba(34,211,238,0.1);',
     '  color: #22d3ee;',
+    '}',
+    /* Icon inside button */
+    '#glass-lens-btn svg {',
+    '  width: 20px;',
+    '  height: 20px;',
+    '  fill: none;',
+    '  stroke: currentColor;',
+    '  stroke-width: 2;',
+    '  stroke-linecap: round;',
+    '  stroke-linejoin: round;',
+    '  transition: transform 0.22s ease, opacity 0.18s ease;',
     '}',
 
     /* ── Clone overlay ───────────────────────────────────── */
@@ -99,6 +112,33 @@
   document.head.appendChild(styleEl);
 
   /* ─────────────────────────────────────────────────────────
+   * Create the circular toggle button
+   * ─────────────────────────────────────────────────────────*/
+  var btn = document.createElement('button');
+  btn.id   = 'glass-lens-btn';
+  btn.type = 'button';
+  btn.setAttribute('aria-label', 'Toggle magnifying lens');
+  btn.setAttribute('aria-pressed', 'false');
+
+  /* Magnifying-glass icon (off state) */
+  var SVG_LENS = '<svg viewBox="0 0 24 24" aria-hidden="true">'
+    + '<circle cx="11" cy="11" r="7"/>'
+    + '<line x1="16.5" y1="16.5" x2="22" y2="22"/>'
+    + '</svg>';
+
+  /* Close / × icon (on state) */
+  var SVG_CLOSE = '<svg viewBox="0 0 24 24" aria-hidden="true">'
+    + '<line x1="18" y1="6" x2="6" y2="18"/>'
+    + '<line x1="6" y1="6" x2="18" y2="18"/>'
+    + '</svg>';
+
+  btn.innerHTML = SVG_LENS;
+
+  /* Append directly to body — NOT inside .dot-content,
+     so it is never included in the page clone. */
+  document.body.appendChild(btn);
+
+  /* ─────────────────────────────────────────────────────────
    * Build the page clone
    * ─────────────────────────────────────────────────────────*/
   function buildClone() {
@@ -112,7 +152,9 @@
     cloneEl.querySelectorAll('script').forEach(function (el) { el.remove(); });
     cloneEl.querySelectorAll('canvas').forEach(function (el) { el.remove(); });
 
-    var cloneBtn = cloneEl.querySelector('#lensToggle');
+    /* The button lives outside .dot-content so it won't be in the
+       clone, but guard against edge cases. */
+    var cloneBtn = cloneEl.querySelector('#glass-lens-btn');
     if (cloneBtn) cloneBtn.remove();
 
     cloneEl.querySelectorAll('[tabindex]').forEach(function (el) {
@@ -125,7 +167,7 @@
   }
 
   /* ─────────────────────────────────────────────────────────
-   * Sync zoom every mousemove
+   * Sync zoom on every mousemove
    * ─────────────────────────────────────────────────────────*/
   function syncLens(x, y) {
     if (!cloneEl) return;
@@ -143,7 +185,7 @@
     buildClone();
     syncLens(cx, cy);
     document.body.style.cursor = 'none';
-    btn.textContent = '× Lens';
+    btn.innerHTML = SVG_CLOSE;
     btn.classList.add('lens-on');
     btn.setAttribute('aria-pressed', 'true');
   }
@@ -160,7 +202,7 @@
     }
 
     document.body.style.cursor = '';
-    btn.textContent = 'Lens';
+    btn.innerHTML = SVG_LENS;
     btn.classList.remove('lens-on');
     btn.setAttribute('aria-pressed', 'false');
   }
@@ -179,6 +221,7 @@
     if (active) syncLens(cx, cy);
   }, { passive: true });
 
+  /* Hide magnification when cursor leaves window */
   document.addEventListener('mouseleave', function () {
     if (!active || !cloneEl) return;
     cloneEl.style.clipPath = 'circle(0px at ' + cx + 'px ' + cy + 'px)';
@@ -189,6 +232,7 @@
     syncLens(cx, cy);
   });
 
+  /* ESC closes the lens */
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && active) deactivate();
   });
