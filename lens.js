@@ -39,7 +39,7 @@
     '#glass-lens-btn {',
     '  position: fixed;',
     '  bottom: 1.6rem;',
-    '  right: 1.6rem;',
+    '  right: 1rem;',
     '  z-index: 10000;',        /* above clone (9997) at all times */
     '  width: 52px;',
     '  height: 52px;',
@@ -184,6 +184,12 @@
     active = true;
     buildClone();
     syncLens(cx, cy);
+
+    /* Lock scroll — measure scrollbar width first to avoid layout shift */
+    var scrollbarW = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.overflow    = 'hidden';
+    document.body.style.paddingRight = scrollbarW + 'px';
+
     document.body.style.cursor = 'none';
     btn.innerHTML = SVG_CLOSE;
     btn.classList.add('lens-on');
@@ -192,6 +198,10 @@
 
   function deactivate() {
     active = false;
+
+    /* Restore scroll */
+    document.body.style.overflow    = '';
+    document.body.style.paddingRight = '';
 
     if (cloneEl) {
       var dying = cloneEl;
