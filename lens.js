@@ -41,12 +41,6 @@
   var styleEl = document.createElement('style');
   styleEl.id  = 'glass-lens-styles';
   styleEl.textContent = [
-    /* Spinning chromatic ring animation */
-    '@keyframes lens-chroma-spin {',
-    '  from { transform: rotate(0deg); }',
-    '  to   { transform: rotate(360deg); }',
-    '}',
-
     /* ── Toggle button ───────────────────────────────────── */
     '#lensToggle {',
     '  display: inline-flex;',
@@ -112,32 +106,6 @@
     '  opacity: 1;',
     '}',
 
-    /* Chromatic aberration ring — conic gradient masked to thin band */
-    '#glass-lens-ring {',
-    '  position: absolute;',
-    '  inset: 0;',
-    '  border-radius: 50%;',
-    '  background: conic-gradient(',
-    '    rgba(255, 55,  55,  0.92),',
-    '    rgba(255, 148, 0,   0.92),',
-    '    rgba(0,   228, 228, 0.92),',
-    '    rgba(50,  78,  255, 0.92),',
-    '    rgba(195, 38,  255, 0.92),',
-    '    rgba(255, 55,  55,  0.92)',
-    '  );',
-    '  animation: lens-chroma-spin 5s linear infinite;',
-    '  -webkit-mask: radial-gradient(',
-    '    circle at 50% 50%,',
-    '    transparent ' + (HALF - 2.5) + 'px,',
-    '    black '       + (HALF - 1  ) + 'px',
-    '  );',
-    '  mask: radial-gradient(',
-    '    circle at 50% 50%,',
-    '    transparent ' + (HALF - 2.5) + 'px,',
-    '    black '       + (HALF - 1  ) + 'px',
-    '  );',
-    '}',
-
     /* Convex glass highlight — subtle white shimmer at top-left */
     '#glass-lens-highlight {',
     '  position: absolute;',
@@ -173,13 +141,9 @@
   lensDecor.id  = 'glass-lens-decor';
   lensDecor.setAttribute('aria-hidden', 'true');
 
-  var lensRing  = document.createElement('div');
-  lensRing.id   = 'glass-lens-ring';
-
   var lensHL    = document.createElement('div');
   lensHL.id     = 'glass-lens-highlight';
 
-  lensDecor.appendChild(lensRing);
   lensDecor.appendChild(lensHL);
   document.body.appendChild(lensDecor);
 
