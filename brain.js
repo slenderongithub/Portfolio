@@ -371,6 +371,14 @@ function initializeInteractiveBrain() {
       let tick = 0;
       function animate() {
         requestAnimationFrame(animate);
+
+        // Only render when the home section is active — check via the DOM class
+        // that app.js keeps in sync. Keeps the dome frozen while away so it
+        // resumes seamlessly without a flash or re-initialisation on return.
+        if (!brainStage.closest(".stage-window")?.classList.contains("active")) {
+          return;
+        }
+
         tick += 0.01;
 
         const isDarkMode = document.body.classList.contains("theme-midnight");

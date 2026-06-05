@@ -482,6 +482,13 @@
       });
 
       moveTopNavSlider(activeWindowId);
+
+      // When navigating to the Skills section, re-measure pill sizes and
+      // redraw the star field so they reflect the actual rendered dimensions
+      // (they may have been zero if the globe was off-screen at page load).
+      if (windowId === "window-skills" && typeof skillsGlobeState !== "undefined" && skillsGlobeState) {
+        window.setTimeout(() => skillsGlobeState.remeasure?.(), 80);
+      }
     }
 
     function getSectionScrollDuration(distance) {
@@ -1093,6 +1100,9 @@
         }));
       }
 
+      let lastGlobeW = 0;
+      let lastGlobeH = 0;
+
       function resizeCanvases() {
         const rect = globeRoot.getBoundingClientRect();
         if (rect.width <= 0 || rect.height <= 0) {
@@ -1102,6 +1112,7 @@
         const dpr = Math.min(window.devicePixelRatio || 1, 2);
         const nextWidth = Math.max(1, Math.floor(rect.width * dpr));
         const nextHeight = Math.max(1, Math.floor(rect.height * dpr));
+        const dimensionsChanged = bgCanvas.width !== nextWidth || bgCanvas.height !== nextHeight;
 
         [
           [bgCanvas, bgCtx],
@@ -1122,9 +1133,17 @@
         );
         fov = Math.max(760, sphereRadius * 4.2);
 
-        rebuildStars(rect.width, rect.height);
+        // Only rebuild stars when the canvas actually changed size — avoids a
+        // flash of freshly-randomised stars every time the user scrolls back.
+        if (dimensionsChanged || lastGlobeW === 0) {
+          lastGlobeW = rect.width;
+          lastGlobeH = rect.height;
+          rebuildStars(rect.width, rect.height);
+          drawStarField();
+        }
+
+        // Only re-measure pill sizes when they are actually rendered on screen.
         measurePills();
-        drawStarField();
       }
 
       function drawStarField() {
@@ -1318,16 +1337,35 @@
       globeRoot.addEventListener("lostpointercapture", stopDrag);
       globeRoot.addEventListener("dragstart", event => event.preventDefault());
 
-      window.addEventListener("resize", resizeCanvases);
+      // Use ResizeObserver so we only react to changes on the globe container
+      // itself, not every unrelated window-resize event that fires while other
+      // sections are visible.
+      if (window.ResizeObserver) {
+        const globeResizeObserver = new ResizeObserver(() => {
+          resizeCanvases();
+        });
+        globeResizeObserver.observe(globeRoot);
+      } else {
+        window.addEventListener("resize", resizeCanvases);
+      }
 
       resizeCanvases();
       layoutPills();
       drawWireGlobe();
 
+      // Measure pill widths once fonts/icons have loaded.
       window.setTimeout(measurePills, 120);
+      // Second pass in case devicon fonts were still loading.
+      window.setTimeout(measurePills, 900);
 
       return {
         tick() {
+          // Skip rendering when the Skills section is not the active window —
+          // this keeps rotation state frozen so coming back feels seamless.
+          if (activeWindowId !== "window-skills") {
+            return;
+          }
+
           const themeIsDark = document.body.classList.contains("theme-midnight");
           if (themeIsDark !== darkThemeActive) {
             darkThemeActive = themeIsDark;
@@ -1343,6 +1381,12 @@
 
           drawWireGlobe();
           layoutPills();
+        },
+        // Called when the Skills section becomes active so pill sizes and the
+        // canvas are refreshed after potentially being invisible at page load.
+        remeasure() {
+          resizeCanvases();
+          measurePills();
         },
       };
     }
