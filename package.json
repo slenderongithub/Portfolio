@@ -1,0 +1,16 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Shubhadeep Datta — personal portfolio",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "npx netlify dev",
+    "lint:functions": "node --check netlify/functions/contact.js"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17"
+  }
+}
