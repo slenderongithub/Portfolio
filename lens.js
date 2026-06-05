@@ -167,14 +167,28 @@
   }
 
   /* ─────────────────────────────────────────────────────────
-   * Sync zoom on every mousemove
+   * Sync zoom on every mousemove / scroll
+   *
+   * The clone is position:fixed (y=0 = viewport top, always).
+   * When the page has scrolled by scrollY px, the content under
+   * the cursor (at viewport y=cy) lives at local clone y = cy+scrollY.
+   *
+   * Transform: scale(ZOOM) translateY(-scrollY)
+   *   with transform-origin: (cx, cy)
+   *   → local point (cx, cy+scrollY) maps to viewport (cx, cy) ✓
+   *
+   * clip-path is in local (pre-transform) coordinates, so its
+   * centre must be at the local point that maps to the cursor:
+   *   local centre = (cx, cy + scrollY)
+   *   after transform → viewport (cx, cy) ✓
    * ─────────────────────────────────────────────────────────*/
   function syncLens(x, y) {
     if (!cloneEl) return;
+    var sy = window.scrollY;
     cloneEl.style.transformOrigin = x + 'px ' + y + 'px';
-    cloneEl.style.transform       = 'scale(' + ZOOM + ')';
+    cloneEl.style.transform       = 'scale(' + ZOOM + ') translateY(-' + sy + 'px)';
     cloneEl.style.clipPath        =
-      'circle(' + PRE_R + 'px at ' + x + 'px ' + y + 'px)';
+      'circle(' + PRE_R + 'px at ' + x + 'px ' + (y + sy) + 'px)';
   }
 
   /* ─────────────────────────────────────────────────────────
@@ -184,12 +198,6 @@
     active = true;
     buildClone();
     syncLens(cx, cy);
-
-    /* Lock scroll — measure scrollbar width first to avoid layout shift */
-    var scrollbarW = window.innerWidth - document.documentElement.clientWidth;
-    document.body.style.overflow    = 'hidden';
-    document.body.style.paddingRight = scrollbarW + 'px';
-
     document.body.style.cursor = 'none';
     btn.innerHTML = SVG_CLOSE;
     btn.classList.add('lens-on');
@@ -198,10 +206,6 @@
 
   function deactivate() {
     active = false;
-
-    /* Restore scroll */
-    document.body.style.overflow    = '';
-    document.body.style.paddingRight = '';
 
     if (cloneEl) {
       var dying = cloneEl;
@@ -228,6 +232,11 @@
   window.addEventListener('mousemove', function (e) {
     cx = e.clientX;
     cy = e.clientY;
+    if (active) syncLens(cx, cy);
+  }, { passive: true });
+
+  /* Re-sync on scroll so clone tracks the new visible content */
+  window.addEventListener('scroll', function () {
     if (active) syncLens(cx, cy);
   }, { passive: true });
 
