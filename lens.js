@@ -170,19 +170,22 @@
   /* ─────────────────────────────────────────────────────────
    * Sync zoom on every mousemove / scroll
    *
-   * The clone mirrors the real page's scroll position via scrollTop
-   * so it always shows the same content the real page shows.
-   * Then scale(2) with transform-origin at the cursor zooms that
-   * content — exactly like a physical magnifying glass.
+   * The clone is fixed at top/left 0. To keep it visually locked to the
+   * real page when the page scrolls, we move the clone up/left by the
+   * current scroll offsets (negative values). Then we scale 2× with
+   * transform-origin at the cursor. This mirrors exactly what a physical
+   * magnifying glass would show – the page scrolls normally, and the
+   * lens always shows the area under the cursor, regardless of scroll.
    * ─────────────────────────────────────────────────────────*/
   function syncLens(x, y) {
     if (!cloneEl) return;
-    /* Mirror real page scroll — clone shows identical content to real page */
-    cloneEl.scrollTop  = window.scrollY;
-    cloneEl.scrollLeft = window.scrollX;
-    /* Scale 2x anchored at cursor — content under cursor stays put */
+    // Align clone with page scroll
+    cloneEl.style.top  = -window.scrollY + 'px';
+    cloneEl.style.left = -window.scrollX + 'px';
+    // Scale 2× anchored at cursor
     cloneEl.style.transformOrigin = x + 'px ' + y + 'px';
     cloneEl.style.transform       = 'scale(' + ZOOM + ')';
+    // Clip to a circle around the cursor (pre‑scale radius)
     cloneEl.style.clipPath        =
       'circle(' + PRE_R + 'px at ' + x + 'px ' + y + 'px)';
   }
