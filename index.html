@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shubhadeep Datta | Portfolio</title>
+  <meta name="description" content="Portfolio of Shubhadeep Datta — CS student at VIT-AP specializing in AI/ML. Projects in healthcare, productivity, and embedded systems." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=Sora:wght@300;400;600&display=swap" rel="stylesheet" />
@@ -32,490 +33,340 @@
       }
     })();
   </script>
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+
+  <aside class="sidebar" id="sidebar">
+
+    <div class="sidebar-top-actions">
+
+      <button class="sidebar-action-btn theme-toggle" id="themeToggle" aria-label="Toggle theme" aria-pressed="false">
+        <span class="icon-container" aria-hidden="true">
+          <span class="sun-icon">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+          </span>
+          <span class="moon-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </span>
+        </span>
+      </button>
+    </div>
+
+
+    <nav class="sidebar-nav-container" id="sidebarNav" aria-label="Primary">
+
+      <div class="sidebar-nav-indicator" id="sidebarNavIndicator"></div>
+
+      <button class="sidebar-nav-item active" data-window="window-home" id="sidebarNavHome">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span class="sidebar-nav-label">Home</span>
+      </button>
+      <button class="sidebar-nav-item" data-window="window-repos" id="sidebarNavProjects">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        <span class="sidebar-nav-label">Projects</span>
+      </button>
+      <button class="sidebar-nav-item" data-window="window-experience" id="sidebarNavExperience">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+        <span class="sidebar-nav-label">Exp</span>
+      </button>
+      <button class="sidebar-nav-item" data-window="window-education" id="sidebarNavEducation">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 4 3 6 3s6-1 6-3v-5"/></svg>
+        <span class="sidebar-nav-label">Edu</span>
+      </button>
+      <button class="sidebar-nav-item" data-window="window-skills" id="sidebarNavSkills">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span class="sidebar-nav-label">Skills</span>
+      </button>
+    </nav>
+
+
+    <div class="sidebar-actions">
+
+      <a class="sidebar-action-btn contact-btn" href="./contact.html" id="sidebarContact" aria-label="Contact">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="2" y="4" width="20" height="16" rx="2" />
+          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+        </svg>
+      </a>
+    </div>
+  </aside>
+
+
+  <button class="sidebar-hamburger" id="sidebarHamburger" aria-label="Open navigation">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+
   <div class="dot-bg" id="dotBg">
     <canvas id="dotCanvas" aria-hidden="true"></canvas>
     <div class="dot-content">
-      <header class="topbar">
-        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" aria-pressed="false">
-          <span class="icon-container" aria-hidden="true">
-            <span class="sun-icon">
-              <svg viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="5"></circle>
-                <line x1="12" y1="1" x2="12" y2="3"></line>
-                <line x1="12" y1="21" x2="12" y2="23"></line>
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                <line x1="1" y1="12" x2="3" y2="12"></line>
-                <line x1="21" y1="12" x2="23" y2="12"></line>
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-              </svg>
-            </span>
-            <span class="moon-icon">
-              <svg viewBox="0 0 24 24">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-              </svg>
-            </span>
-          </span>
-        </button>
-
-        <nav class="top-nav" aria-label="Primary">
-          <div class="top-nav-slider" id="topNavSlider" aria-hidden="true"></div>
-          <button class="top-nav-item active" data-window="window-home">Home</button>
-          <button class="top-nav-item" data-window="window-repos">Projects</button>
-          <button class="top-nav-item" data-window="window-experience">Experience</button>
-          <button class="top-nav-item" data-window="window-education">Education</button>
-          <button class="top-nav-item" data-window="window-skills">Skills</button>
-        </nav>
-
-        <div class="header-right">
-          <a class="header-cta" href="./contact.html">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <rect x="2" y="4" width="20" height="16" rx="2" />
-              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-            </svg>
-            <span>Contact</span>
-          </a>
-
-          <a class="coffee-btn" href="./coffee.html" aria-label="Buy me a coffee">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M17 8h1a4 4 0 0 1 0 8h-1" />
-              <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z" />
-              <line x1="6" y1="2" x2="6" y2="4" />
-              <line x1="10" y1="2" x2="10" y2="4" />
-              <line x1="14" y1="2" x2="14" y2="4" />
-            </svg>
-          </a>
-        </div>
-      </header>
-
       <div class="workspace">
         <main class="stage-scene" id="stageScene">
-      <section class="stage-window theme-neo active" id="window-home" data-label="Home">
-        <div class="window-chrome">
-          <div class="window-lights"><span></span><span></span><span></span></div>
-          <span>Home</span>
-        </div>
-        <div class="window-scroll">
-          <div class="hero-grid">
-            <div class="hero-copy">
-              <h2>Hello, I'm <span>Shubhadeep Datta</span></h2>
-              <p>
-                Computer Science student at VIT-AP specializing in AI/ML. I build practical systems across healthcare,
-                emotional well-being, and productivity with clean engineering and strong data-driven thinking.
-              </p>
+
+
+      <section class="stage-window" id="window-home" data-label="Home">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <h1 class="hero-heading">Hello, I'm <span>Shubhadeep Datta</span></h1>
+            <p class="hero-bio">
+              Computer Science student at VIT-AP specializing in AI/ML. I build practical systems across healthcare,
+              emotional well-being, and productivity with clean engineering and strong data-driven thinking.
+            </p>
+            <div class="hero-ctas">
               <a class="hero-cta" data-open="window-repos">Open Project Stage</a>
               <a class="hero-cta" href="./contact.html">Contact Me</a>
-
-              <div class="hero-chips">
-                <span class="hero-chip">Python</span>
-                <span class="hero-chip">JavaScript</span>
-                <span class="hero-chip">TypeScript</span>
-                <span class="hero-chip">C++</span>
-                <span class="hero-chip">HTML5</span>
-                <span class="hero-chip">CSS3</span>
-                <span class="hero-chip">React</span>
-                <span class="hero-chip">Node.js</span>
-                <span class="hero-chip">TensorFlow</span>
-                <span class="hero-chip">Docker</span>
-                <span class="hero-chip">Git</span>
-                <span class="hero-chip">GitHub</span>
-                <span class="hero-chip">Linux</span>
-                <span class="hero-chip">Arduino</span>
-                <span class="hero-chip">MongoDB</span>
-                <span class="hero-chip">PostgreSQL</span>
-                <span class="hero-chip">Firebase</span>
-                <span class="hero-chip">AWS</span>
-              </div>
+              <a class="hero-cta resume-btn" href="./pdf/Shubhadeep_Resume1.pdf" target="_blank" rel="noopener noreferrer">
+                Resume
+                <svg class="download-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 6px; display: inline-block; vertical-align: middle;">
+                  <path class="download-tray" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <g class="download-arrow">
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                  </g>
+                </svg>
+              </a>
             </div>
-
-            <div class="brain-shell">
-              <div class="brain-wire-fallback" aria-hidden="true"></div>
-              <div class="brain-stage" id="brainStage" aria-label="Interactive project brain"></div>
-              <div class="brain-tooltip" id="brainTooltip" aria-hidden="true">
-                <div class="brain-tooltip-title" id="brainTooltipTitle"></div>
-                <div class="brain-tooltip-desc" id="brainTooltipDesc"></div>
-                <div class="brain-tooltip-tags" id="brainTooltipTags"></div>
-              </div>
+            <div class="hero-chips">
+              <span class="hero-chip">Python</span>
+              <span class="hero-chip">JavaScript</span>
+              <span class="hero-chip">TypeScript</span>
+              <span class="hero-chip">C++</span>
+              <span class="hero-chip">HTML5</span>
+              <span class="hero-chip">CSS3</span>
+              <span class="hero-chip">React</span>
+              <span class="hero-chip">Node.js</span>
+              <span class="hero-chip">TensorFlow</span>
+              <span class="hero-chip">Docker</span>
+              <span class="hero-chip">Git</span>
+              <span class="hero-chip">GitHub</span>
+              <span class="hero-chip">Linux</span>
+              <span class="hero-chip">Arduino</span>
+              <span class="hero-chip">MongoDB</span>
+              <span class="hero-chip">PostgreSQL</span>
+              <span class="hero-chip">Firebase</span>
+              <span class="hero-chip">AWS</span>
             </div>
           </div>
-        </div>
-      </section>
-
-      <section class="stage-window theme-neo" id="window-repos" data-label="Project Stage">
-        <div class="window-chrome">
-          <div class="window-lights"><span></span><span></span><span></span></div>
-          <span>Project Terminal</span>
-        </div>
-        <div class="window-scroll">
-          <h2 class="neo-title">Project Terminal</h2>
-
-          <div class="repo-terminal-grid" id="repoTerminalGrid">
-            <article class="repo-terminal-card" data-key="carelink">
-              <div class="repo-terminal-head">
-                <div class="repo-terminal-dots"><span></span><span></span><span></span></div>
-                <span class="repo-terminal-label">carelink.repo</span>
-              </div>
-              <div class="repo-terminal-body">
-                <div class="repo-terminal-line">
-                  <span class="repo-terminal-prompt">$</span>
-                  <span class="repo-terminal-text">git clone <a class="repo-terminal-anchor" href="https://github.com/slenderongithub/CareLink" target="_blank" rel="noreferrer noopener">github.com/slenderongithub/CareLink</a></span>
-                </div>
-                <div class="repo-terminal-line">
-                  <span class="repo-terminal-prompt">$</span>
-                  <span class="repo-terminal-comment"># healthcare coordination platform | app development hackathon winner</span>
-                </div>
-                <div class="repo-terminal-line">
-                  <span class="repo-terminal-prompt">></span>
-                  <span class="repo-terminal-text">Shipped medication reminders, adherence scoring, shared caregiver timelines, and AI wellness check-ins.</span>
-                </div>
-                <div class="repo-terminal-line">
-                  <span class="repo-terminal-prompt">></span>
-                  <span class="repo-terminal-text">Implemented role-based family access so caregivers and patients can collaborate safely in one flow.</span>
-                </div>
-                <div class="repo-terminal-line">
-                  <span class="repo-terminal-prompt">></span>
-                  <span class="repo-terminal-text">Focused on practical UX for older users: clear reminders, low-friction updates, and readable health summaries.</span>
-                </div>
-                <div class="repo-terminal-tags">
-                  <span>React Native</span><span>TypeScript</span><span>Healthcare</span><span>AI</span>
-                </div>
-                <div class="repo-terminal-stats">
-                  <span>status: active</span><span>impact: hackathon winner</span><span>focus: family care ops</span>
-                </div>
-              </div>
-            </article>
-
-            <article class="repo-terminal-card" data-key="smart-glove">
-              <div class="repo-terminal-head">
-                <div class="repo-terminal-dots"><span></span><span></span><span></span></div>
-                <span class="repo-terminal-label">smart-glove.repo</span>
-              </div>
-              <div class="repo-terminal-body">
-                <div class="repo-terminal-line">
-                  <span class="repo-terminal-prompt">$</span>
-                  <span class="repo-terminal-text">git clone <a class="repo-terminal-anchor" href="https://github.com/slenderongithub/Smart-Glove-Safety-Device" target="_blank" rel="noreferrer noopener">github.com/slenderongithub/Smart-Glove-Safety-Device</a></span>
-                </div>
-                <div class="repo-terminal-line">
-                  <span class="repo-terminal-prompt">$</span>
-                  <span class="repo-terminal-comment"># embedded safety wearable | top 4 finalist among 1000+ teams</span>
-                </div>
-                <div class="repo-terminal-line">
-                  <span class="repo-terminal-prompt">></span>
-                  <span class="repo-terminal-text">Built gesture-triggered emergency signaling with low-latency sensor interpretation.</span>
-                </div>
-                <div class="repo-terminal-line">
-                  <span class="repo-terminal-prompt">></span>
-                  <span class="repo-terminal-text">Designed hardware-software coordination for reliability under real movement and noise.</span>
-                </div>
-                <div class="repo-terminal-line">
-                  <span class="repo-terminal-prompt">></span>
-                  <span class="repo-terminal-text">Optimized for fast alerting, battery-aware operation, and portable field use.</span>
-                </div>
-                <div class="repo-terminal-tags">
-                  <span>Arduino</span><span>IoT</span><span>C++</span><span>Embedded</span>
-                </div>
-                <div class="repo-terminal-stats">
-                  <span>status: active prototype</span><span>impact: top 4 finalist</span><span>focus: safety response</span>
-                </div>
-              </div>
-            </article>
-
-            <article class="repo-terminal-card" data-key="habit-forge">
-              <div class="repo-terminal-head">
-                <div class="repo-terminal-dots"><span></span><span></span><span></span></div>
-                <span class="repo-terminal-label">habit-forge.repo</span>
-              </div>
-              <div class="repo-terminal-body">
-                <div class="repo-terminal-line">
-                  <span class="repo-terminal-prompt">$</span>
-                  <span class="repo-terminal-text">git clone <a class="repo-terminal-anchor" href="https://github.com/slenderongithub/HabitTrackerForge" target="_blank" rel="noreferrer noopener">github.com/slenderongithub/HabitTrackerForge</a></span>
-                </div>
-                <div class="repo-terminal-line">
-                  <span class="repo-terminal-prompt">$</span>
-                  <span class="repo-terminal-comment"># productivity behavior engine | reminders + streak analytics</span>
-                </div>
-                <div class="repo-terminal-line">
-                  <span class="repo-terminal-prompt">></span>
-                  <span class="repo-terminal-text">Developed a routine tracking flow with reminder scheduling and streak persistence.</span>
-                </div>
-                <div class="repo-terminal-line">
-                  <span class="repo-terminal-prompt">></span>
-                  <span class="repo-terminal-text">Added visual habit progress analytics for trend clarity and better retention behavior.</span>
-                </div>
-                <div class="repo-terminal-line">
-                  <span class="repo-terminal-prompt">></span>
-                  <span class="repo-terminal-text">Structured backend APIs to keep updates lightweight and easy to extend.</span>
-                </div>
-                <div class="repo-terminal-tags">
-                  <span>Python</span><span>React</span><span>FastAPI</span><span>Analytics</span>
-                </div>
-                <div class="repo-terminal-stats">
-                  <span>status: active build</span><span>impact: consistency tracking</span><span>focus: user retention</span>
-                </div>
-              </div>
-            </article>
-
-            <article class="repo-terminal-card" data-key="hack-me">
-              <div class="repo-terminal-head">
-                <div class="repo-terminal-dots"><span></span><span></span><span></span></div>
-                <span class="repo-terminal-label">hack-me.repo</span>
-              </div>
-              <div class="repo-terminal-body">
-                <div class="repo-terminal-line">
-                  <span class="repo-terminal-prompt">$</span>
-                  <span class="repo-terminal-text">git clone <a class="repo-terminal-anchor" href="https://github.com/slenderongithub/HACK-ME-IF-YOU-CAN" target="_blank" rel="noreferrer noopener">github.com/slenderongithub/HACK-ME-IF-YOU-CAN</a></span>
-                </div>
-                <div class="repo-terminal-line">
-                  <span class="repo-terminal-prompt">$</span>
-                  <span class="repo-terminal-comment"># competitive quiz platform | dynamic scoring + game loops</span>
-                </div>
-                <div class="repo-terminal-line">
-                  <span class="repo-terminal-prompt">></span>
-                  <span class="repo-terminal-text">Built timed quiz mechanics with score progression and immediate feedback loops.</span>
-                </div>
-                <div class="repo-terminal-line">
-                  <span class="repo-terminal-prompt">></span>
-                  <span class="repo-terminal-text">Designed responsive gameplay screens to keep interaction smooth across devices.</span>
-                </div>
-                <div class="repo-terminal-line">
-                  <span class="repo-terminal-prompt">></span>
-                  <span class="repo-terminal-text">Added leaderboard-style motivation and replayability through challenge-based rounds.</span>
-                </div>
-                <div class="repo-terminal-tags">
-                  <span>JavaScript</span><span>HTML</span><span>CSS</span><span>Game UX</span>
-                </div>
-                <div class="repo-terminal-stats">
-                  <span>status: active demo</span><span>impact: engagement-focused</span><span>focus: gamified learning</span>
-                </div>
-              </div>
-            </article>
-
-            <article class="repo-terminal-card" data-key="ai-companion">
-              <div class="repo-terminal-head">
-                <div class="repo-terminal-dots"><span></span><span></span><span></span></div>
-                <span class="repo-terminal-label">ai-companion.showcase</span>
-              </div>
-              <div class="repo-terminal-body">
-                <div class="repo-terminal-line">
-                  <span class="repo-terminal-prompt">$</span>
-                  <span class="repo-terminal-text">echo "AI Anti Self-Harm Companion"</span>
-                </div>
-                <div class="repo-terminal-line">
-                  <span class="repo-terminal-prompt">$</span>
-                  <span class="repo-terminal-comment"># privacy-first nlp support assistant | early risk signal detection</span>
-                </div>
-                <div class="repo-terminal-line">
-                  <span class="repo-terminal-prompt">></span>
-                  <span class="repo-terminal-text">Created intent and sentiment interpretation layers for emotionally sensitive interactions.</span>
-                </div>
-                <div class="repo-terminal-line">
-                  <span class="repo-terminal-prompt">></span>
-                  <span class="repo-terminal-text">Integrated distress-pattern cues to support early intervention workflows.</span>
-                </div>
-                <div class="repo-terminal-line">
-                  <span class="repo-terminal-prompt">></span>
-                  <span class="repo-terminal-text">Designed with strict privacy boundaries and supportive response templates.</span>
-                </div>
-                <div class="repo-terminal-tags">
-                  <span>Python</span><span>NLP</span><span>ML</span><span>Research</span>
-                </div>
-                <div class="repo-terminal-stats">
-                  <span>status: research showcase</span><span>impact: mental health support</span><span>focus: safe interaction</span>
-                </div>
-              </div>
-            </article>
-          </div>
-
-        </div>
-      </section>
-
-      <section class="stage-window theme-neo" id="window-experience" data-label="Experience">
-        <div class="window-chrome">
-          <div class="window-lights"><span></span><span></span><span></span></div>
-          <span>Experience</span>
-        </div>
-        <div class="window-scroll">
-          <h2 class="neo-title">Experience</h2>
-
-          <div class="float-orbit-wrap">
-            <button class="exp-nav exp-nav-prev" type="button" aria-label="Previous experience">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
-            </button>
-            <div class="float-orbit" id="expOrbit">
-              <article class="float-card exp-float-card">
-                <small class="edu-tl-date">2024-2025</small>
-                <h3 class="edu-tl-card-title">Marketing Lead</h3>
-                <p class="edu-tl-card-org">Microsoft Student Chapter, VIT-AP</p>
-                <ul class="edu-tl-points exp-card-points">
-                  <li>Led outreach strategy and campaign messaging for chapter initiatives.</li>
-                  <li>Coordinated event promotion with cross-team execution and partner support.</li>
-                </ul>
-              </article>
-
-              <article class="float-card exp-float-card">
-                <small class="edu-tl-date">2025</small>
-                <h3 class="edu-tl-card-title">Vice President</h3>
-                <p class="edu-tl-card-org">Northeast Cultural Club</p>
-                <ul class="edu-tl-points exp-card-points">
-                  <li>Managed planning cadence, delegation, and delivery across major events.</li>
-                  <li>Aligned performers, volunteers, and campus stakeholders on execution timelines.</li>
-                </ul>
-              </article>
-
-              <article class="float-card exp-float-card">
-                <small class="edu-tl-date">Hackathon</small>
-                <h3 class="edu-tl-card-title">App Winner</h3>
-                <p class="edu-tl-card-org">CareLink - 1st Place</p>
-                <ul class="edu-tl-points exp-card-points">
-                  <li>Built caregiver-patient coordination flows with reminder intelligence and tracking.</li>
-                  <li>Delivered a polished demo under deadline with a clear product story.</li>
-                </ul>
-              </article>
-
-              <article class="float-card exp-float-card">
-                <small class="edu-tl-date">Hackathon</small>
-                <h3 class="edu-tl-card-title">Top 4 Finalist</h3>
-                <p class="edu-tl-card-org">Smart Glove - 1000+ teams</p>
-                <ul class="edu-tl-points exp-card-points">
-                  <li>Designed a wearable safety concept for rapid emergency communication use cases.</li>
-                  <li>Ranked in the top finalists with strong prototype clarity and impact framing.</li>
-                </ul>
-              </article>
-            </div>
-            <button class="exp-nav exp-nav-next" type="button" aria-label="Next experience">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <section class="stage-window theme-neo" id="window-education" data-label="Education">
-        <div class="window-chrome">
-          <div class="window-lights"><span></span><span></span><span></span></div>
-          <span>Education</span>
-        </div>
-        <div class="window-scroll">
-          <div class="education-timeline-shell" id="educationTimelineShell">
-            <header class="edu-timeline-head">
-              <h2 class="edu-timeline-title">Academic Timeline</h2>
-            </header>
-
-            <div class="edu-timeline" id="eduTimeline">
-              <div class="edu-tl-line" id="eduTimelineLine" aria-hidden="true"></div>
-
-              <article class="edu-tl-item side-right">
-                <div class="edu-tl-left-slot edu-tl-empty"></div>
-                <div class="edu-tl-node" aria-hidden="true">
-                  <span class="edu-tl-arm-tip tip-left"></span>
-                  <span class="edu-tl-node-circle"></span>
-                  <span class="edu-tl-arm-tip tip-right"></span>
-                </div>
-                <div class="edu-tl-right-slot">
-                  <div class="edu-tl-card">
-                    <p class="edu-tl-date">2019</p>
-                    <h3 class="edu-tl-card-title">Class X</h3>
-                    <p class="edu-tl-card-org">CBSE</p>
-                    <ul class="edu-tl-points">
-                      <li>Built a strong base in mathematics and core sciences.</li>
-                      <li>Started exploring programming and practical problem solving.</li>
-                      <li>Scored 92.4% overall.</li>
-                    </ul>
-                  </div>
-                </div>
-              </article>
-
-              <article class="edu-tl-item side-left">
-                <div class="edu-tl-left-slot">
-                  <div class="edu-tl-card">
-                    <p class="edu-tl-date">2021</p>
-                    <h3 class="edu-tl-card-title">Class XII (Science)</h3>
-                    <p class="edu-tl-card-org">CBSE</p>
-                    <ul class="edu-tl-points">
-                      <li>Completed PCM with Computer Science.</li>
-                      <li>Strengthened analytical reasoning and competitive coding fundamentals.</li>
-                      <li>Scored 89.6% overall.</li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="edu-tl-node" aria-hidden="true">
-                  <span class="edu-tl-arm-tip tip-left"></span>
-                  <span class="edu-tl-node-circle"></span>
-                  <span class="edu-tl-arm-tip tip-right"></span>
-                </div>
-                <div class="edu-tl-right-slot edu-tl-empty"></div>
-              </article>
-
-              <article class="edu-tl-item side-right">
-                <div class="edu-tl-left-slot edu-tl-empty"></div>
-                <div class="edu-tl-node" aria-hidden="true">
-                  <span class="edu-tl-arm-tip tip-left"></span>
-                  <span class="edu-tl-node-circle"></span>
-                  <span class="edu-tl-arm-tip tip-right"></span>
-                </div>
-                <div class="edu-tl-right-slot">
-                  <div class="edu-tl-card">
-                    <p class="edu-tl-date">2021-2025</p>
-                    <h3 class="edu-tl-card-title">B.Tech CSE</h3>
-                    <p class="edu-tl-card-org">VIT-AP University</p>
-                    <ul class="edu-tl-points">
-                      <li>Specialized in AI and machine learning systems.</li>
-                      <li>Built production-focused projects through hackathons and coursework.</li>
-                      <li>Current CGPA: 7.8.</li>
-                    </ul>
-                  </div>
-                </div>
-              </article>
-
-              <article class="edu-tl-item side-left">
-                <div class="edu-tl-left-slot">
-                  <div class="edu-tl-card">
-                    <p class="edu-tl-date">2023-2026</p>
-                    <h3 class="edu-tl-card-title">Applied Learning</h3>
-                    <p class="edu-tl-card-org">Self-driven + Online Programs</p>
-                    <ul class="edu-tl-points">
-                      <li>Extended academics through full-stack and ML courses.</li>
-                      <li>Converted theory into 12+ working projects across domains.</li>
-                      <li>Focused on production quality, deployment, and collaboration.</li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="edu-tl-node" aria-hidden="true">
-                  <span class="edu-tl-arm-tip tip-left"></span>
-                  <span class="edu-tl-node-circle"></span>
-                  <span class="edu-tl-arm-tip tip-right"></span>
-                </div>
-                <div class="edu-tl-right-slot edu-tl-empty"></div>
-              </article>
+          <div class="brain-shell">
+            <div class="brain-wire-fallback" aria-hidden="true"></div>
+            <div class="brain-stage" id="brainStage" aria-label="Interactive project brain"></div>
+            <div class="brain-tooltip" id="brainTooltip" aria-hidden="true">
+              <div class="brain-tooltip-title" id="brainTooltipTitle"></div>
+              <div class="brain-tooltip-desc" id="brainTooltipDesc"></div>
+              <div class="brain-tooltip-tags" id="brainTooltipTags"></div>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="stage-window theme-neo" id="window-skills" data-label="Skills">
-        <div class="window-chrome">
-          <div class="window-lights"><span></span><span></span><span></span></div>
-          <span>Skills</span>
-        </div>
-        <div class="window-scroll">
-          <h2 class="neo-title">Skills</h2>
 
-          <div class="skills-globe-wrap" id="skillsGlobe" aria-label="Interactive skills globe">
-            <canvas class="skills-bg-canvas" id="skillsBgCanvas" aria-hidden="true"></canvas>
-            <canvas class="skills-wire-canvas" id="skillsGlobeCanvas" aria-hidden="true"></canvas>
-            <div class="skills-pill-layer" id="skillsPillLayer" aria-hidden="true"></div>
+      <section class="stage-window" id="window-repos" data-label="Projects">
+        <h2 class="section-heading">Projects</h2>
+        <div class="project-terminal-wrap" id="projectTerminalWrap">
+          <div class="project-terminal" id="projectTerminal">
+            <div class="project-terminal-header">
+              <div class="project-terminal-dots"><span></span><span></span><span></span></div>
+              <span class="project-terminal-title">portfolio — zsh</span>
+            </div>
+            <div class="project-terminal-body" id="projectTerminalBody">
+              <div class="project-terminal-output" id="projectTerminalOutput"></div>
+              <div class="project-terminal-input-line">
+                <span class="project-terminal-prompt-text">shubhadeep@portfolio:~$</span>
+                <input type="text" class="project-terminal-input" id="projectTerminalInput" autocomplete="off" spellcheck="false" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="project-vscode-wrap" id="projectVscodeWrap" style="display: none;">
+          <div class="project-terminal-header">
+            <div class="project-terminal-dots">
+              <span class="pt-close-dot" style="cursor: pointer;" title="Close workspace"></span>
+              <span></span>
+              <span></span>
+            </div>
+            <span class="project-terminal-title">Visual Studio Code — projects</span>
+          </div>
+          <div class="project-vscode" id="projectVscode"></div>
+        </div>
+      </section>
+
+
+      <section class="stage-window" id="window-experience" data-label="Experience">
+        <h2 class="section-heading">Experience</h2>
+        <div class="float-orbit-wrap">
+          <button class="exp-nav exp-nav-prev" type="button" aria-label="Previous experience">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+          </button>
+          <div class="float-orbit" id="expOrbit">
+            <article class="float-card exp-float-card portfolio-glass-card">
+              <small class="edu-tl-date">2024-2025</small>
+              <h3 class="edu-tl-card-title">Marketing Lead</h3>
+              <p class="edu-tl-card-org">Microsoft Student Chapter, VIT-AP</p>
+              <ul class="edu-tl-points exp-card-points">
+                <li>Led outreach strategy and campaign messaging for chapter initiatives.</li>
+                <li>Coordinated event promotion with cross-team execution and partner support.</li>
+              </ul>
+            </article>
+            <article class="float-card exp-float-card portfolio-glass-card">
+              <small class="edu-tl-date">2025</small>
+              <h3 class="edu-tl-card-title">Vice President</h3>
+              <p class="edu-tl-card-org">Northeast Cultural Club</p>
+              <ul class="edu-tl-points exp-card-points">
+                <li>Managed planning cadence, delegation, and delivery across major events.</li>
+                <li>Aligned performers, volunteers, and campus stakeholders on execution timelines.</li>
+              </ul>
+            </article>
+            <article class="float-card exp-float-card portfolio-glass-card">
+              <small class="edu-tl-date">Hackathon</small>
+              <h3 class="edu-tl-card-title">App Winner</h3>
+              <p class="edu-tl-card-org">CareLink - 1st Place</p>
+              <ul class="edu-tl-points exp-card-points">
+                <li>Built caregiver-patient coordination flows with reminder intelligence and tracking.</li>
+                <li>Delivered a polished demo under deadline with a clear product story.</li>
+              </ul>
+            </article>
+            <article class="float-card exp-float-card portfolio-glass-card">
+              <small class="edu-tl-date">Hackathon</small>
+              <h3 class="edu-tl-card-title">Top 4 Finalist</h3>
+              <p class="edu-tl-card-org">Smart Glove - 1000+ teams</p>
+              <ul class="edu-tl-points exp-card-points">
+                <li>Designed a wearable safety concept for rapid emergency communication use cases.</li>
+                <li>Ranked in the top finalists with strong prototype clarity and impact framing.</li>
+              </ul>
+            </article>
+          </div>
+          <button class="exp-nav exp-nav-next" type="button" aria-label="Next experience">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+          </button>
+        </div>
+      </section>
+
+
+      <section class="stage-window" id="window-education" data-label="Education">
+        <div class="education-timeline-shell" id="educationTimelineShell">
+          <header class="edu-timeline-head">
+            <h2 class="edu-timeline-title">Academic Timeline</h2>
+          </header>
+          <div class="edu-timeline" id="eduTimeline">
+            <div class="edu-tl-line" id="eduTimelineLine" aria-hidden="true"></div>
+            <article class="edu-tl-item side-right">
+              <div class="edu-tl-left-slot edu-tl-empty"></div>
+              <div class="edu-tl-node" aria-hidden="true">
+                <span class="edu-tl-arm-tip tip-left"></span>
+                <span class="edu-tl-node-circle"></span>
+                <span class="edu-tl-arm-tip tip-right"></span>
+              </div>
+              <div class="edu-tl-right-slot">
+                <div class="edu-tl-card portfolio-glass-card">
+                  <p class="edu-tl-date">2019</p>
+                  <h3 class="edu-tl-card-title">Class X</h3>
+                  <p class="edu-tl-card-org">CBSE</p>
+                  <ul class="edu-tl-points">
+                    <li>Built a strong base in mathematics and core sciences.</li>
+                    <li>Started exploring programming and practical problem solving.</li>
+                    <li>Scored 92.4% overall.</li>
+                  </ul>
+                </div>
+              </div>
+            </article>
+            <article class="edu-tl-item side-left">
+              <div class="edu-tl-left-slot">
+                <div class="edu-tl-card portfolio-glass-card">
+                  <p class="edu-tl-date">2021</p>
+                  <h3 class="edu-tl-card-title">Class XII (Science)</h3>
+                  <p class="edu-tl-card-org">CBSE</p>
+                  <ul class="edu-tl-points">
+                    <li>Completed PCM with Computer Science.</li>
+                    <li>Strengthened analytical reasoning and competitive coding fundamentals.</li>
+                    <li>Scored 89.6% overall.</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="edu-tl-node" aria-hidden="true">
+                <span class="edu-tl-arm-tip tip-left"></span>
+                <span class="edu-tl-node-circle"></span>
+                <span class="edu-tl-arm-tip tip-right"></span>
+              </div>
+              <div class="edu-tl-right-slot edu-tl-empty"></div>
+            </article>
+            <article class="edu-tl-item side-right">
+              <div class="edu-tl-left-slot edu-tl-empty"></div>
+              <div class="edu-tl-node" aria-hidden="true">
+                <span class="edu-tl-arm-tip tip-left"></span>
+                <span class="edu-tl-node-circle"></span>
+                <span class="edu-tl-arm-tip tip-right"></span>
+              </div>
+              <div class="edu-tl-right-slot">
+                <div class="edu-tl-card portfolio-glass-card">
+                  <p class="edu-tl-date">2021-2025</p>
+                  <h3 class="edu-tl-card-title">B.Tech CSE</h3>
+                  <p class="edu-tl-card-org">VIT-AP University</p>
+                  <ul class="edu-tl-points">
+                    <li>Specialized in AI and machine learning systems.</li>
+                    <li>Built production-focused projects through hackathons and coursework.</li>
+                    <li>Current CGPA: 7.8.</li>
+                  </ul>
+                </div>
+              </div>
+            </article>
+            <article class="edu-tl-item side-left">
+              <div class="edu-tl-left-slot">
+                <div class="edu-tl-card portfolio-glass-card">
+                  <p class="edu-tl-date">2023-2026</p>
+                  <h3 class="edu-tl-card-title">Applied Learning</h3>
+                  <p class="edu-tl-card-org">Self-driven + Online Programs</p>
+                  <ul class="edu-tl-points">
+                    <li>Extended academics through full-stack and ML courses.</li>
+                    <li>Converted theory into 12+ working projects across domains.</li>
+                    <li>Focused on production quality, deployment, and collaboration.</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="edu-tl-node" aria-hidden="true">
+                <span class="edu-tl-arm-tip tip-left"></span>
+                <span class="edu-tl-node-circle"></span>
+                <span class="edu-tl-arm-tip tip-right"></span>
+              </div>
+              <div class="edu-tl-right-slot edu-tl-empty"></div>
+            </article>
           </div>
         </div>
       </section>
+
+
+      <section class="stage-window" id="window-skills" data-label="Skills">
+        <h2 class="section-heading">Skills</h2>
+        <div class="skills-globe-wrap" id="skillsGlobe" aria-label="Interactive skills globe">
+          <canvas class="skills-bg-canvas" id="skillsBgCanvas" aria-hidden="true"></canvas>
+          <canvas class="skills-wire-canvas" id="skillsGlobeCanvas" aria-hidden="true"></canvas>
+          <div class="skills-pill-layer" id="skillsPillLayer" aria-hidden="true"></div>
+        </div>
+      </section>
+
         </main>
       </div>
+    </div>
   </div>
-  </div>
-
-  <script src="./description-enhancer.js"></script>
-  <script src="./github-loader.js"></script>
-  <script src="./app.js"></script>
-  <script type="module" src="./brain.js"></script>
-  <script src="./lens.js"></script>
+  <script src="./js/description-enhancer.js"></script>
+  <script src="./js/github-loader.js"></script>
+  <script src="./js/app.js"></script>
+  <script type="module" src="./js/brain.js"></script>
+  <script src="./js/project-terminal.js"></script>
+  <script src="./js/lens.js"></script>
 </body>
 </html>

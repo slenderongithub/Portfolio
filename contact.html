@@ -22,577 +22,281 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=Sora:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html.theme-booting *,
-    html.theme-booting *::before,
-    html.theme-booting *::after {
-      transition: none !important;
-      animation-duration: 0s !important;
-    }
-
     :root {
-      --dot-bg: #f4f9ff;
-      --dot-base-rgb: 123, 168, 223;
-      --dot-glow-rgb: 84, 184, 255;
-      --text: #1a2638;
-      --muted: #5f738f;
-      --line: rgba(39, 69, 104, 0.18);
-      --accent: #3f7dff;
-      --accent-strong: #285fdb;
-      --accent-soft: rgba(63, 125, 255, 0.13);
-      --surface: rgba(255, 255, 255, 0.68);
-      --field-bg: rgba(255, 255, 255, 0.82);
-      --field-border: rgba(39, 69, 104, 0.22);
-      --window-blue: #1e314d;
-      --window-text: #d7e8ff;
-      --shadow: 0 22px 54px rgba(51, 84, 125, 0.18);
-      --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
-    }
+      --accent: #1a9aaa;
+      --accent-strong: #148898;
+      --accent-soft: rgba(26, 154, 170, 0.14);
 
+
+      --form-bg: #ffffff;
+      --form-border: rgba(30, 40, 60, 0.11);
+      --form-label: rgba(30, 40, 60, 0.45);
+      --form-text: #1a2032;
+      --form-input-focus: rgba(26, 154, 170, 0.05);
+      --form-pill-hover: rgba(26, 154, 170, 0.06);
+      --form-pill-on: rgba(26, 154, 170, 0.12);
+      --form-header-bg: rgba(30, 40, 60, 0.035);
+      --btn-text: #ffffff;
+    }
     body.theme-midnight {
-      --dot-bg: #030508;
-      --dot-base-rgb: 54, 73, 103;
-      --dot-glow-rgb: 34, 211, 238;
+      --accent: #22d3ee;
+      --accent-strong: #0891b2;
+      --accent-soft: rgba(34, 211, 238, 0.16);
+
       --text: #f4f7fb;
       --muted: #94a3b8;
-      --line: rgba(148, 163, 184, 0.18);
-      --accent: #22d3ee;
-      --accent-strong: #60a5fa;
-      --accent-soft: rgba(34, 211, 238, 0.13);
-      --surface: rgba(15, 23, 42, 0.72);
-      --field-bg: rgba(3, 7, 18, 0.74);
-      --field-border: rgba(148, 163, 184, 0.2);
-      --window-blue: #0b111d;
-      --window-text: #67e8f9;
-      --neon-shadow: rgba(34, 211, 238, 0.46);
-      --neon-shadow-soft: rgba(34, 211, 238, 0.22);
-      --shadow: 0 28px 72px rgba(0, 0, 0, 0.6);
+
+      --form-bg: #0a0d14;
+      --form-border: rgba(34, 211, 238, 0.25);
+      --form-label: rgba(244, 247, 251, 0.65);
+      --form-text: #f8fafc;
+      --form-input-focus: rgba(34, 211, 238, 0.05);
+      --form-pill-hover: rgba(34, 211, 238, 0.06);
+      --form-pill-on: rgba(34, 211, 238, 0.12);
+      --form-header-bg: rgba(34, 211, 238, 0.035);
+      --btn-text: #030508;
     }
-
-    html, body { width: 100%; min-height: 100%; }
-
-    body {
-      min-height: 100vh;
-      background: var(--dot-bg);
-      color: var(--text);
-      font-family: "Outfit", sans-serif;
-      overflow-x: hidden;
-      transition: background 0.35s ease, color 0.35s ease;
-    }
-
-    html.theme-midnight body {
-      --dot-bg: #030508;
-      --dot-base-rgb: 54, 73, 103;
-      --dot-glow-rgb: 34, 211, 238;
-      --text: #f4f7fb;
-      --muted: #94a3b8;
-      --line: rgba(148, 163, 184, 0.18);
-      --accent: #22d3ee;
-      --accent-strong: #60a5fa;
-      --accent-soft: rgba(34, 211, 238, 0.13);
-      --surface: rgba(15, 23, 42, 0.72);
-      --field-bg: rgba(3, 7, 18, 0.74);
-      --field-border: rgba(148, 163, 184, 0.2);
-      --window-blue: #0b111d;
-      --window-text: #67e8f9;
-      --neon-shadow: rgba(34, 211, 238, 0.46);
-      --neon-shadow-soft: rgba(34, 211, 238, 0.22);
-      --shadow: 0 28px 72px rgba(0, 0, 0, 0.6);
-    }
-
-    #dotCanvas {
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      display: block;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .page {
-      position: relative;
-      z-index: 1;
-      width: min(calc(100% - 2rem), 1080px);
-      min-height: 100vh;
-      margin: 0 auto;
-      padding: 1.1rem 0 4rem;
-    }
-
-    .topbar {
-      min-height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      margin-bottom: clamp(2.6rem, 7vw, 5.2rem);
-    }
-
-    .back-link,
-    .theme-toggle {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid var(--line);
-      background: var(--surface);
-      color: var(--text);
-      backdrop-filter: blur(16px) saturate(130%);
-      -webkit-backdrop-filter: blur(16px) saturate(130%);
-      box-shadow: 0 10px 26px rgba(31, 60, 96, 0.1);
-      transition: transform 0.22s var(--ease), border-color 0.22s var(--ease);
-    }
-
-    body.theme-midnight .back-link,
-    body.theme-midnight .theme-toggle {
-      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.045);
-    }
-
-    .back-link {
-      gap: 0.48rem;
-      min-height: 44px;
-      border-radius: 999px;
-      padding: 0 0.92rem;
-      text-decoration: none;
-      font-family: "Sora", sans-serif;
-      font-size: 0.74rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .theme-toggle {
-      width: 60px;
-      height: 60px;
-      background: linear-gradient(160deg, rgba(24, 28, 52, 0.56), rgba(16, 19, 38, 0.46));
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      border-radius: 50%;
-      cursor: pointer;
-      overflow: hidden;
-      position: relative;
-      flex-shrink: 0;
-      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-      box-shadow: 0 4px 12px rgba(10, 13, 31, 0.24);
-    }
-
-    .back-link:hover,
-    .theme-toggle:hover {
-      transform: translateY(-1px);
-      border-color: rgba(63, 125, 255, 0.42);
-    }
-
-    body.theme-midnight .back-link:hover,
-    body.theme-midnight .theme-toggle:hover {
-      border-color: rgba(34, 211, 238, 0.46);
-    }
-
-    .back-link svg,
-    .theme-toggle svg {
-      width: 18px;
-      height: 18px;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .theme-toggle:hover {
-      transform: scale(1.08) rotate(8deg);
-      box-shadow: 0 6px 20px rgba(10, 13, 31, 0.42);
-    }
-
-    .theme-toggle:active { transform: scale(0.95); }
-
-    .theme-toggle .icon-container {
-      position: relative;
-      width: 28px;
-      height: 28px;
-      z-index: 1;
-    }
-
-    .theme-toggle .sun-icon,
-    .theme-toggle .moon-icon {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .theme-toggle .sun-icon {
-      transform: translate(-50%, -50%) rotate(0deg) scale(1);
-      opacity: 1;
-    }
-
-    .theme-toggle .moon-icon {
-      transform: translate(-50%, -50%) rotate(90deg) scale(0);
-      opacity: 0;
-    }
-
-    body.theme-midnight .theme-toggle .sun-icon {
-      transform: translate(-50%, -50%) rotate(-90deg) scale(0);
-      opacity: 0;
-    }
-
-    body.theme-midnight .theme-toggle .moon-icon {
-      transform: translate(-50%, -50%) rotate(0deg) scale(1);
-      opacity: 1;
-    }
-
-    .theme-toggle svg {
-      width: 28px;
-      height: 28px;
-      stroke: #fbbf24;
-    }
-
-    .theme-toggle .moon-icon svg,
-    body.theme-midnight .theme-toggle .moon-icon svg {
-      stroke: #67e8f9;
-    }
-
-    .theme-toggle::before {
-      content: "";
-      position: absolute;
-      inset: -2px;
-      background: linear-gradient(45deg, rgba(251, 191, 36, 0.3), rgba(251, 191, 36, 0.1));
-      border-radius: 50%;
-      opacity: 1;
-      z-index: -1;
-      transition: opacity 0.4s ease;
-      filter: blur(8px);
-    }
-
-    body.theme-midnight .theme-toggle::before {
-      background: linear-gradient(45deg, rgba(34, 211, 238, 0.3), rgba(96, 165, 250, 0.12));
-    }
-
-    @keyframes theme-toggle-pulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0.3); }
-      50% { box-shadow: 0 0 0 10px rgba(34, 211, 238, 0); }
-    }
-
-    body.theme-midnight .theme-toggle {
-      background: linear-gradient(160deg, rgba(15, 23, 42, 0.9), rgba(3, 7, 18, 0.78));
-      border-color: rgba(34, 211, 238, 0.28);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.42);
-      animation: theme-toggle-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    }
-
-    .theme-toggle::after {
-      content: "";
-      position: absolute;
-      width: 120%;
-      height: 120%;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-      border-radius: 50%;
-      transform: scale(0);
-      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .theme-toggle.clicked::after { transform: scale(1); }
 
     .contact-shell {
+      width: min(100%, var(--content-max, 1140px));
+      margin: 0 auto;
+      padding: clamp(2rem, 6vh, 5rem) 0;
+    }
+
+    .contact-grid {
       display: grid;
-      grid-template-columns: minmax(0, 0.92fr) minmax(360px, 1.08fr);
-      gap: clamp(1.4rem, 4vw, 3rem);
-      align-items: start;
-    }
-
-    .intro { padding-top: 0.45rem; }
-
-    .eyebrow {
-      display: inline-flex;
+      grid-template-columns: 340px 1fr;
+      gap: clamp(2rem, 5vw, 4rem);
       align-items: center;
-      gap: 0.58rem;
-      margin-bottom: 1rem;
-      font-family: "Sora", sans-serif;
-      font-size: 0.62rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      font-weight: 700;
-      color: var(--accent);
+      justify-content: start;
+      width: 100%;
+      min-height: calc(100vh - 12rem);
+    }
+    @media (max-width: 1080px) {
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+        min-height: auto;
+      }
     }
 
-    .eyebrow::before {
-      content: "";
-      width: 20px;
-      height: 1px;
-      background: currentColor;
-    }
-
-    h1 {
-      font-family: "DM Serif Display", serif;
-      font-size: clamp(3rem, 8vw, 6rem);
-      line-height: 0.94;
-      font-weight: 400;
-      font-style: italic;
-      color: var(--accent);
-      margin-bottom: 1.1rem;
-    }
-
-    h1 .white-text { color: white; }
-    body:not(.theme-midnight) h1 .white-text { color: black; }
-
-    .intro-copy {
-      max-width: 45ch;
-      color: var(--muted);
-      font-size: 1rem;
-      line-height: 1.82;
-      margin-bottom: 1.4rem;
-    }
-
-    .signal-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.62rem;
-      margin: 1.6rem 0 1.8rem;
-    }
-
-    .signal-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.42rem;
-      min-height: 34px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: var(--surface);
-      color: var(--muted);
-      padding: 0 0.72rem;
-      font-family: "Sora", sans-serif;
-      font-size: 0.7rem;
-      font-weight: 600;
-    }
-
-    .signal-pill::before {
-      content: "";
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #34d399;
-      box-shadow: 0 0 10px rgba(52, 211, 153, 0.6);
-    }
-
-    .direct-card {
-      width: min(100%, 440px);
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      background: linear-gradient(160deg, var(--surface), rgba(255, 255, 255, 0.28));
-      box-shadow: var(--shadow);
-      padding: 1rem;
-      backdrop-filter: blur(18px) saturate(132%);
-      -webkit-backdrop-filter: blur(18px) saturate(132%);
-    }
-
-    body.theme-midnight .direct-card {
-      background: linear-gradient(160deg, rgba(15, 23, 42, 0.86), rgba(5, 9, 16, 0.86));
-      border-color: rgba(34, 211, 238, 0.26);
-      box-shadow: 8px 8px 0 var(--neon-shadow-soft), 18px 24px 48px rgba(0, 0, 0, 0.58);
-    }
-
-    .direct-card p {
-      color: var(--muted);
-      font-size: 0.86rem;
-      line-height: 1.65;
-      margin-bottom: 0.84rem;
-    }
-
-    .direct-email {
-      display: inline-flex;
-      gap: 0.5rem;
-      color: var(--text);
-      text-decoration: none;
-      font-family: "Sora", sans-serif;
-      font-size: 0.82rem;
-      font-weight: 600;
-      overflow-wrap: anywhere;
-    }
-
-    .direct-email span {
-      color: var(--accent);
-      text-shadow: 0 0 14px rgba(34, 211, 238, 0.26);
-    }
-
-    .form-card {
-      overflow: hidden;
-      background: linear-gradient(145deg, #f8fbff 0%, #e8f0ff 100%);
-      border: 3px solid var(--window-blue);
-      border-radius: 26px;
-      box-shadow: 12px 12px 0 rgba(126, 149, 182, 0.44), 24px 30px 52px rgba(55, 83, 123, 0.18);
-    }
-
-    body.theme-midnight .form-card {
-      background: linear-gradient(160deg, rgba(15, 23, 42, 0.98), rgba(5, 9, 16, 0.98));
-      border: 2px solid rgba(34, 211, 238, 0.38);
-      box-shadow: 12px 12px 0 rgba(34, 211, 238, 0.38), 24px 30px 62px rgba(0, 0, 0, 0.6), 0 0 34px var(--neon-shadow-soft);
-    }
-
-    .window-bar {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 0.72rem;
-      min-height: 52px;
-      padding: 0 1rem;
-      background: var(--window-blue);
-      border-bottom: 3px solid var(--window-blue);
-      color: var(--window-text);
-    }
-
-    body.theme-midnight .window-bar {
-      background: linear-gradient(180deg, rgba(18, 25, 38, 0.96), rgba(9, 14, 24, 0.98));
-      border-bottom: 1px solid rgba(34, 211, 238, 0.24);
-    }
-
-    .window-dots {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-    }
-
-    .window-dots span {
-      width: 12px;
-      height: 12px;
-      border-radius: 999px;
-      display: inline-block;
-      border: 1px solid rgba(0, 0, 0, 0.16);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.34);
-    }
-    .window-dots span:nth-child(1) { background: #ff5f57; }
-    .window-dots span:nth-child(2) { background: #ffbd2e; }
-    .window-dots span:nth-child(3) { background: #29ca42; }
-
-    .window-label {
-      font-family: "Sora", sans-serif;
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--window-text);
-    }
-
-    .form-head {
-      display: flex;
-      justify-content: space-between;
-      gap: 1rem;
-      padding: clamp(1.1rem, 3vw, 1.7rem) clamp(1.1rem, 3vw, 1.7rem) 0;
-      margin-bottom: 1.3rem;
-    }
-
-    .form-head h2 {
-      font-family: "DM Serif Display", serif;
-      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
-      line-height: 1;
-      font-weight: 400;
-      color: var(--text);
-      margin-bottom: 0.55rem;
-    }
-
-    body.theme-midnight .form-head h2 {
-      color: #f4f7fb;
-      text-shadow: none;
-    }
-
-    .form-head p,
-    .fine-print {
-      color: var(--muted);
-      font-size: 0.82rem;
-      line-height: 1.55;
-    }
-
-    .status-chip {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      min-height: 30px;
-      border: 1px solid rgba(52, 211, 153, 0.26);
-      border-radius: 999px;
-      background: rgba(52, 211, 153, 0.08);
-      color: #10b981;
-      padding: 0 0.62rem;
-      font-family: "Sora", sans-serif;
-      font-size: 0.64rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
-
-    body.theme-midnight .status-chip { color: #34d399; }
-
-    form {
-      padding: 0 clamp(1.1rem, 3vw, 1.7rem) clamp(1.1rem, 3vw, 1.7rem);
-    }
-
-    .intent-grid,
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0.7rem;
-    }
-
-    .intent-grid { margin-bottom: 1rem; }
-
-    .intent-chip {
-      min-height: 42px;
-      border: 1px solid var(--line);
-      border-radius: 13px;
-      background: rgba(255, 255, 255, 0.38);
-      color: var(--muted);
-      padding: 0 0.78rem;
-      font: 600 0.78rem "Outfit", sans-serif;
+    .contact-hero {
       text-align: left;
-      cursor: pointer;
-    }
-
-    body.theme-midnight .intent-chip { background: rgba(15, 23, 42, 0.62); }
-
-    .intent-chip:hover,
-    .intent-chip.active {
-      border-color: rgba(63, 125, 255, 0.42);
-      background: var(--accent-soft);
-      color: var(--text);
-    }
-
-    label {
+      align-self: center;
       display: flex;
       flex-direction: column;
-      gap: 0.38rem;
-      font-family: "Sora", sans-serif;
-      font-size: 0.66rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
     }
-
-    .field.full { grid-column: 1 / -1; }
-
-    input,
-    textarea,
-    select {
-      width: 100%;
-      border: 1px solid var(--field-border);
-      border-radius: 14px;
-      background: var(--field-bg);
+    .contact-hero h1 {
+      font-family: "DM Serif Display", serif;
+      font-size: clamp(2.2rem, 5vw, 4.4rem);
+      line-height: 1.06;
+      font-weight: 400;
       color: var(--text);
-      font: 500 0.92rem "Outfit", sans-serif;
-      outline: none;
-      padding: 0.82rem 0.9rem;
+      margin-bottom: 1.15rem;
+    }
+    .contact-hero h1 span {
+      color: var(--accent);
+      font-style: italic;
+    }
+    .contact-desc {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 44ch;
+      margin-bottom: 1.5rem; /* 24px spacing */
+    }
+    .contact-ctas {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.5rem; /* 24px spacing */
+    }
+    .status-badge {
+      margin: 0;
+      cursor: default;
+      pointer-events: none;
+    }
+    .contact-grid-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 140px);
+      gap: 0.6rem;
+    }
+    .contact-grid-buttons .hero-cta {
+      width: 140px;
+      margin: 0;
+      box-sizing: border-box;
     }
 
+    .form-wrap {
+      background: var(--form-bg);
+      border-radius: 12px;
+      border: 1px solid var(--form-border);
+      box-shadow:
+        0 4px 16px rgba(0, 0, 0, 0.02),
+        0 16px 48px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      width: 100%;
+      transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    body.theme-midnight .form-wrap {
+      box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.45),
+        0 0 40px rgba(34, 211, 238, 0.03);
+    }
+
+
+    .table-head {
+      padding: 14px 24px;
+      background: var(--form-header-bg);
+      border-bottom: 1px solid var(--form-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .table-head-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+
+    .form-card-dots {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .form-card-dots span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: block;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+    }
+    body.theme-midnight .form-card-dots span {
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .form-card-dots span:nth-child(1) { background: #ff5f56; }
+    .form-card-dots span:nth-child(2) { background: #ffbd2e; }
+    .form-card-dots span:nth-child(3) { background: #27c93f; }
+
+    .table-head-title {
+      font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--form-label);
+    }
+    .table-head-cols {
+      display: flex;
+      gap: 32px;
+    }
+    .col-hint {
+      font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+      font-size: 9px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--form-label);
+      opacity: 0.7;
+    }
+
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    tr {
+      border-bottom: 1px solid var(--form-border);
+      transition: background .18s ease;
+    }
+    tr:last-child {
+      border-bottom: none;
+    }
+    tr:focus-within {
+      background: var(--form-input-focus);
+    }
+
+    .td-label {
+      padding: 20px 20px 20px 24px;
+      width: 130px;
+      min-width: 130px;
+      border-right: 1px solid var(--form-border);
+      vertical-align: top;
+      padding-top: 22px;
+    }
+    .td-label span {
+      font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+      font-size: 9.5px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--form-label);
+      line-height: 1.8;
+      display: block;
+    }
+
+    .td-input {
+      padding: 16px 24px;
+      vertical-align: middle;
+    }
+
+
+    .pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      padding: 2px 0;
+    }
+    .pill {
+      padding: 6px 14px;
+      border: 1px solid var(--form-border);
+      border-radius: 999px;
+      font-family: "Outfit", sans-serif;
+      font-size: 12.5px;
+      color: var(--muted);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .pill:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--form-pill-hover);
+    }
+    .pill.on {
+      border-color: var(--accent);
+      background: var(--form-pill-on);
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+
+    input[type=text],
+    input[type=email],
     textarea {
-      min-height: 148px;
-      resize: vertical;
-      line-height: 1.65;
+      width: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: "Outfit", sans-serif;
+      font-size: 14.5px;
+      color: var(--form-text);
+      caret-color: var(--accent);
+      resize: none;
+      line-height: 1.6;
+      padding: 0;
     }
-
-    input:focus,
-    textarea:focus,
-    select:focus {
-      border-color: rgba(34, 211, 238, 0.56);
-      box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.12);
+    input[type=text]::placeholder,
+    input[type=email]::placeholder,
+    textarea::placeholder {
+      color: var(--muted);
+      opacity: 0.6;
+      font-size: 13.5px;
+    }
+    textarea {
+      min-height: 110px;
+      resize: vertical;
     }
 
     .hidden-honey {
@@ -604,34 +308,71 @@
       pointer-events: none;
     }
 
-    .form-actions {
+
+    .send-row td {
+      padding: 16px 20px 16px 24px;
+      background: var(--form-header-bg);
+      border-top: 1px solid var(--form-border);
+    }
+    .send-row .td-label span {
+      color: var(--form-label);
+      opacity: 0.5;
+    }
+    .send-cell {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 1rem;
-      margin-top: 1rem;
+      justify-content: flex-end;
+      gap: 16px;
     }
-
+    .char-count {
+      font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: .06em;
+      opacity: 0.7;
+    }
     .send-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.52rem;
-      min-height: 48px;
-      border: 1px solid rgba(63, 125, 255, 0.42);
-      border-radius: 999px;
-      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
-      color: #03111d;
-      padding: 0 1.14rem;
-      font-family: "Sora", sans-serif;
-      font-size: 0.74rem;
-      font-weight: 800;
-      letter-spacing: 0.08em;
+      padding: 11px 26px;
+      background: var(--accent);
+      border: none;
+      border-radius: 4px;
+      font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+      font-size: 11.5px;
+      font-weight: 500;
+      letter-spacing: .14em;
       text-transform: uppercase;
+      color: var(--btn-text);
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+      transition: transform .2s ease, box-shadow .2s ease, background 0.2s ease;
     }
-
-    .send-btn svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 2; }
+    .send-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px var(--accent-soft);
+    }
+    .send-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateX(-101%);
+      transition: transform .38s ease;
+    }
+    .send-btn:hover::before {
+      transform: translateX(0);
+    }
+    .arrow {
+      font-family: sans-serif;
+      font-size: 15px;
+      transition: transform .2s ease;
+    }
+    .send-btn:hover .arrow {
+      transform: translateX(4px);
+    }
 
     .toast {
       position: fixed;
@@ -652,22 +393,35 @@
       pointer-events: none;
       white-space: nowrap;
     }
-
     .toast.show { transform: translate(-50%, 0); opacity: 1; }
 
-    @media (max-width: 840px) {
-      .contact-shell { grid-template-columns: 1fr; }
-      .direct-card { width: 100%; }
+    .page {
+      width: min(calc(100% - 2.5rem), 1140px);
+      margin: 0 auto;
     }
-
-    @media (max-width: 560px) {
-      .page { width: min(calc(100% - 1.2rem), 1080px); padding-top: 0.7rem; }
-      .back-link span { display: none; }
-      .form-head,
-      .form-actions { flex-direction: column; align-items: stretch; }
-      .intent-grid,
-      .form-grid { grid-template-columns: 1fr; }
-      .send-btn { width: 100%; }
+    @media (max-width: 600px) {
+      .table-head-cols { display: none; }
+      .td-label {
+        width: 90px;
+        min-width: 90px;
+        padding: 18px 12px;
+      }
+      .td-input {
+        padding: 12px 16px;
+      }
+      .pills {
+        gap: 6px;
+      }
+      .pill {
+        padding: 5px 10px;
+        font-size: 11.5px;
+      }
+      .send-cell {
+        gap: 12px;
+      }
+    }
+    @media (max-width: 520px) {
+      .page { width: min(calc(100% - 1.2rem), 1140px); padding-top: 0.7rem; }
     }
   </style>
 </head>
@@ -679,16 +433,13 @@
       }
     })();
   </script>
-  <canvas id="dotCanvas" aria-hidden="true"></canvas>
 
-  <div class="page">
-    <header class="topbar">
-      <a class="back-link" href="./index.html" aria-label="Back to portfolio">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5" /><path d="m12 19-7-7 7-7" /></svg>
-        <span>Portfolio</span>
-      </a>
 
-      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme" aria-pressed="false">
+  <aside class="sidebar" id="sidebar">
+
+    <div class="sidebar-top-actions">
+
+      <button class="sidebar-action-btn theme-toggle" id="themeToggle" aria-label="Toggle theme" aria-pressed="false">
         <span class="icon-container" aria-hidden="true">
           <span class="sun-icon">
             <svg viewBox="0 0 24 24">
@@ -710,87 +461,184 @@
           </span>
         </span>
       </button>
-    </header>
+    </div>
 
-    <main class="contact-shell">
-      <section class="intro" aria-labelledby="contactTitle">
-        <p class="eyebrow">Contact</p>
-        <h1 id="contactTitle"><span class="white-text">Let's build</span> something useful.</h1>
-        <p class="intro-copy">
-          Send the context, constraints, and goal. I am happiest around AI/ML,
-          full-stack builds, product experiments, and practical systems that need careful engineering.
-        </p>
 
-        <div class="signal-row" aria-label="Availability signals">
-          <span class="signal-pill">Open to collaboration</span>
-          <span class="signal-pill">Project-first conversations</span>
-          <span class="signal-pill">Replies when available</span>
-        </div>
+    <nav class="sidebar-nav-container" id="sidebarNav" aria-label="Primary">
 
-        <aside class="direct-card" aria-label="Direct email">
-          <p>Prefer your own mail app? This reaches the same inbox.</p>
-          <a class="direct-email" href="mailto:slenderisprogramming@gmail.com">
-            <span>mail</span>
-            slenderisprogramming@gmail.com
-          </a>
-        </aside>
-      </section>
+      <div class="sidebar-nav-indicator" id="sidebarNavIndicator"></div>
 
-      <section class="form-card" aria-label="Send a message">
-        <div class="window-bar" aria-hidden="true">
-          <div class="window-dots"><span></span><span></span><span></span></div>
-          <span class="window-label">message.box</span>
-        </div>
+      <button class="sidebar-nav-item" data-window="window-home" id="sidebarNavHome">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span class="sidebar-nav-label">Home</span>
+      </button>
+      <button class="sidebar-nav-item" data-window="window-repos" id="sidebarNavProjects">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        <span class="sidebar-nav-label">Projects</span>
+      </button>
+      <button class="sidebar-nav-item" data-window="window-experience" id="sidebarNavExperience">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+        <span class="sidebar-nav-label">Exp</span>
+      </button>
+      <button class="sidebar-nav-item" data-window="window-education" id="sidebarNavEducation">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 4 3 6 3s6-1 6-3v-5"/></svg>
+        <span class="sidebar-nav-label">Edu</span>
+      </button>
+      <button class="sidebar-nav-item" data-window="window-skills" id="sidebarNavSkills">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span class="sidebar-nav-label">Skills</span>
+      </button>
+    </nav>
 
-        <div class="form-head">
-          <div>
-            <h2>Start the thread</h2>
-            <p>Short and specific is perfect. The form sends to my programming inbox.</p>
-          </div>
-          <span class="status-chip">Direct form</span>
-        </div>
 
-        <form id="contactForm" action="/.netlify/functions/contact" method="POST">
-          <input type="hidden" name="_subject" id="mailSubject" value="Portfolio contact" />
-          <input type="hidden" name="_template" value="table" />
-          <input type="hidden" name="_captcha" value="false" />
-          <input type="hidden" name="_next" id="nextUrl" value="" />
-          <input type="hidden" name="redirect" id="redirectUrl" value="/contact.html?sent=1" />
-          <input class="hidden-honey" type="text" name="_honey" tabindex="-1" autocomplete="off" />
+    <div class="sidebar-actions">
 
-          <div class="intent-grid" aria-label="Message shortcuts">
-            <button class="intent-chip active" type="button" data-intent="Project collaboration">Project collaboration</button>
-            <button class="intent-chip" type="button" data-intent="Hiring / internship">Hiring / internship</button>
-            <button class="intent-chip" type="button" data-intent="Code review">Code review</button>
-            <button class="intent-chip" type="button" data-intent="Speaking / event">Speaking / event</button>
-          </div>
+      <a class="sidebar-action-btn contact-btn active" href="./contact.html" id="sidebarContact" aria-label="Contact">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="2" y="4" width="20" height="16" rx="2" />
+          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+        </svg>
+      </a>
+    </div>
+  </aside>
 
-          <div class="form-grid">
-            <label>Name<input name="name" type="text" autocomplete="name" placeholder="Your name" required /></label>
-            <label>Email<input name="email" type="email" autocomplete="email" placeholder="you@example.com" required /></label>
-            <label>Intent<select name="intent" id="intentSelect" required><option>Project collaboration</option><option>Hiring / internship</option><option>Code review</option><option>Speaking / event</option><option>Just saying hi</option></select></label>
-            <label>Subject<input name="subject" id="subjectInput" type="text" placeholder="What should I know first?" required /></label>
-            <label class="field full">Message<textarea name="message" placeholder="A few lines about the idea, timeline, links, or what you need help with." required></textarea></label>
-          </div>
 
-          <div class="form-actions">
-            <p class="fine-print">No newsletter. No noise. Just your message landing in my inbox.</p>
-            <button class="send-btn" type="submit">
-              Send message
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14" /><path d="m13 6 6 6-6 6" /></svg>
-            </button>
-          </div>
-        </form>
-      </section>
-    </main>
+  <button class="sidebar-hamburger" id="sidebarHamburger" aria-label="Open navigation">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <div class="dot-bg" id="dotBg">
+    <canvas id="dotCanvas" aria-hidden="true"></canvas>
+    <div class="dot-content">
+      <div class="workspace">
+        <main class="stage-scene" id="stageScene" style="overflow-y: auto; scroll-behavior: smooth;">
+            <div class="contact-shell">
+              <div class="contact-grid">
+
+                <div class="contact-hero">
+                  <h1>Let's <span>talk.</span></h1>
+                  <p class="contact-desc">
+                    Send me a message, or reach out directly. I'm always open to collaborations, internships, and technical conversations.
+                  </p>
+                  <div class="contact-ctas">
+                    <span class="hero-cta filled status-badge">Open for Internships & Collabs</span>
+                    <div class="contact-grid-buttons">
+                      <a class="hero-cta" href="mailto:slenderisprogramming@gmail.com">Email</a>
+                      <a class="hero-cta" href="https://www.linkedin.com/in/shubhadeep-datta-379128202" target="_blank" rel="noreferrer noopener">LinkedIn</a>
+                      <a class="hero-cta" href="https://github.com/slenderongithub" target="_blank" rel="noreferrer noopener">GitHub</a>
+                      <a class="hero-cta" href="https://x.com/slenderlocksin" target="_blank" rel="noreferrer noopener">Twitter</a>
+                    </div>
+                  </div>
+                </div>
+
+
+                <section class="form-wrap" aria-label="Send a message">
+                  <div class="table-head">
+                    <div class="table-head-left">
+                      <div class="form-card-dots" aria-hidden="true">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                      <span class="table-head-title">contact_form.sh</span>
+                    </div>
+                    <div class="table-head-cols">
+                      <span class="col-hint">field</span>
+                      <span class="col-hint">value</span>
+                    </div>
+                  </div>
+
+                  <form id="contactForm" action="/.netlify/functions/contact" method="POST">
+                    <input type="hidden" name="_subject" id="mailSubject" value="Portfolio contact" />
+                    <input type="hidden" name="_template" value="table" />
+                    <input type="hidden" name="_captcha" value="false" />
+                    <input type="hidden" name="_next" id="nextUrl" value="" />
+                    <input type="hidden" name="redirect" id="redirectUrl" value="/contact.html?sent=1" />
+                    <input class="hidden-honey" type="text" name="_honey" tabindex="-1" autocomplete="off" />
+                    <select name="intent" id="intentSelect" required style="display: none;">
+                      <option value="Project collaboration">Project collaboration</option>
+                      <option value="Hiring / internship">Hiring / internship</option>
+                      <option value="Code review">Code review</option>
+                      <option value="Speaking / event">Speaking / event</option>
+                    </select>
+
+                    <table role="presentation">
+                      <tbody>
+
+
+                        <tr>
+                          <td class="td-label"><span>intent</span></td>
+                          <td class="td-input">
+                            <div class="pills" role="radiogroup" aria-label="Message intent">
+                              <button class="pill on" type="button" data-intent="Project collaboration">Project collab</button>
+                              <button class="pill" type="button" data-intent="Hiring / internship">Hiring / internship</button>
+                              <button class="pill" type="button" data-intent="Code review">Code review</button>
+                              <button class="pill" type="button" data-intent="Speaking / event">Speaking / event</button>
+                            </div>
+                          </td>
+                        </tr>
+
+
+                        <tr>
+                          <td class="td-label"><span>name</span></td>
+                          <td class="td-input">
+                            <input name="name" type="text" autocomplete="name" placeholder="Your name" required />
+                          </td>
+                        </tr>
+
+
+                        <tr>
+                          <td class="td-label"><span>email</span></td>
+                          <td class="td-input">
+                            <input name="email" type="email" autocomplete="email" placeholder="you@example.com" required />
+                          </td>
+                        </tr>
+
+
+                        <tr>
+                          <td class="td-label"><span>subject</span></td>
+                          <td class="td-input">
+                            <input name="subject" id="subjectInput" type="text" placeholder="What's this about?" required autocomplete="off" />
+                          </td>
+                        </tr>
+
+
+                        <tr>
+                          <td class="td-label"><span>message</span></td>
+                          <td class="td-input">
+                            <textarea id="msg" name="message" placeholder="Tell me about the idea, timeline, or what you need." required></textarea>
+                          </td>
+                        </tr>
+
+
+                        <tr class="send-row">
+                          <td class="td-label"><span>—</span></td>
+                          <td class="td-input">
+                            <div class="send-cell">
+                              <span class="char-count" id="cc">0 chars</span>
+                              <button class="send-btn" type="submit">
+                                <span>Send message</span>
+                                <span class="arrow">→</span>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+
+                      </tbody>
+                    </table>
+                  </form>
+                </section>
+
+              </div>
+            </div>
+        </main>
+      </div>
+    </div>
   </div>
-
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script>
-    const themeToggle = document.getElementById("themeToggle");
-    const dotCanvas = document.getElementById("dotCanvas");
-    const dotCtx = dotCanvas ? dotCanvas.getContext("2d") : null;
     const toast = document.getElementById("toast");
     const contactForm = document.getElementById("contactForm");
     const intentSelect = document.getElementById("intentSelect");
@@ -798,12 +646,11 @@
     const mailSubject = document.getElementById("mailSubject");
     const nextUrl = document.getElementById("nextUrl");
     const redirectUrl = document.getElementById("redirectUrl");
-    const intentChips = Array.from(document.querySelectorAll(".intent-chip"));
-    const mouse = { x: -9999, y: -9999 };
-    let dotWidth = 0;
-    let dotHeight = 0;
-    let toastTimer = null;
+    const intentChips = Array.from(document.querySelectorAll(".pill"));
+    const msgTextarea = document.getElementById("msg");
+    const charCount = document.getElementById("cc");
 
+    let toastTimer = null;
     function showToast(message) {
       if (!toast) return;
       toast.textContent = message;
@@ -812,72 +659,9 @@
       toastTimer = window.setTimeout(() => toast.classList.remove("show"), 3600);
     }
 
-    function setTheme(mode) {
-      const isDark = mode === "dark";
-      document.documentElement.classList.toggle("theme-midnight", isDark);
-      document.body.classList.toggle("theme-midnight", isDark);
-      document.documentElement.classList.toggle("dark-theme", isDark);
-      if (themeToggle) themeToggle.setAttribute("aria-pressed", String(isDark));
-      try {
-        window.localStorage.setItem("portfolio-theme", mode);
-        window.localStorage.setItem("theme", mode);
-      } catch {}
-    }
-
-    function loadTheme() {
-      try {
-        const saved = window.localStorage.getItem("portfolio-theme") || window.localStorage.getItem("theme");
-        if (saved === "dark" || saved === "light") return setTheme(saved);
-      } catch {}
-      const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-      setTheme(prefersDark ? "dark" : "light");
-    }
-
-    function getDotPalette() {
-      const styles = getComputedStyle(document.body);
-      return {
-        bg: styles.getPropertyValue("--dot-bg").trim() || "#f4f9ff",
-        base: styles.getPropertyValue("--dot-base-rgb").trim() || "123, 168, 223",
-        glow: styles.getPropertyValue("--dot-glow-rgb").trim() || "84, 184, 255",
-      };
-    }
-
-    function resizeDotCanvas() {
-      if (!dotCanvas || !dotCtx) return;
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      dotWidth = window.innerWidth;
-      dotHeight = window.innerHeight;
-      dotCanvas.width = Math.floor(dotWidth * dpr);
-      dotCanvas.height = Math.floor(dotHeight * dpr);
-      dotCanvas.style.width = `${dotWidth}px`;
-      dotCanvas.style.height = `${dotHeight}px`;
-      dotCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    }
-
-    function drawDots() {
-      if (!dotCanvas || !dotCtx) return;
-      const palette = getDotPalette();
-      dotCtx.clearRect(0, 0, dotWidth, dotHeight);
-
-      for (let y = 16; y < dotHeight; y += 32) {
-        for (let x = 16; x < dotWidth; x += 32) {
-          const distance = Math.hypot(x - mouse.x, y - mouse.y);
-          const proximity = Math.max(0, 1 - distance / 112);
-          const radius = 1.4 + proximity * 1.8;
-          const alpha = proximity > 0 ? Math.min(1, 0.12 + proximity * 0.14) : 0.12;
-          dotCtx.beginPath();
-          dotCtx.arc(x, y, radius, 0, Math.PI * 2);
-          dotCtx.fillStyle = `rgba(${proximity > 0 ? palette.glow : palette.base}, ${alpha.toFixed(3)})`;
-          dotCtx.fill();
-        }
-      }
-
-      window.requestAnimationFrame(drawDots);
-    }
-
     function setIntent(intent) {
       if (intentSelect) intentSelect.value = intent;
-      intentChips.forEach(chip => chip.classList.toggle("active", chip.dataset.intent === intent));
+      intentChips.forEach(chip => chip.classList.toggle("on", chip.dataset.intent === intent));
       if (subjectInput && !subjectInput.value.trim()) subjectInput.value = intent;
     }
 
@@ -892,20 +676,23 @@
     intentChips.forEach(chip => chip.addEventListener("click", () => setIntent(chip.dataset.intent)));
     if (intentSelect) intentSelect.addEventListener("change", () => setIntent(intentSelect.value));
 
+    if (msgTextarea && charCount) {
+      msgTextarea.addEventListener("input", () => {
+        charCount.textContent = `${msgTextarea.value.length} chars`;
+      });
+    }
+
     if (contactForm) {
       contactForm.addEventListener("submit", async (event) => {
         event.preventDefault();
-
         const subject = subjectInput?.value.trim() || "Portfolio contact";
         const intent = intentSelect?.value || "Contact";
         if (mailSubject) mailSubject.value = `[Portfolio: ${intent}] ${subject}`;
-
         const formData = new FormData(contactForm);
         const payload = Object.fromEntries(formData.entries());
         payload.subject = subject;
         payload.intent = intent;
         payload.honey = payload._honey || "";
-
         try {
           setFormSending(true);
           const response = await fetch(contactForm.action, {
@@ -916,17 +703,16 @@
             },
             body: JSON.stringify(payload),
           });
-
           const result = await response.json().catch(() => ({}));
           if (!response.ok || result.ok === false) {
             const message = result.error || "Message not sent. Please try again.";
             showToast(message);
             return;
           }
-
           contactForm.reset();
-          setIntent(intentSelect?.value || "Project collaboration");
-          showToast("Message sent. I will read it soon.");
+          setIntent("Project collaboration");
+          charCount.textContent = "0 chars";
+          showToast("Message sent. I'll read it soon.");
         } catch (error) {
           showToast("Network issue. Please try again in a moment.");
         } finally {
@@ -934,42 +720,17 @@
         }
       });
     }
-
     if (nextUrl && window.location.protocol !== "file:") {
       const successPath = `${window.location.pathname}?sent=1`;
       nextUrl.value = `${window.location.origin}${successPath}`;
       if (redirectUrl) redirectUrl.value = successPath;
     }
-
     if (new URLSearchParams(window.location.search).get("sent") === "1") {
-      showToast("Message sent. I will read it soon.");
+      showToast("Message sent. I'll read it soon.");
       window.history.replaceState({}, "", window.location.pathname);
     }
-
-    if (themeToggle) {
-      themeToggle.addEventListener("click", () => {
-        themeToggle.classList.add("clicked");
-        window.setTimeout(() => themeToggle.classList.remove("clicked"), 600);
-        setTheme(document.body.classList.contains("theme-midnight") ? "light" : "dark");
-      });
-    }
-
-    window.addEventListener("resize", resizeDotCanvas);
-    window.addEventListener("pointermove", event => {
-      mouse.x = event.clientX;
-      mouse.y = event.clientY;
-    }, { passive: true });
-    window.addEventListener("pointerleave", () => {
-      mouse.x = -9999;
-      mouse.y = -9999;
-    });
-
-    loadTheme();
-    window.setTimeout(() => {
-      document.documentElement.classList.remove("theme-booting");
-    }, 80);
-    resizeDotCanvas();
-    drawDots();
   </script>
+  <script src="./js/app.js"></script>
+  <script src="./js/lens.js"></script>
 </body>
 </html>

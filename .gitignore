@@ -1,23 +1,12 @@
-# Dependencies
 node_modules/
 .pnp
 .pnp.js
-
-# Environment files — NEVER commit real keys
 .env
 .env.local
 .env.*.local
-
-# Netlify local dev cache
 .netlify/
-
-# macOS
 .DS_Store
-
-# Editor directories
 .vscode/
 .idea/
-
-# Build output (if a build step is ever added)
 dist/
 build/
