@@ -5,22 +5,23 @@ const brainTooltipDesc = document.getElementById("brainTooltipDesc");
 const brainTooltipTags = document.getElementById("brainTooltipTags");
 const brainShell = brainStage ? brainStage.closest(".brain-shell") : null;
 let projectNodes = [];
+const prefersReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const brainPalettes = {
   light: {
-    domeWire: 0x4d86ff,
-    domeWireSoft: 0x8ec3ff,
-    domeFill: 0xcfe5ff,
-    nodeCore: 0xf4c85a,
-    nodeHover: 0xffe18f,
-    nodeHalo: 0x6fa8ff,
+    domeWire: 0xffffff,
+    domeWireSoft: 0xcfe0ff,
+    domeFill: 0xbcd6ff,
+    nodeCore: 0xffd75e,
+    nodeHover: 0xfff0b8,
+    nodeHalo: 0xffffff,
   },
   dark: {
-    domeWire: 0x22d3ee,
-    domeWireSoft: 0x60a5fa,
-    domeFill: 0x062332,
-    nodeCore: 0xf4c85a,
-    nodeHover: 0xffe18f,
-    nodeHalo: 0xf4c85a,
+    domeWire: 0x8fc4ff,
+    domeWireSoft: 0xbcd6ff,
+    domeFill: 0x16294a,
+    nodeCore: 0xffd75e,
+    nodeHover: 0xfff0b8,
+    nodeHalo: 0x9fcaff,
   },
 };
 (async () => {
@@ -106,8 +107,8 @@ function initializeInteractiveBrain() {
       node.style.border = "none";
       node.style.background = "radial-gradient(circle, rgba(255, 236, 160, 0.98) 0%, rgba(241, 190, 74, 0.9) 72%, rgba(228, 171, 49, 0.85) 100%)";
       node.style.boxShadow = darkThemeActive
-        ? "0 0 0 4px rgba(244, 200, 90, 0.46), 0 0 18px rgba(244, 200, 90, 0.5)"
-        : "0 0 0 4px rgba(110, 165, 255, 0.62), 0 0 14px rgba(92, 148, 247, 0.46)";
+        ? "0 0 0 4px rgba(159, 202, 255, 0.42), 0 0 18px rgba(159, 202, 255, 0.45)"
+        : "0 0 0 4px rgba(255, 255, 255, 0.6), 0 0 14px rgba(255, 235, 150, 0.5)";
       node.style.pointerEvents = "auto";
       node.style.cursor = "pointer";
       node.style.padding = "0";
@@ -340,16 +341,22 @@ function initializeInteractiveBrain() {
           darkThemeActive = isDarkMode;
           applyBrainPalette(getActivePalette());
         }
-        brainGroup.rotation.y += 0.00195;
-        brainGroup.rotation.x = Math.sin(tick * 0.6) * 0.055;
+        if (!prefersReducedMotion) {
+          brainGroup.rotation.y += 0.00195;
+          brainGroup.rotation.x = Math.sin(tick * 0.6) * 0.055;
+        }
 
 
         const scrollProgress = typeof window.heroScrollProgress === "number" ? window.heroScrollProgress : 0;
 
         raycastNodes.forEach(node => {
           const { basePosition, index, revealThreshold } = node.userData;
-          node.position.x = basePosition.x + Math.sin(tick * 0.95 + index * 0.7) * 0.012;
-          node.position.y = basePosition.y + Math.cos(tick * 1.15 + index * 0.55) * 0.018;
+          if (prefersReducedMotion) {
+            node.position.copy(basePosition);
+          } else {
+            node.position.x = basePosition.x + Math.sin(tick * 0.95 + index * 0.7) * 0.012;
+            node.position.y = basePosition.y + Math.cos(tick * 1.15 + index * 0.55) * 0.018;
+          }
 
 
           const nodeProgress = Math.max(0, Math.min(1, (scrollProgress - revealThreshold) / 0.12));
@@ -368,7 +375,7 @@ function initializeInteractiveBrain() {
           const halo = node.children[0];
           if (halo) {
             halo.lookAt(camera.position);
-            const pulse = 1 + Math.sin(tick * 2.4 + index) * 0.1;
+            const pulse = prefersReducedMotion ? 1 : 1 + Math.sin(tick * 2.4 + index) * 0.1;
             halo.scale.setScalar(pulse);
             halo.material.opacity = nodeProgress * 0.64;
           }

@@ -18,14 +18,13 @@ const DOT_RADIUS = 1.4;
 const DOT_GLOW_BOOST = 0.14;
 const MIN_SECTION_SCROLL_DURATION = 220;
 const MAX_SECTION_SCROLL_DURATION = 520;
-const NAV_LOCK_EXTRA_DURATION = 520;
 const NAV_RELEASE_SETTLE_DELAY = 180;
-const NAV_CLICK_LOCK_BUFFER = 60;
 const SCROLL_SETTLE_POSITION_EPSILON = 1.5;
 const SCROLL_SETTLE_VELOCITY_EPSILON = 0.35;
 const SCROLL_SETTLE_FRAMES_REQUIRED = 2;
 const OFFSCREEN_COORD = -9999;
 const isTouchOnly = window.matchMedia && window.matchMedia('(hover: none)').matches;
+const prefersReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 
 let dotWidth = 0;
@@ -40,8 +39,6 @@ let navLockReleaseTimeoutId = null;
 let navReleaseSettleRafId = null;
 let navReleaseLastScrollTop = null;
 let navReleaseStableFrameCount = 0;
-let navClickSwitchLocked = false;
-let navClickUnlockTimeoutId = null;
 let themeToggleClickTimeoutId = null;
 
 
@@ -77,15 +74,6 @@ if (sidebarBackdrop) {
   sidebarBackdrop.addEventListener("click", closeSidebar);
 }
 
-
-function lockNavClicks(durationMs) {
-  navClickSwitchLocked = true;
-  if (navClickUnlockTimeoutId !== null) clearTimeout(navClickUnlockTimeoutId);
-  navClickUnlockTimeoutId = window.setTimeout(() => {
-    navClickSwitchLocked = false;
-    navClickUnlockTimeoutId = null;
-  }, Math.max(0, durationMs));
-}
 
 function endSectionAutoScroll() {
   if (sectionAutoScrollUnlockTimeoutId !== null) {
@@ -189,7 +177,7 @@ function setTheme(mode) {
 }
 
 function initializeTheme() {
-  let initialMode = "light";
+  let initialMode = "dark";
   try {
     const savedPortfolioTheme = window.localStorage.getItem("portfolio-theme");
     const savedGenericTheme = window.localStorage.getItem("theme");
@@ -197,14 +185,8 @@ function initializeTheme() {
       initialMode = savedPortfolioTheme;
     } else if (savedGenericTheme === "light" || savedGenericTheme === "dark") {
       initialMode = savedGenericTheme;
-    } else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      initialMode = "dark";
     }
-  } catch (error) {
-    if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      initialMode = "dark";
-    }
-  }
+  } catch (error) {}
   setTheme(initialMode);
 }
 
@@ -225,9 +207,9 @@ function triggerThemeToggleClickEffect() {
 function getDotThemePalette() {
   const styles = window.getComputedStyle(document.body);
   return {
-    bg: styles.getPropertyValue("--dot-bg").trim() || "#f4f9ff",
-    baseRgb: styles.getPropertyValue("--dot-base-rgb").trim() || "123, 168, 223",
-    glowRgb: styles.getPropertyValue("--dot-glow-rgb").trim() || "84, 184, 255",
+    bg: styles.getPropertyValue("--dot-bg").trim() || "#f5f0e8",
+    baseRgb: styles.getPropertyValue("--dot-base-rgb").trim() || "168, 148, 118",
+    glowRgb: styles.getPropertyValue("--dot-glow-rgb").trim() || "34, 180, 200",
   };
 }
 
@@ -336,9 +318,7 @@ function scrollToWindow(windowId, behavior = "smooth") {
   if (behavior === "smooth") {
     const distance = Math.abs(stageScene.scrollTop - top);
     const duration = getSectionScrollDuration(distance);
-    const switchLockDuration = duration + NAV_RELEASE_SETTLE_DELAY + NAV_CLICK_LOCK_BUFFER;
-    lockNavClicks(switchLockDuration);
-    beginSectionAutoScroll(switchLockDuration + 40);
+    beginSectionAutoScroll(duration + NAV_RELEASE_SETTLE_DELAY + 100);
     lockNavActivation(windowId);
     setActiveWindowState(windowId);
     stageScene.scrollTo({ top, behavior: "smooth" });
@@ -346,7 +326,6 @@ function scrollToWindow(windowId, behavior = "smooth") {
     return;
   }
   endSectionAutoScroll();
-  lockNavClicks(220);
   lockNavActivation(windowId);
   setActiveWindowState(windowId);
   stageScene.scrollTo({ top, behavior: "auto" });
@@ -355,9 +334,9 @@ function scrollToWindow(windowId, behavior = "smooth") {
 
 function activateWindow(windowId) {
   if (!windowId) return;
-  if (navClickSwitchLocked) return;
   if (isSectionAutoScrolling && navActivationLockWindowId === windowId) return;
   if (!isSectionAutoScrolling && !navActivationLockWindowId && activeWindowId === windowId) return;
+  if (window.xpSound) window.xpSound.navigate();
   scrollToWindow(windowId, "smooth");
 }
 
@@ -398,12 +377,22 @@ function initializeSectionObserver() {
 }
 
 
-const scrollProgress = document.getElementById("scrollProgress");
+let crtHudScrollEl = null;
+let crtHudSectionEl = null;
 function updateScrollProgress() {
-  if (!scrollProgress || !stageScene) return;
+  if (!stageScene) return;
   const scrollable = stageScene.scrollHeight - stageScene.clientHeight;
-  const pct = scrollable > 0 ? (stageScene.scrollTop / scrollable) * 100 : 0;
-  scrollProgress.style.width = pct + "%";
+  const pct = scrollable > 0 ? Math.round((stageScene.scrollTop / scrollable) * 100) : 0;
+  if (crtHudScrollEl) {
+    crtHudScrollEl.textContent = pct + "%";
+  }
+  if (crtHudSectionEl) {
+    const activeWin = windows.find(win => win.id === activeWindowId);
+    const label = activeWin && activeWin.dataset.label
+      ? activeWin.dataset.label
+      : (/contact/i.test(window.location.pathname) ? "Contact" : "");
+    crtHudSectionEl.textContent = label || "";
+  }
 }
 
 
@@ -476,7 +465,7 @@ sidebarNavItems.forEach(item => {
     event.preventDefault();
     const windowId = item.dataset.window;
     if (windows.length === 0 || !windows.some(win => win.id === windowId)) {
-      window.location.href = `./index.html?section=${windowId}`;
+      crtNavigate(`./index.html?section=${windowId}`);
       return;
     }
     activateWindow(windowId);
@@ -485,11 +474,41 @@ sidebarNavItems.forEach(item => {
 });
 
 
+const THEME_TRANSITION_CSS = `
+::view-transition-group(root) { animation-duration: 0.7s; animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+::view-transition-new(root) { animation-name: xp-theme-reveal-light; }
+::view-transition-old(root),
+html.theme-midnight::view-transition-old(root) { animation: none; z-index: -1; }
+html.theme-midnight::view-transition-new(root) { animation-name: xp-theme-reveal-dark; }
+@keyframes xp-theme-reveal-dark {
+  from { clip-path: polygon(50% -71%, -50% 71%, -50% 71%, 50% -71%); }
+  to   { clip-path: polygon(50% -71%, -50% 71%, 50% 171%, 171% 50%); }
+}
+@keyframes xp-theme-reveal-light {
+  from { clip-path: polygon(171% 50%, 50% 171%, 50% 171%, 171% 50%); }
+  to   { clip-path: polygon(171% 50%, 50% 171%, -50% 71%, 50% -71%); }
+}`;
+
+function ensureThemeTransitionStyles() {
+  let styleEl = document.getElementById("theme-transition-styles");
+  if (!styleEl) {
+    styleEl = document.createElement("style");
+    styleEl.id = "theme-transition-styles";
+    document.head.appendChild(styleEl);
+  }
+  styleEl.textContent = THEME_TRANSITION_CSS;
+}
+
 if (themeToggle) {
   themeToggle.addEventListener("click", () => {
     const nextMode = document.body.classList.contains("theme-midnight") ? "light" : "dark";
     triggerThemeToggleClickEffect();
-    setTheme(nextMode);
+    if (prefersReducedMotion || typeof document.startViewTransition !== "function") {
+      setTheme(nextMode);
+      return;
+    }
+    ensureThemeTransitionStyles();
+    document.startViewTransition(() => setTheme(nextMode));
   });
 }
 
@@ -514,124 +533,22 @@ window.addEventListener("resize", () => {
 });
 
 
-const expOrbit = document.getElementById("expOrbit");
-const expCards = Array.from(document.querySelectorAll(".exp-float-card"));
-const expPrevButton = document.querySelector(".exp-nav-prev");
-const expNextButton = document.querySelector(".exp-nav-next");
-
-function initializeExperienceCarousel() {
-  if (!expOrbit || expCards.length === 0) return null;
-  let current = 0;
-  let autoTimer = null;
-
-  function render() {
-    const leadCardWidth = expCards[0]?.getBoundingClientRect().width || 320;
-    const xStep = window.innerWidth <= 680
-      ? Math.max(160, Math.min(leadCardWidth * 0.64, 210))
-      : Math.max(250, Math.min(leadCardWidth * 0.72, 330));
-
-    expCards.forEach((card, index) => {
-      const offset = index - current;
-      const absOffset = Math.abs(offset);
-      const z = absOffset === 0 ? 84 : -120 - absOffset * 70;
-      const x = offset * xStep;
-      const rotY = offset * -21;
-      const scale = absOffset === 0 ? 1 : Math.max(0.68, 0.86 - absOffset * 0.11);
-      const opacity = absOffset === 0 ? 1 : Math.max(0.18, 0.57 - absOffset * 0.2);
-      const brightness = absOffset === 0 ? 1 : Math.max(0.68, 0.9 - absOffset * 0.12);
-      card.style.transform = `translate3d(${x}px, 0px, ${z}px) rotateY(${rotY}deg) scale(${scale})`;
-      card.style.opacity = String(opacity);
-      card.style.zIndex = String(220 - absOffset);
-      card.style.pointerEvents = absOffset > 1 ? "none" : "auto";
-      card.style.filter = `brightness(${brightness})`;
-      card.classList.toggle("active", index === current);
-    });
-  }
-
-  function goTo(index) { current = (index + expCards.length) % expCards.length; render(); }
-  function goNext() { goTo(current + 1); }
-  function goPrev() { goTo(current - 1); }
-  function stopAuto() { if (autoTimer !== null) { clearInterval(autoTimer); autoTimer = null; } }
-  function startAuto() {
-    stopAuto();
-    autoTimer = window.setInterval(() => {
-      if (activeWindowId !== "window-experience") return;
-      goNext();
-    }, 4300);
-  }
-
-  expCards.forEach((card, index) => { card.addEventListener("click", () => goTo(index)); });
-  expOrbit.addEventListener("mouseenter", stopAuto);
-  expOrbit.addEventListener("mouseleave", startAuto);
-  if (expPrevButton) expPrevButton.addEventListener("click", () => { stopAuto(); goPrev(); startAuto(); });
-  if (expNextButton) expNextButton.addEventListener("click", () => { stopAuto(); goNext(); startAuto(); });
-
-  document.addEventListener("keydown", event => {
-    if (activeWindowId !== "window-experience") return;
-    if (event.key === "ArrowLeft") goPrev();
-    else if (event.key === "ArrowRight") goNext();
-  });
-
-  window.addEventListener("resize", render);
-
-  let touchStartX = 0;
-  let touchStartY = 0;
-  expOrbit.addEventListener("touchstart", e => {
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
-    stopAuto();
-  }, { passive: true });
-  expOrbit.addEventListener("touchend", e => {
-    const dx = e.changedTouches[0].clientX - touchStartX;
-    const dy = e.changedTouches[0].clientY - touchStartY;
-    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
-      dx < 0 ? goNext() : goPrev();
-    }
-    startAuto();
-  }, { passive: true });
-
-  render();
-  startAuto();
-}
-
-initializeExperienceCarousel();
-
-
-function initializeEducationTimeline() {
-  const timeline = document.getElementById("eduTimeline");
-  const timelineLine = document.getElementById("eduTimelineLine");
-  const timelineItems = Array.from(document.querySelectorAll(".edu-tl-item"));
-  if (!timeline || !timelineLine || timelineItems.length === 0) return null;
-
+/* Reveal timeline entries as they scroll into view AND re-hide them
+   when they leave, so scrolling back up replays the animation
+   (backtracking). Shared by Experience (.tl-item) and Education
+   (.edu-tl-item). */
+function initializeTimelineReveal(selector) {
+  const items = Array.from(document.querySelectorAll(selector));
+  if (items.length === 0) return;
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       entry.target.classList.toggle("visible", entry.isIntersecting);
     });
-  }, { threshold: 0.15, root: stageScene || null, rootMargin: "0px 0px -80px 0px" });
-
-  timelineItems.forEach(item => observer.observe(item));
-
-  function updateTimelineLine() {
-    const timelineRect = timeline.getBoundingClientRect();
-    const timelineHeight = timeline.offsetHeight;
-    if (timelineHeight <= 0) return;
-    const rootTop = stageScene ? stageScene.getBoundingClientRect().top : 0;
-    const rootHeight = stageScene ? stageScene.clientHeight : window.innerHeight;
-    const progress = ((rootTop + rootHeight) - timelineRect.top) / (timelineHeight + rootHeight * 0.5);
-    const clamped = Math.max(0, Math.min(1, progress));
-    timelineLine.style.height = `${clamped * timelineHeight}px`;
-  }
-
-  if (stageScene) {
-    stageScene.addEventListener("scroll", updateTimelineLine, { passive: true });
-  } else {
-    window.addEventListener("scroll", updateTimelineLine, { passive: true });
-  }
-  window.addEventListener("resize", updateTimelineLine);
-  updateTimelineLine();
+  }, { threshold: 0.2, root: stageScene || null, rootMargin: "0px 0px -60px 0px" });
+  items.forEach(item => observer.observe(item));
 }
 
-initializeEducationTimeline();
+initializeTimelineReveal("#eduTimeline .edu-tl-item");
 
 
 function initializeSkillsGlobe() {
@@ -738,7 +655,7 @@ function initializeSkillsGlobe() {
 
   let centerX = 0, centerY = 0, sphereRadius = 220, fov = 900;
   let rotationX = 0.25, rotationY = 0;
-  let velocityX = 0, velocityY = 0.0035;
+  let velocityX = 0, velocityY = prefersReducedMotion ? 0 : 0.0035;
   let dragging = false, lastPointerX = 0, lastPointerY = 0;
   let stars = [];
   let darkThemeActive = document.body.classList.contains("theme-midnight");
@@ -780,8 +697,10 @@ function initializeSkillsGlobe() {
       Math.min(rect.width, rect.height) * (window.innerWidth <= 680 ? 0.44 : 0.46)
     );
     fov = Math.max(760, sphereRadius * 4.2);
-    if (dimensionsChanged || lastGlobeW === 0) {
-      lastGlobeW = rect.width; lastGlobeH = rect.height;
+    const needsStars = dimensionsChanged || stars.length === 0;
+    lastGlobeW = rect.width;
+    lastGlobeH = rect.height;
+    if (needsStars) {
       rebuildStars(rect.width, rect.height);
       drawStarField();
     }
@@ -789,9 +708,8 @@ function initializeSkillsGlobe() {
   }
 
   function drawStarField() {
-    const rect = globeRoot.getBoundingClientRect();
-    if (rect.width <= 0 || rect.height <= 0) return;
-    bgCtx.clearRect(0, 0, rect.width, rect.height);
+    if (lastGlobeW <= 0 || lastGlobeH <= 0) return;
+    bgCtx.clearRect(0, 0, lastGlobeW, lastGlobeH);
     const starRgb = "255, 255, 255";
     stars.forEach(star => {
       bgCtx.beginPath();
@@ -812,13 +730,12 @@ function initializeSkillsGlobe() {
   }
 
   function drawWireGlobe() {
-    const rect = globeRoot.getBoundingClientRect();
-    if (rect.width <= 0 || rect.height <= 0) return;
-    globeCtx.clearRect(0, 0, rect.width, rect.height);
-    const wireColor = darkThemeActive ? "34, 211, 238" : "77, 134, 255";
-    const glowColor = darkThemeActive ? "96, 165, 250" : "77, 134, 255";
-    const latAlpha = darkThemeActive ? 0.28 : 0.19;
-    const lonAlpha = darkThemeActive ? 0.23 : 0.16;
+    if (lastGlobeW <= 0 || lastGlobeH <= 0) return;
+    globeCtx.clearRect(0, 0, lastGlobeW, lastGlobeH);
+    const wireColor = darkThemeActive ? "150, 195, 255" : "245, 250, 255";
+    const glowColor = darkThemeActive ? "150, 195, 255" : "220, 235, 255";
+    const latAlpha = darkThemeActive ? 0.34 : 0.42;
+    const lonAlpha = darkThemeActive ? 0.28 : 0.34;
     const steps = 116;
 
     const coreGlow = globeCtx.createRadialGradient(centerX, centerY, sphereRadius * 0.2, centerX, centerY, sphereRadius * 1.18);
@@ -949,7 +866,7 @@ function initializeSkillsGlobe() {
         darkThemeActive = themeIsDark;
         drawStarField();
       }
-      if (!dragging) {
+      if (!dragging && !prefersReducedMotion) {
         rotationY += velocityY;
         velocityX *= 0.95;
         rotationX += velocityX;
@@ -1008,3 +925,190 @@ window.addEventListener("load", () => {
     stageScene.scrollTo({ top: 0, behavior: "auto" });
   }
 });
+
+
+/* ════════════════════════════════════════════════════════════
+   CRT LAYER — screen chrome, HUD
+   ════════════════════════════════════════════════════════════ */
+
+/* Page transitions — CRT power-off, then navigate; the next page
+   answers with a fast power-on line. */
+function crtNavigate(url) {
+  if (window.xpSound) window.xpSound.navigate();
+  if (prefersReducedMotion) {
+    window.location.href = url;
+    return;
+  }
+  try { window.sessionStorage.setItem("crt-nav", "1"); } catch (error) {}
+  document.documentElement.classList.add("crt-off");
+  window.setTimeout(() => { window.location.href = url; }, 360);
+}
+
+function playPowerOn(fast) {
+  const boot = document.createElement("div");
+  boot.className = fast ? "crt-boot crt-boot-fast" : "crt-boot";
+  document.body.appendChild(boot);
+  window.setTimeout(() => boot.remove(), fast ? 600 : 950);
+}
+
+document.addEventListener("click", event => {
+  const link = event.target.closest("a[href]");
+  if (!link || link.target === "_blank" || link.hasAttribute("download")) return;
+  const href = link.getAttribute("href") || "";
+  if (!/^(\.\/)?(index|contact)\.html/.test(href)) return;
+  event.preventDefault();
+  crtNavigate(link.href);
+});
+
+(function initializeCrtLayer() {
+  const layer = document.createElement("div");
+  layer.className = "crt-layer";
+  layer.setAttribute("aria-hidden", "true");
+  layer.innerHTML =
+    '<div class="crt-scanlines"></div>' +
+    '<div class="crt-grille"></div>' +
+    '<div class="crt-flicker"></div>' +
+    '<div class="crt-bezel"></div>';
+  document.body.appendChild(layer);
+
+  const hud = document.createElement("div");
+  hud.className = "crt-hud";
+  hud.setAttribute("aria-hidden", "true");
+  hud.innerHTML =
+    '<span class="crt-hud-left">shubhadeep <span class="crt-hud-ok">online</span></span>' +
+    '<span class="crt-hud-mid"></span>' +
+    '<span class="crt-hud-right"><span class="crt-hud-scroll">0%</span>' +
+    '<span class="crt-hud-sep">&middot;</span><span class="crt-hud-clock"></span></span>';
+  document.body.appendChild(hud);
+  crtHudScrollEl = hud.querySelector(".crt-hud-scroll");
+  crtHudSectionEl = hud.querySelector(".crt-hud-mid");
+  const hudClockEl = hud.querySelector(".crt-hud-clock");
+
+  function updateHudClock() {
+    const now = new Date();
+    const pad = value => String(value).padStart(2, "0");
+    if (hudClockEl) {
+      hudClockEl.textContent = pad(now.getHours()) + ":" + pad(now.getMinutes()) + ":" + pad(now.getSeconds());
+    }
+  }
+  updateHudClock();
+  window.setInterval(updateHudClock, 1000);
+  updateScrollProgress();
+
+  let alreadyEntered = true;
+  let cameFromInternalNav = false;
+  try {
+    alreadyEntered = !!window.sessionStorage.getItem("crt-entered");
+    cameFromInternalNav = window.sessionStorage.getItem("crt-nav") === "1";
+    window.sessionStorage.removeItem("crt-nav");
+  } catch (error) {}
+
+  if (!prefersReducedMotion && !alreadyEntered) {
+    initializeCrtLoader();
+  } else if (!prefersReducedMotion && cameFromInternalNav) {
+    playPowerOn(true);
+  }
+
+  if (!prefersReducedMotion) {
+    (function scheduleJitter() {
+      window.setTimeout(() => {
+        document.documentElement.classList.add("crt-jitter");
+        window.setTimeout(() => {
+          document.documentElement.classList.remove("crt-jitter");
+          scheduleJitter();
+        }, 110);
+      }, 6000 + Math.random() * 9000);
+    })();
+  }
+
+})();
+
+/* Game-style loader — first visit per session. Fake boot progress,
+   then "PRESS ENTER" (or tap). Any input skips ahead. */
+function initializeCrtLoader() {
+  const BOOT_LINES = [
+    "shubhadeep-OS 5.1.2600 (Luna) booting \u2026",
+    "[ 0.000000] Linux version 5.1.xp (build@luna) #2001 SMP",
+    "[ 0.004312] BIOS EmpireOS Release 6.00PG detected",
+    "[ 0.009118] CPU0: XP Pentium III @ 1000.02MHz cache 256K",
+    "[ 0.014772] Calibrating delay loop... 1996.42 BogoMIPS",
+    "[ 0.021560] Memory: 511616k/524288k available",
+    "[ 0.029904] Mounting root /dev/projects ...... [ OK ]",
+    "[ 0.038211] Loading module three.js ......... [ OK ]",
+    "[ 0.047880] Loading module skills_globe ..... [ OK ]",
+    "[ 0.056013] Starting github-sync.service .... [ OK ]",
+    "[ 0.064772] Starting sound-engine.service ... [ OK ]",
+    "[ 0.073401] Bringing up interface luna0 ..... [ OK ]",
+    "[ 0.081990] Starting recycle-bin.daemon ..... [ OK ]",
+    "[ 0.090114] Reached target Portfolio.target",
+    "[ 0.098665] shubhadeep-login: session opened for user guest",
+  ];
+  const loader = document.createElement("div");
+  loader.className = "crt-loader";
+  loader.setAttribute("role", "button");
+  loader.setAttribute("tabindex", "0");
+  loader.setAttribute("aria-label", "Enter site");
+  loader.innerHTML =
+    '<pre class="crt-loader-console" aria-hidden="true"></pre>' +
+    '<div class="crt-loader-card">' +
+      '<div class="crt-loader-title">Shubhadeep <b>Datta</b></div>' +
+      '<div class="crt-loader-sub">Portfolio Edition &#8212; Windows XP</div>' +
+      '<div class="crt-loader-bar"><div class="crt-loader-fill"></div></div>' +
+      '<div class="crt-loader-enter"></div>' +
+    '</div>';
+  document.body.appendChild(loader);
+  document.documentElement.classList.add("crt-loading");
+  loader.focus({ preventScroll: true });
+
+  const fill = loader.querySelector(".crt-loader-fill");
+  const consoleEl = loader.querySelector(".crt-loader-console");
+  const enter = loader.querySelector(".crt-loader-enter");
+  let lineIdx = 0;
+  let dismissed = false;
+  let progressTimer = null;
+  let autoEnterTimer = null;
+
+  function typeLine() {
+    if (lineIdx < BOOT_LINES.length) {
+      const line = document.createElement("div");
+      line.className = "crt-con-line";
+      line.innerHTML = BOOT_LINES[lineIdx]
+        .replace("[ OK ]", '<span class="crt-con-ok">[ OK ]</span>')
+        .replace(/^(\[[^\]]*\])/, '<span class="crt-con-t">$1</span>');
+      consoleEl.appendChild(line);
+      consoleEl.scrollTop = consoleEl.scrollHeight;
+      lineIdx += 1;
+      if (fill) fill.style.width = Math.round((lineIdx / BOOT_LINES.length) * 100) + "%";
+      progressTimer = window.setTimeout(typeLine, 70 + Math.random() * 95);
+    } else {
+      loader.classList.add("ready");
+      if (enter) enter.textContent = isTouchOnly ? "TAP TO ENTER" : "PRESS ENTER";
+      autoEnterTimer = window.setTimeout(dismiss, 12000);
+    }
+  }
+
+  function dismiss() {
+    if (dismissed) return;
+    dismissed = true;
+    if (progressTimer !== null) clearTimeout(progressTimer);
+    if (autoEnterTimer !== null) clearTimeout(autoEnterTimer);
+    try { window.sessionStorage.setItem("crt-entered", "1"); } catch (error) {}
+    document.removeEventListener("keydown", onKeydown);
+    document.documentElement.classList.remove("crt-loading");
+    loader.classList.add("done");
+    if (window.xpSound) window.xpSound.startup();
+    playPowerOn(false);
+    window.setTimeout(() => loader.remove(), 340);
+  }
+
+  function onKeydown(event) {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      dismiss();
+    }
+  }
+
+  loader.addEventListener("click", dismiss);
+  document.addEventListener("keydown", onKeydown);
+  window.setTimeout(typeLine, 200);
+}

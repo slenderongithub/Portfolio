@@ -9,7 +9,7 @@
     (function () {
       try {
         var theme = localStorage.getItem("portfolio-theme") || localStorage.getItem("theme");
-        if (!theme && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        if (theme !== "light" && theme !== "dark") {
           theme = "dark";
         }
         document.documentElement.classList.add("theme-booting");
@@ -19,44 +19,35 @@
       } catch (error) {}
     })();
   </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&family=Sora:wght@300;400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./styles.css" />
   <style>
     :root {
-      --accent: #1a9aaa;
-      --accent-strong: #148898;
-      --accent-soft: rgba(26, 154, 170, 0.14);
+      --accent: #0a54e0;
+      --accent-strong: #003bda;
+      --accent-soft: rgba(10, 84, 224, 0.14);
 
-
-      --form-bg: #ffffff;
-      --form-border: rgba(30, 40, 60, 0.11);
-      --form-label: rgba(30, 40, 60, 0.45);
-      --form-text: #1a2032;
-      --form-input-focus: rgba(26, 154, 170, 0.05);
-      --form-pill-hover: rgba(26, 154, 170, 0.06);
-      --form-pill-on: rgba(26, 154, 170, 0.12);
-      --form-header-bg: rgba(30, 40, 60, 0.035);
+      --form-bg: var(--xp-face);
+      --form-border: var(--xp-face-lo);
+      --form-label: #55606c;
+      --form-text: #1b2530;
+      --form-input-focus: rgba(10, 84, 224, 0.06);
+      --form-pill-hover: rgba(10, 84, 224, 0.06);
+      --form-pill-on: rgba(10, 84, 224, 0.14);
+      --form-header-bg: rgba(0, 0, 0, 0.035);
       --btn-text: #ffffff;
     }
     body.theme-midnight {
-      --accent: #22d3ee;
-      --accent-strong: #0891b2;
-      --accent-soft: rgba(34, 211, 238, 0.16);
+      --accent: #4aa1ff;
+      --accent-strong: #7cc0ff;
+      --accent-soft: rgba(74, 161, 255, 0.16);
 
-      --text: #f4f7fb;
-      --muted: #94a3b8;
-
-      --form-bg: #0a0d14;
-      --form-border: rgba(34, 211, 238, 0.25);
-      --form-label: rgba(244, 247, 251, 0.65);
-      --form-text: #f8fafc;
-      --form-input-focus: rgba(34, 211, 238, 0.05);
-      --form-pill-hover: rgba(34, 211, 238, 0.06);
-      --form-pill-on: rgba(34, 211, 238, 0.12);
-      --form-header-bg: rgba(34, 211, 238, 0.035);
-      --btn-text: #030508;
+      --form-label: #aab4c2;
+      --form-text: #eef2f7;
+      --form-input-focus: rgba(74, 161, 255, 0.06);
+      --form-pill-hover: rgba(74, 161, 255, 0.06);
+      --form-pill-on: rgba(74, 161, 255, 0.14);
+      --form-header-bg: rgba(255, 255, 255, 0.04);
+      --btn-text: #04121f;
     }
 
     .contact-shell {
@@ -89,123 +80,118 @@
       flex-direction: column;
     }
     .contact-hero h1 {
-      font-family: "DM Serif Display", serif;
-      font-size: clamp(2.2rem, 5vw, 4.4rem);
-      line-height: 1.06;
-      font-weight: 400;
-      color: var(--text);
+      font-family: var(--font-display);
+      font-size: clamp(2.1rem, 4.6vw, 3.8rem);
+      line-height: 1.08;
+      font-weight: 700;
+      letter-spacing: 0;
+      color: #ffffff;
+      text-shadow: 0 1px 0 rgba(0, 20, 60, 0.45), 1px 2px 5px rgba(0, 18, 55, 0.65);
       margin-bottom: 1.15rem;
     }
-    .contact-hero h1 span {
-      color: var(--accent);
-      font-style: italic;
-    }
+    .contact-hero h1 span { color: #ffd75e; text-shadow: 0 1px 0 rgba(60, 40, 0, 0.35), 1px 2px 5px rgba(30, 20, 0, 0.5); }
     .contact-desc {
-      font-size: 1rem;
-      color: var(--muted);
-      line-height: 1.8;
-      max-width: 44ch;
-      margin-bottom: 1.5rem; /* 24px spacing */
+      font-size: 1.04rem;
+      color: #f0f5ff;
+      line-height: 1.72;
+      max-width: 46ch;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+      text-shadow: 0 1px 3px rgba(0, 15, 45, 0.5);
     }
     .contact-ctas {
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
-      gap: 1.5rem; /* 24px spacing */
+      align-items: stretch;
+      gap: 1.5rem;
+      width: 292px;
+      max-width: 100%;
     }
     .status-badge {
       margin: 0;
+      width: 100%;
+      justify-content: center;
+      text-align: center;
       cursor: default;
       pointer-events: none;
+      box-sizing: border-box;
     }
     .contact-grid-buttons {
       display: grid;
-      grid-template-columns: repeat(2, 140px);
+      grid-template-columns: repeat(2, 1fr);
       gap: 0.6rem;
+      width: 100%;
     }
     .contact-grid-buttons .hero-cta {
-      width: 140px;
+      width: 100%;
       margin: 0;
       box-sizing: border-box;
     }
 
+    /* Contact form as a Windows XP message window */
     .form-wrap {
-      background: var(--form-bg);
-      border-radius: 12px;
-      border: 1px solid var(--form-border);
+      background: var(--xp-frame);
+      border-radius: 8px 8px 0 0;
+      padding: 0 3px 3px;
       box-shadow:
-        0 4px 16px rgba(0, 0, 0, 0.02),
-        0 16px 48px rgba(0, 0, 0, 0.08);
-      overflow: hidden;
+        inset -1px -1px #00138c, inset 1px 1px #0831d9,
+        inset -2px -2px #001ea0, inset 2px 2px #166aee,
+        inset -3px -3px #003bda, inset 3px 3px #0855dd,
+        var(--shadow-card);
       width: 100%;
-      transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      overflow: visible;
     }
     body.theme-midnight .form-wrap {
       box-shadow:
-        0 20px 50px rgba(0, 0, 0, 0.45),
-        0 0 40px rgba(34, 211, 238, 0.03);
+        inset 0 0 0 1px #05070a, inset 1px 1px #4b515b, inset -1px -1px #14181e,
+        var(--shadow-card);
     }
 
-
     .table-head {
-      padding: 14px 24px;
-      background: var(--form-header-bg);
-      border-bottom: 1px solid var(--form-border);
+      height: var(--xp-titlebar-h, 30px);
+      padding: 0 4px 0 8px;
+      background: var(--xp-title);
+      border-radius: 6px 6px 0 0;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
+    body.theme-midnight .table-head { background: var(--xp-title, #2b313a); }
     .table-head-left {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 8px;
     }
-    
-
     .form-card-dots {
       display: inline-flex;
-      align-items: center;
-      gap: 7px;
+      width: 16px; height: 16px;
+      align-items: center; justify-content: center;
+      color: #ffffff;
     }
-    .form-card-dots span {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      display: block;
-      border: 1px solid rgba(0, 0, 0, 0.15);
+    .form-card-dots span { display: none; }
+    .form-card-dots::before {
+      content: "";
+      width: 15px; height: 11px;
+      border: 1.6px solid #fff; border-radius: 1px;
+      background:
+        linear-gradient(135deg, transparent 45%, #fff 45%, #fff 52%, transparent 52%) no-repeat 0 0 / 8px 6px;
     }
-    body.theme-midnight .form-card-dots span {
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-    .form-card-dots span:nth-child(1) { background: #ff5f56; }
-    .form-card-dots span:nth-child(2) { background: #ffbd2e; }
-    .form-card-dots span:nth-child(3) { background: #27c93f; }
-
     .table-head-title {
-      font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--form-label);
+      font-family: var(--font-title);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .01em;
+      color: #ffffff;
+      text-shadow: 1px 1px 1px rgba(0, 20, 80, 0.7);
     }
-    .table-head-cols {
-      display: flex;
-      gap: 32px;
-    }
-    .col-hint {
-      font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
-      font-size: 9px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--form-label);
-      opacity: 0.7;
-    }
+    /* Real XP min/max/close window buttons (.xp-titlebar-btns / .xp-tb-btn) come from styles.css */
 
 
     table {
       width: 100%;
       border-collapse: collapse;
+      background: var(--xp-face);
+      border-radius: 0 0 5px 5px;
     }
     tr {
       border-bottom: 1px solid var(--form-border);
@@ -227,12 +213,13 @@
       padding-top: 22px;
     }
     .td-label span {
-      font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
-      font-size: 9.5px;
-      letter-spacing: .15em;
-      text-transform: uppercase;
+      font-family: var(--font-ui);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0;
+      text-transform: none;
       color: var(--form-label);
-      line-height: 1.8;
+      line-height: 1.6;
       display: block;
     }
 
@@ -249,26 +236,23 @@
       padding: 2px 0;
     }
     .pill {
-      padding: 6px 14px;
-      border: 1px solid var(--form-border);
-      border-radius: 999px;
-      font-family: "Outfit", sans-serif;
-      font-size: 12.5px;
-      color: var(--muted);
-      background: transparent;
+      padding: 5px 12px;
+      border: 1px solid var(--xp-btn-border);
+      border-radius: 3px;
+      font-family: var(--font-ui);
+      font-size: 13px;
+      color: var(--form-text);
+      background: var(--xp-btn);
+      box-shadow: inset 1px 1px var(--xp-face-hi), inset -1px -1px var(--xp-groove-hi);
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: background 0.12s ease, border-color 0.12s ease;
     }
-    .pill:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: var(--form-pill-hover);
-    }
+    .pill:hover { background: var(--xp-btn-hover); border-color: #e6960c; }
     .pill.on {
-      border-color: var(--accent);
-      background: var(--form-pill-on);
-      color: var(--accent);
-      font-weight: 500;
+      border-color: #17399b;
+      background: linear-gradient(180deg, #2f6fe6, #1a48c0);
+      color: #ffffff; font-weight: 700;
+      box-shadow: inset 1px 1px 2px rgba(0, 0, 25, 0.4);
     }
 
 
@@ -276,22 +260,32 @@
     input[type=email],
     textarea {
       width: 100%;
-      border: none;
       outline: none;
-      background: transparent;
-      font-family: "Outfit", sans-serif;
-      font-size: 14.5px;
+      background: #ffffff;
+      border: 1px solid #7f9db9;
+      box-shadow: inset 1px 1px rgba(0, 0, 0, 0.14);
+      border-radius: 2px;
+      font-family: var(--font-ui);
+      font-size: 14px;
       color: var(--form-text);
       caret-color: var(--accent);
       resize: none;
-      line-height: 1.6;
-      padding: 0;
+      line-height: 1.5;
+      padding: 6px 8px;
     }
+    body.theme-midnight input[type=text],
+    body.theme-midnight input[type=email],
+    body.theme-midnight textarea {
+      background: #24272d; border-color: #14181e;
+    }
+    input[type=text]:focus,
+    input[type=email]:focus,
+    textarea:focus { border-color: var(--accent); }
     input[type=text]::placeholder,
     input[type=email]::placeholder,
     textarea::placeholder {
       color: var(--muted);
-      opacity: 0.6;
+      opacity: 0.7;
       font-size: 13.5px;
     }
     textarea {
@@ -325,35 +319,34 @@
       gap: 16px;
     }
     .char-count {
-      font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+      font-family: var(--font-mono);
       font-size: 10px;
       color: var(--muted);
       letter-spacing: .06em;
       opacity: 0.7;
     }
     .send-btn {
-      padding: 11px 26px;
-      background: var(--accent);
-      border: none;
-      border-radius: 4px;
-      font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
-      font-size: 11.5px;
-      font-weight: 500;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--btn-text);
+      padding: 8px 22px;
+      background: var(--xp-btn);
+      border: 1px solid var(--xp-btn-border);
+      border-radius: 3px;
+      font-family: var(--font-ui);
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--form-text);
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       position: relative;
       overflow: hidden;
-      transition: transform .2s ease, box-shadow .2s ease, background 0.2s ease;
+      box-shadow: inset 1px 1px var(--xp-face-hi), inset -1px -1px var(--xp-groove-hi);
+      transition: background .12s ease, border-color .12s ease;
     }
-    .send-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 8px 24px var(--accent-soft);
-    }
+    .send-btn:hover { background: var(--xp-btn-hover); border-color: #e6960c; }
+    .send-btn:active { box-shadow: inset -1px -1px var(--xp-face-hi), inset 1px 1px var(--xp-groove-hi); }
     .send-btn::before {
       content: '';
       position: absolute;
@@ -400,7 +393,6 @@
       margin: 0 auto;
     }
     @media (max-width: 600px) {
-      .table-head-cols { display: none; }
       .td-label {
         width: 90px;
         min-width: 90px;
@@ -437,9 +429,8 @@
 
   <aside class="sidebar" id="sidebar">
 
-    <div class="sidebar-top-actions">
-
-      <button class="sidebar-action-btn theme-toggle" id="themeToggle" aria-label="Toggle theme" aria-pressed="false">
+    <div class="sidebar-theme-pill">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" aria-pressed="false">
         <span class="icon-container" aria-hidden="true">
           <span class="sun-icon">
             <svg viewBox="0 0 24 24">
@@ -541,11 +532,12 @@
                         <span></span>
                         <span></span>
                       </div>
-                      <span class="table-head-title">contact_form.sh</span>
+                      <span class="table-head-title">New Message</span>
                     </div>
-                    <div class="table-head-cols">
-                      <span class="col-hint">field</span>
-                      <span class="col-hint">value</span>
+                    <div class="xp-titlebar-btns" aria-hidden="true">
+                      <button class="xp-tb-btn xp-min" tabindex="-1"></button>
+                      <button class="xp-tb-btn xp-max" tabindex="-1"></button>
+                      <button class="xp-tb-btn xp-close" tabindex="-1"></button>
                     </div>
                   </div>
 
@@ -730,7 +722,9 @@
       window.history.replaceState({}, "", window.location.pathname);
     }
   </script>
+  <script src="./js/sounds.js"></script>
   <script src="./js/app.js"></script>
   <script src="./js/lens.js"></script>
+  <script src="./js/error-windows.js"></script>
 </body>
 </html>

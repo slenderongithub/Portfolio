@@ -94,8 +94,7 @@ function applyDescriptionsFromCache(repos) {
 }
 window.setGeminiApiKey = (key) => {
   localStorage.setItem("gemini_api_key", key);
-  console.log("Gemini API key saved! Reloading...");
-  location.reload();
+  console.log("Gemini API key saved.");
 };
 window.clearDescriptionCache = () => {
   localStorage.removeItem(CACHE_KEY);

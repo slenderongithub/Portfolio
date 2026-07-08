@@ -18,7 +18,7 @@
   css.textContent = [
     '@media(hover:none){#gl-btn{display:none !important;}}',
     '#gl-btn{',
-      'position:fixed;bottom:1.6rem;right:1rem;z-index:10000;',
+      'position:fixed;bottom:3.4rem;left:1rem;z-index:10000;',
       'width:52px;height:52px;border-radius:50%;',
       'border:1.5px solid rgba(39,69,104,.22);',
       'background:rgba(255,255,255,.72);',
@@ -30,8 +30,8 @@
       'transition:transform .22s cubic-bezier(.22,.61,.36,1),border-color .2s,box-shadow .2s,background .2s;',
       'user-select:none;',
     '}',
-    '#gl-btn:hover{transform:scale(1.1);border-color:rgba(63,125,255,.5);}',
-    '#gl-btn.on{border-color:rgba(63,125,255,.7);background:rgba(63,125,255,.13);color:#3f7dff;}',
+    '#gl-btn:hover{transform:scale(1.1);border-color:rgba(26,154,170,.5);}',
+    '#gl-btn.on{border-color:rgba(26,154,170,.7);background:rgba(26,154,170,.12);color:#148898;}',
     '#gl-btn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}',
     '#gl-wrap{',
       'position:fixed;z-index:9998;',
@@ -40,7 +40,7 @@
       'pointer-events:none;',
       'box-shadow:',
         '0 0 0 1.5px rgba(255,255,255,.55),',
-        '0 0 0 3px rgba(120,160,255,.25),',
+        '0 0 0 3px rgba(26,154,170,.22),',
         '0 8px 32px rgba(30,50,100,.18);',
     '}',
     '#gl-sheen{',
@@ -69,7 +69,16 @@
   document.body.appendChild(btn);
 
   function getPageBg() {
-    return getComputedStyle(document.body).backgroundColor || '#f5f0e8';
+    // The body paints its desktop with a `background:` gradient, so its
+    // computed backgroundColor is transparent. A transparent clone lets the
+    // real page show through the magnified copy → "double text". Fall back
+    // to the opaque desktop colour so the lens fully covers what's beneath.
+    var cs = getComputedStyle(document.body);
+    var bg = cs.backgroundColor;
+    if (!bg || bg === 'transparent' || bg === 'rgba(0, 0, 0, 0)') {
+      bg = (cs.getPropertyValue('--dot-bg') || '').trim() || '#396492';
+    }
+    return bg;
   }
 
   function syncScrollPositions(sourceNode, cloneNode) {
@@ -222,6 +231,12 @@
     cx = e.clientX;
     cy = e.clientY;
     if (active) syncLens(cx, cy);
+  }, { passive: true });
+
+  // Rebuild the magnified clone when the layout changes size, so the
+  // zoom stays aligned instead of drifting after a resize.
+  window.addEventListener('resize', function () {
+    if (active) { buildLens(); syncLens(cx, cy); }
   }, { passive: true });
 
 
