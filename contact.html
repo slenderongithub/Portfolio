@@ -36,18 +36,20 @@
       --form-header-bg: rgba(0, 0, 0, 0.035);
       --btn-text: #ffffff;
     }
+    /* Dark mode keeps the form as a navy-framed white window, so its
+       interior palette matches the light theme (dark ink on white). */
     body.theme-midnight {
-      --accent: #4aa1ff;
-      --accent-strong: #7cc0ff;
-      --accent-soft: rgba(74, 161, 255, 0.16);
+      --accent: #0a54e0;
+      --accent-strong: #003bda;
+      --accent-soft: rgba(10, 84, 224, 0.14);
 
-      --form-label: #aab4c2;
-      --form-text: #eef2f7;
-      --form-input-focus: rgba(74, 161, 255, 0.06);
-      --form-pill-hover: rgba(74, 161, 255, 0.06);
-      --form-pill-on: rgba(74, 161, 255, 0.14);
-      --form-header-bg: rgba(255, 255, 255, 0.04);
-      --btn-text: #04121f;
+      --form-label: #55606c;
+      --form-text: #1b2530;
+      --form-input-focus: rgba(10, 84, 224, 0.06);
+      --form-pill-hover: rgba(10, 84, 224, 0.06);
+      --form-pill-on: rgba(10, 84, 224, 0.14);
+      --form-header-bg: rgba(0, 0, 0, 0.035);
+      --btn-text: #ffffff;
     }
 
     .contact-shell {
@@ -143,7 +145,9 @@
     }
     body.theme-midnight .form-wrap {
       box-shadow:
-        inset 0 0 0 1px #05070a, inset 1px 1px #4b515b, inset -1px -1px #14181e,
+        inset -1px -1px #0a1f52, inset 1px 1px #2b5cc0,
+        inset -2px -2px #0c2a6b, inset 2px 2px #1f4fae,
+        inset -3px -3px #123a86, inset 3px 3px #2a5fc0,
         var(--shadow-card);
     }
 
@@ -276,7 +280,7 @@
     body.theme-midnight input[type=text],
     body.theme-midnight input[type=email],
     body.theme-midnight textarea {
-      background: #24272d; border-color: #14181e;
+      background: #ffffff; border-color: var(--form-border);
     }
     input[type=text]:focus,
     input[type=email]:focus,

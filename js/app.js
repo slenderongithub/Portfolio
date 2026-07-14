@@ -475,7 +475,7 @@ sidebarNavItems.forEach(item => {
 
 
 const THEME_TRANSITION_CSS = `
-::view-transition-group(root) { animation-duration: 0.7s; animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+::view-transition-group(root) { animation-duration: 1.5s; animation-timing-function: cubic-bezier(0.62, 0.01, 0.2, 1); }
 ::view-transition-new(root) { animation-name: xp-theme-reveal-light; }
 ::view-transition-old(root),
 html.theme-midnight::view-transition-old(root) { animation: none; z-index: -1; }

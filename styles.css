@@ -76,7 +76,7 @@ body {
   font-size: 15px;
   overflow: hidden;
   position: relative;
-  transition: background 0.35s ease, color 0.35s ease;
+  transition: background 0.9s cubic-bezier(0.62, 0.01, 0.2, 1), color 0.9s cubic-bezier(0.62, 0.01, 0.2, 1);
 }
 
 /* ── TEXT SELECTION (XP highlight blue) ──────────────────── */
@@ -148,19 +148,19 @@ body.theme-midnight {
   --amber: #e8b64b;
   --amber-soft: rgba(232, 182, 75, 0.14);
 
-  /* Royale Noir chrome */
-  --xp-face: #3a3f47;
-  --xp-face-hi: #4d535c;
-  --xp-face-lo: #23262c;
-  --xp-frame: #10141a;
-  --xp-title: linear-gradient(180deg, #3b424d 0%, #2b313a 40%, #1c2129 100%);
-  --xp-title-inactive: linear-gradient(180deg, #2c313a 0%, #22262d 100%);
-  --xp-btn: linear-gradient(180deg, #4b515b 0%, #3c414a 50%, #33383f 100%);
-  --xp-btn-hover: linear-gradient(180deg, #565d68 0%, #454b55 50%, #3b414a 100%);
-  --xp-btn-border: #14181e;
-  --xp-selection: #2a6fd6;
-  --xp-groove-lo: #565c66;
-  --xp-groove-hi: #1a1d22;
+  /* Windows stay navy-framed + white-bodied on the dark desktop (not black) */
+  --xp-face: #f6f8fc;
+  --xp-face-hi: #ffffff;
+  --xp-face-lo: #b9c6de;
+  --xp-frame: #123a86;
+  --xp-title: linear-gradient(180deg, #3a6fd0 0%, #234fae 8%, #1f4aa6 40%, #2456bd 88%, #1c47a0 95%, #163f92 100%);
+  --xp-title-inactive: linear-gradient(180deg, #8fa6c9 0%, #7188b3 40%, #5a739e 100%);
+  --xp-btn: linear-gradient(180deg, #ffffff 0%, #f3f2ea 46%, #e4e1d1 92%, #dcd9c8 100%);
+  --xp-btn-hover: linear-gradient(180deg, #ffffff 0%, #fbf6e4 46%, #f3e8b8 92%, #f0e2a6 100%);
+  --xp-btn-border: #0f2f6e;
+  --xp-selection: #2a5fc0;
+  --xp-groove-lo: #ffffff;
+  --xp-groove-hi: #aeb9cc;
 
   --shadow-card: 3px 4px 4px rgba(0, 0, 0, 0.42), 6px 10px 22px rgba(0, 0, 0, 0.4);
   --shadow-card-active: 4px 5px 6px rgba(0, 0, 0, 0.5), 8px 13px 30px rgba(0, 0, 0, 0.5);
@@ -192,8 +192,21 @@ body.theme-midnight {
 }
 body.theme-midnight .xp-window {
   box-shadow:
-    inset 0 0 0 1px #05070a, inset 1px 1px #4b515b, inset -1px -1px #14181e,
+    inset -1px -1px #0a1f52, inset 1px 1px #2b5cc0,
+    inset -2px -2px #0c2a6b, inset 2px 2px #1f4fae,
+    inset -3px -3px #123a86, inset 3px 3px #2a5fc0,
     var(--shadow-card);
+  /* Windows are a white "light island" on the dark desktop: the content
+     palette inside them flips back to dark-on-white so text stays legible. */
+  --text: #1b2530;
+  --muted: #55606c;
+  --line: rgba(30, 40, 60, 0.16);
+  --gold: #0a54e0;
+  --gold-strong: #003bda;
+  --gold-soft: rgba(10, 84, 224, 0.12);
+  --amber: #9a6d00;
+  --amber-soft: rgba(154, 109, 0, 0.14);
+  color: #1b2530;
 }
 
 .xp-titlebar {
@@ -283,18 +296,33 @@ body.theme-midnight .xp-window {
   width: 78px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 14px;
   z-index: 90;
-  padding: 8px 6px;
+  background: none;
+  border: none;
+  pointer-events: none;
+}
+
+/* The theme toggle and the nav group are two independent XP panels,
+   split apart by the sidebar gap so the toggle reads as its own control. */
+.sidebar-theme-pill,
+.sidebar-main {
+  pointer-events: auto;
   background: linear-gradient(90deg, #245edb 0%, #4083f5 10%, #2f6fe6 46%, #245edb 92%, #1a48c0 100%);
   border: 1px solid #17399b;
   border-radius: 5px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), inset 0 -1px 0 rgba(0, 0, 40, 0.25), var(--shadow-card);
-  pointer-events: auto;
 }
-body.theme-midnight .sidebar {
+body.theme-midnight .sidebar-theme-pill,
+body.theme-midnight .sidebar-main {
   background: linear-gradient(90deg, #2b2f38 0%, #3a404b 12%, #2c313a 50%, #23272f 100%);
   border-color: #10141a;
+}
+.sidebar-main {
+  padding: 8px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .sidebar-nav-container {
@@ -864,7 +892,7 @@ body.theme-midnight .brain-wire-fallback::after { border-color: rgba(34, 211, 23
   margin: 8px 4px 8px 8px;
   overflow-y: auto; min-height: 500px; max-height: 620px; padding: 3px;
 }
-body.theme-midnight .pw-list { background: #24272d; border-color: #14181e; }
+body.theme-midnight .pw-list { background: #ffffff; border-color: var(--xp-face-lo); }
 .pw-item {
   display: block; width: 100%; text-align: left;
   padding: 6px 9px; border-radius: 2px;
@@ -880,7 +908,7 @@ body.theme-midnight .pw-list { background: #24272d; border-color: #14181e; }
 }
 .pw-item.active .pw-item-name,
 .pw-item.active .pw-item-tag { color: #ffffff; }
-body.theme-midnight .pw-item-name { color: #e6ebf2; }
+body.theme-midnight .pw-item-name { color: var(--text); }
 .pw-item-dot {
   width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
   background: var(--pw-status, #94a3b8);
@@ -898,7 +926,7 @@ body.theme-midnight .pw-item-name { color: #e6ebf2; }
   border: 1px solid var(--xp-face-lo);
   margin: 8px 8px 8px 4px;
 }
-body.theme-midnight .pw-detail { background: #24272d; border-color: #14181e; }
+body.theme-midnight .pw-detail { background: #ffffff; border-color: var(--xp-face-lo); }
 .pw-detail-inner { padding: 20px 24px 24px; animation: pw-fade 0.2s var(--ease); }
 @keyframes pw-fade {
   from { opacity: 0; transform: translateY(6px); }
@@ -952,7 +980,7 @@ body.theme-midnight .pw-section-label { color: var(--gold); }
   color: var(--muted); background: rgba(0, 0, 0, 0.04);
   border: 1px solid var(--xp-face-lo);
 }
-body.theme-midnight .pw-file { background: rgba(255, 255, 255, 0.05); color: #b8c2cf; }
+body.theme-midnight .pw-file { background: rgba(0, 0, 0, 0.04); color: var(--muted); }
 .pw-github {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 7px 18px; border-radius: 3px;
@@ -987,7 +1015,7 @@ body.theme-midnight .pw-file { background: rgba(255, 255, 255, 0.05); color: #b8
   color: var(--gold-strong); background: var(--gold-soft);
   border: 1px solid rgba(10, 84, 224, 0.3);
 }
-body.theme-midnight .tl-date { color: var(--gold); border-color: rgba(74, 161, 255, 0.3); }
+body.theme-midnight .tl-date { color: var(--gold-strong); background: var(--gold-soft); border-color: rgba(10, 84, 224, 0.3); }
 .tl-award {
   margin-left: auto;
   padding: 3px 10px; border-radius: 2px;
@@ -1004,7 +1032,7 @@ body.theme-midnight .tl-award { color: #2a1e00; background: #e8b64b; border-colo
   content: ""; display: block; height: 1px; margin-top: 0.55rem;
   background: linear-gradient(90deg, var(--xp-face-lo), transparent);
 }
-body.theme-midnight .tl-org::after { background: linear-gradient(90deg, rgba(255, 255, 255, 0.14), transparent); }
+body.theme-midnight .tl-org::after { background: linear-gradient(90deg, var(--xp-face-lo), transparent); }
 .tl-points { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.42rem; }
 .tl-points li {
   display: flex; gap: 0.55rem; font-size: 13.5px; line-height: 1.6; color: var(--muted);
@@ -1347,6 +1375,18 @@ body.theme-midnight .pg-card {
     background: linear-gradient(180deg, #3a404b 0%, #2c313a 50%, #23272f 100%);
     border-right: 1px solid #10141a;
     box-shadow: 4px 0 30px rgba(0, 0, 0, 0.5);
+  }
+  /* Inside the mobile drawer the two panels go flat — the drawer itself is the surface. */
+  .sidebar-theme-pill,
+  .sidebar-main,
+  body.theme-midnight .sidebar-theme-pill,
+  body.theme-midnight .sidebar-main {
+    width: 100%;
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    gap: 0.5rem;
   }
   .sidebar-nav-container {
     background: none !important;
@@ -1879,7 +1919,7 @@ p, article { font-family: var(--font-body); font-size: 13px; line-height: 1.5; }
    top-right XP mini-panel ── */
 /* #2 · Theme toggle = a detached, raised pill button, sitting above
    the nav with a clear gap so it reads as its own separate control. */
-.sidebar-theme-pill { width: 100%; display: flex; justify-content: center; margin-bottom: 12px; }
+.sidebar-theme-pill { width: 78px; display: flex; justify-content: center; padding: 8px 6px; }
 .sidebar-theme-pill .theme-toggle {
   width: 100%; height: 42px;
   display: flex; align-items: center; justify-content: center;
@@ -2062,7 +2102,7 @@ body.theme-midnight .rb-item-lesson b { color: var(--gold); }
   font-family: var(--font-ui); font-weight: 700; font-size: 12px; padding: 3px 10px; border-radius: 2px;
   color: var(--gold-strong); background: var(--gold-soft); border: 1px solid rgba(10, 84, 224, 0.3);
 }
-body.theme-midnight .exp-fd-date { color: var(--gold); border-color: rgba(74, 161, 255, 0.3); }
+body.theme-midnight .exp-fd-date { color: var(--gold-strong); background: var(--gold-soft); border-color: rgba(10, 84, 224, 0.3); }
 .exp-fd-award {
   margin-left: auto; font-family: var(--font-ui); font-weight: 700; font-size: 12px; padding: 3px 10px;
   border-radius: 2px; color: #7a5600; background: #ffe7a3; border: 1px solid #d7a628; white-space: nowrap;
@@ -2086,33 +2126,3 @@ body.theme-midnight .exp-fd-award { color: #2a1e00; background: #e8b64b; border-
   .folder.open, .folder:not(.open):hover { transform: scale(1.5) translateY(-6px); }
 }
 
-/* ════════════════════════════════════════════════════════════
-   #4 · SCROLL GUIDE — a retro pointer that rides the scroll and
-   pops an XP tooltip pointing at key features. js/scroll-guide.js.
-   ════════════════════════════════════════════════════════════ */
-.scroll-guide {
-  position: fixed; top: 0; left: 0; z-index: 9996;
-  pointer-events: none; will-change: transform;
-  display: flex; flex-direction: column; align-items: center; gap: 4px;
-}
-.sg-bubble {
-  max-width: 240px; padding: 8px 12px; border-radius: 9px;
-  background: #ffffe1; color: #1a1a1a; border: 1px solid #8a7f3c;
-  font-family: var(--font-ui); font-size: 13px; line-height: 1.4; font-weight: 500; text-align: center;
-  box-shadow: 2px 3px 9px rgba(0, 0, 0, 0.3);
-  opacity: 0; transform: scale(0.9) translateY(6px); transform-origin: center bottom;
-  transition: opacity 0.28s var(--ease), transform 0.28s var(--ease);
-}
-.scroll-guide.sg-point .sg-bubble { opacity: 1; transform: scale(1) translateY(0); }
-.sg-arrow { width: 40px; height: 40px; }
-.sg-arrow svg { width: 100%; height: 100%; display: block; filter: drop-shadow(0 2px 4px rgba(0, 0, 30, 0.4)); }
-.sg-arrow .sg-stroke {
-  fill: none; stroke: #b6e73f; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round;
-  stroke-dasharray: var(--sg-len, 90); stroke-dashoffset: var(--sg-len, 90);
-  transition: stroke-dashoffset 0.55s var(--ease);
-}
-.scroll-guide.sg-point .sg-arrow .sg-stroke { stroke-dashoffset: 0; }
-body.theme-midnight .sg-arrow .sg-stroke { stroke: #67e8f9; }
-.sg-bob { animation: sg-bob 2.4s ease-in-out infinite; }
-@keyframes sg-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
-@media (prefers-reduced-motion: reduce) { .sg-bob { animation: none; } .sg-bubble, .sg-stroke { transition: none; } }
