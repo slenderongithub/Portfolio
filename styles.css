@@ -39,11 +39,11 @@
   --xp-groove-lo: #ffffff;
   --xp-groove-hi: #aca899;
 
-  --font-ui: Tahoma, Geneva, "Segoe UI", sans-serif;
-  --font-title: "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", sans-serif;
+  --font-ui: Tahoma, Geneva, "Segoe UI", sans-serif;   /* XP window chrome — kept authentic */
+  --font-title: "Space Grotesk", "Trebuchet MS", "Lucida Grande", sans-serif;
   --font-mono: "Lucida Console", Monaco, "Courier New", monospace;
-  --font-display: "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", sans-serif;   /* headers = authentic XP */
-  --font-body: Verdana, Geneva, sans-serif;   /* main portfolio prose */
+  --font-display: "Space Grotesk", "Trebuchet MS", "Lucida Grande", sans-serif;   /* headings */
+  --font-body: "Inter", Verdana, Geneva, sans-serif;   /* main portfolio prose */
 
   --radius: 3px;
   --radius-lg: 3px;
@@ -54,11 +54,14 @@
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
   --sidebar-w: 120px;
   --content-max: 1080px;   /* single content frame — every section shares it */
+  --section-gap: clamp(11rem, 24vh, 15rem);   /* heading → content gap (Experience) */
+  --section-gap-sm: calc(var(--section-gap) * 2 / 3);   /* 1/3 less — Projects, Academic, Skills */
   --shadow-deep: 0 18px 34px rgba(20, 30, 50, 0.22);
   --shadow: 0 14px 34px rgba(10, 14, 22, 0.3);
   --shadow-card: 2px 3px 3px rgba(10, 25, 55, 0.22), 5px 8px 18px rgba(10, 25, 55, 0.22);
   --shadow-card-active: 3px 4px 5px rgba(10, 25, 55, 0.3), 7px 11px 26px rgba(10, 25, 55, 0.3);
 }
+@media (max-width: 767px) { :root { --section-gap: clamp(7rem, 16vh, 10rem); } }
 
 /* ── RESET ───────────────────────────────────────────────── */
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -74,6 +77,9 @@ body {
   color: var(--text);
   font-family: var(--font-ui);
   font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
   overflow: hidden;
   position: relative;
   transition: background 0.9s cubic-bezier(0.62, 0.01, 0.2, 1), color 0.9s cubic-bezier(0.62, 0.01, 0.2, 1);
@@ -563,6 +569,10 @@ body.theme-midnight .stage-scene::-webkit-scrollbar-thumb {
 #window-skills {
   padding-bottom: 6rem;
 }
+#window-skills .section-heading {
+  margin-bottom: var(--section-gap-sm);
+}
+
 
 /* Desktop headings sit on the wallpaper — dark ink on the light desktop,
    white ink on the dark desktop (see body.theme-midnight override). */
@@ -575,7 +585,7 @@ body.theme-midnight .stage-scene::-webkit-scrollbar-thumb {
   text-shadow: 0 1px 0 rgba(0, 20, 60, 0.45), 1px 2px 5px rgba(0, 18, 55, 0.65);
 }
 #window-repos .section-heading {
-  margin-bottom: 2.4rem;
+  margin-bottom: var(--section-gap-sm);
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -597,19 +607,39 @@ body.theme-midnight .stage-scene::-webkit-scrollbar-thumb {
   text-shadow: 0 1px 0 rgba(0, 20, 60, 0.45), 1px 2px 5px rgba(0, 18, 55, 0.65);
 }
 .hero-heading span { color: #ffd75e; text-shadow: 0 1px 0 rgba(60, 40, 0, 0.35), 1px 2px 5px rgba(30, 20, 0, 0.5); }
-.hero-heading .hero-name { white-space: nowrap; }   /* keep name + caret on one line (#8) */
-.hero-caret {
-  display: inline-block;
-  width: 0.45ch;
-  height: 0.72em;
-  margin-left: 0.16ch;
-  background: var(--gold);
-  vertical-align: baseline;
-  transform: translateY(0.06em);
-  animation: caret-blink 1.2s steps(1) infinite;
+
+/* ── Ransom-note name — real cut-out letter images ───────────
+   Each letter is a scanned newspaper-cutout PNG (images/ransom/*);
+   sized to a common height with a little rotation/baseline jitter
+   so the row reads like pasted paper scraps. */
+.hero-heading .hero-name {
+  display: inline-flex; flex-wrap: wrap; align-items: flex-end;
+  gap: 0.28em 0.5em; margin-top: 0.3em; vertical-align: middle;   /* row gap = space between the two stacked words */
 }
-@keyframes caret-blink { 0%, 55% { opacity: 1; } 56%, 100% { opacity: 0; } }
+/* Section headings + contact hero become scrap rows too — js/ransom.js swaps
+   their text for cut-out letters and adds .rn-ready. */
+.rn-ready {
+  display: flex; flex-wrap: wrap; align-items: flex-end;
+  gap: 0.16em 0.42em;
+}
+.rn-word { display: inline-flex; flex-wrap: nowrap; align-items: flex-end; gap: 0.14em 0.04em; }
+.rn-letter {
+  width: auto; display: inline-block;
+  filter: drop-shadow(1px 3px 3px rgba(0, 0, 25, 0.45));
+}
+/* Hero name — capped so the longest word ("Shubhadeep", nowrap) still fits
+   the widened hero column without touching the dome. */
+.hero-name .rn-letter { height: clamp(2.2rem, 4.8vw, 3.4rem); }
+/* Section headings — full-width sections give room for a touch larger. */
+.rn-ready .rn-letter { height: clamp(1.8rem, 5vw, 3.6rem); }
+/* jitter — rotate/nudge each scrap off a clean baseline (restarts per word) */
+.rn-letter:nth-child(2n)   { transform: rotate(-4deg) translateY(-0.04em); }
+.rn-letter:nth-child(3n)   { transform: rotate(4deg); }
+.rn-letter:nth-child(4n+1) { transform: rotate(-2deg) translateY(0.05em); }
+.rn-letter:nth-child(5n)   { transform: rotate(3deg) translateY(-0.03em); }
+@keyframes caret-blink { 0%, 55% { opacity: 1; } 56%, 100% { opacity: 0; } }   /* used by the CRT loader "PRESS ENTER" prompt */
 .hero-copy p, .hero-bio {
+  font-family: var(--font-body);
   max-width: 46ch; color: #f0f5ff;
   font-size: 1.04rem; line-height: 1.72; margin-bottom: 1.35rem; font-weight: 500;
   text-shadow: 0 1px 3px rgba(0, 15, 45, 0.5);
@@ -642,7 +672,8 @@ body.theme-midnight .hero-bio { color: #dbe6f5; }
     top: 2rem;
     height: calc(100vh - 4rem);
     display: grid;
-    grid-template-columns: minmax(320px, 1fr) minmax(340px, 1fr);
+    /* left column a touch wider so the bigger scrap name clears the dome */
+    grid-template-columns: minmax(300px, 1.08fr) minmax(300px, 0.92fr);
     gap: 2.4rem;
     align-items: center;
   }
@@ -762,7 +793,9 @@ body.theme-midnight .hero-bio { color: #dbe6f5; }
   padding: 0.3rem 0.58rem; font-size: 0.78rem; line-height: 1;
   font-family: var(--font-ui); text-transform: none; letter-spacing: 0;
   text-align: center; white-space: nowrap;
-  color: var(--text); background: var(--xp-btn);
+  /* XP button face is light in BOTH themes, so the label must stay dark —
+     var(--text) goes light in dark mode and vanished on the white face. */
+  color: #1b2530; background: var(--xp-btn);
   box-shadow: inset 1px 1px var(--xp-face-hi), inset -1px -1px var(--xp-groove-hi);
 }
 
@@ -1149,7 +1182,7 @@ body.theme-midnight .skills-pill-name {
    EDUCATION — alternating timeline of XP windows on a center rail
    ════════════════════════════════════════════════════════════ */
 .education-timeline-shell { position: relative; padding: 0 0 0.4rem; }
-.edu-timeline-head { width: 100%; margin-bottom: 2.2rem; }
+.edu-timeline-head { width: 100%; margin-bottom: var(--section-gap-sm); }
 .edu-timeline-title {
   font-family: var(--font-display);
   font-size: clamp(2rem, 4.2vw, 3.4rem);
@@ -1254,6 +1287,12 @@ body.theme-midnight .pg-card {
   background-image:
     linear-gradient(180deg, rgba(255, 255, 255, 0.20), rgba(255, 255, 255, 0) 34%),
     linear-gradient(180deg, rgba(0, 0, 0, 0.10) 30%, rgba(0, 0, 0, 0.52));
+}
+
+/* looping project clip, sits behind the spine/info scrim */
+.pg-video {
+  position: absolute; inset: 0; z-index: 1;
+  width: 100%; height: 100%; object-fit: cover;
 }
 
 /* index tag (top-right) — echoes the source component's "# code" */
@@ -1910,7 +1949,7 @@ body.theme-midnight .paint-tool.active { background: #1c1f25; }
    ════════════════════════════════════════════════════════════ */
 
 /* ── #2 · Main portfolio prose = Verdana ~13px (authentic XP) ── */
-p, article { font-family: var(--font-body); font-size: 13px; line-height: 1.5; }
+p, article { font-family: var(--font-body); font-size: 14px; line-height: 1.6; }
 
 /* ── #8 · Experience cards were elongated → cap their width ── */
 #window-experience .tl-window { max-width: 600px; }
@@ -1921,21 +1960,14 @@ p, article { font-family: var(--font-body); font-size: 13px; line-height: 1.5; }
    the nav with a clear gap so it reads as its own separate control. */
 .sidebar-theme-pill { width: 78px; display: flex; justify-content: center; padding: 8px 6px; }
 .sidebar-theme-pill .theme-toggle {
-  width: 100%; height: 42px;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 999px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.12));
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), 0 3px 6px rgba(0, 0, 35, 0.3);
+  width: 100%; height: 46px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: transparent;
   color: #eaf2ff; cursor: pointer;
-  transition: background 0.12s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.12s ease;
+  transition: background 0.12s ease, border-color 0.12s ease;
 }
-.sidebar-theme-pill .theme-toggle:hover { background: linear-gradient(180deg, rgba(255, 255, 255, 0.46), rgba(255, 255, 255, 0.2)); }
-.sidebar-theme-pill .theme-toggle:active { box-shadow: inset 0 2px 4px rgba(0, 0, 35, 0.42); }
-body.theme-midnight .sidebar-theme-pill .theme-toggle {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.05));
-  border-color: rgba(255, 255, 255, 0.2);
-}
+.sidebar-theme-pill .theme-toggle:hover { background: rgba(255, 255, 255, 0.18); border-color: rgba(255, 255, 255, 0.4); }
 
 /* ════════════════════════════════════════════════════════════
    #3 · RECYCLE BIN — desktop icon (bottom-right) + XP window of
@@ -2039,7 +2071,10 @@ body.theme-midnight .rb-item-lesson b { color: var(--gold); }
 .exp-folders {
   display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end;
   gap: clamp(3rem, 7vw, 5.5rem) clamp(2.6rem, 6vw, 5rem);
-  padding: 8rem 0 1.5rem;
+  /* Solid top offset (not auto — auto collapses when the detail pane opens):
+     pushes folders down and guarantees the upward-fanning open papers +
+     scale(1.7) bleed never reach the "Experience" heading. */
+  padding: var(--section-gap) 0 2rem;
 }
 .exp-folder-item { display: flex; flex-direction: column; align-items: center; gap: 1.4rem; min-width: 180px; }
 .exp-folder-label {
@@ -2121,7 +2156,7 @@ body.theme-midnight .exp-fd-award { color: #2a1e00; background: #e8b64b; border-
 .exp-fd-project:hover { background: var(--xp-btn-hover); border-color: #e6960c; }
 @media (prefers-reduced-motion: reduce) { .folder, .folder__front, .paper { transition: none; } }
 @media (max-width: 560px) {
-  .exp-folders { gap: 3.5rem 2.2rem; }
+  .exp-folders { gap: 3.5rem 2.2rem; }   /* top gap now from --section-gap */
   .folder { transform: scale(1.5); }
   .folder.open, .folder:not(.open):hover { transform: scale(1.5) translateY(-6px); }
 }

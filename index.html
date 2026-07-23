@@ -6,6 +6,9 @@
   <title>Shubhadeep Datta | Portfolio</title>
   <meta name="description" content="Portfolio of Shubhadeep Datta — CS student at VIT-AP specializing in AI/ML. Projects in healthcare, productivity, and embedded systems." />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" />
   <link rel="stylesheet" href="./styles.css" />
   <script>
     (function () {
@@ -116,7 +119,7 @@
       <section class="stage-window" id="window-home" data-label="Home">
         <div class="hero-grid">
           <div class="hero-copy">
-            <h1 class="hero-heading">Hello, I'm <span class="hero-name">Shubhadeep Datta<span class="hero-caret" aria-hidden="true"></span></span></h1>
+            <h1 class="hero-heading">Hello, I'm <span class="hero-name" aria-label="Shubhadeep Datta"><span class="rn-word"><img class="rn-letter" src="./images/ransom/s.png" alt="" decoding="async" /><img class="rn-letter" src="./images/ransom/h.png" alt="" decoding="async" /><img class="rn-letter" src="./images/ransom/u.png" alt="" decoding="async" /><img class="rn-letter" src="./images/ransom/b.png" alt="" decoding="async" /><img class="rn-letter" src="./images/ransom/h.png" alt="" decoding="async" /><img class="rn-letter" src="./images/ransom/a.png" alt="" decoding="async" /><img class="rn-letter" src="./images/ransom/d.png" alt="" decoding="async" /><img class="rn-letter" src="./images/ransom/e.png" alt="" decoding="async" /><img class="rn-letter" src="./images/ransom/e.png" alt="" decoding="async" /><img class="rn-letter" src="./images/ransom/p.png" alt="" decoding="async" /></span><span class="rn-word"><img class="rn-letter" src="./images/ransom/d.png" alt="" decoding="async" /><img class="rn-letter" src="./images/ransom/a.png" alt="" decoding="async" /><img class="rn-letter" src="./images/ransom/t.png" alt="" decoding="async" /><img class="rn-letter" src="./images/ransom/t.png" alt="" decoding="async" /><img class="rn-letter" src="./images/ransom/a.png" alt="" decoding="async" /></span></span></h1>
             <p class="hero-bio">
               Computer Science student at VIT-AP specializing in AI/ML. I build practical systems across healthcare,
               emotional well-being, and productivity with clean engineering and strong data-driven thinking.
@@ -170,13 +173,50 @@
 
 
       <section class="stage-window" id="window-repos" data-label="Projects">
-        <h2 class="section-heading">Projects</h2>
+        <h2 class="section-heading" data-ransom>Projects</h2>
 
         <!-- ═══ Project Gallery — hover-expand cards ═══ -->
         <div class="project-gallery" id="projectGallery" aria-label="Featured projects">
 
-          <button class="pg-card is-active" type="button" data-index="0" data-key="carelink" style="--pg-accent: #2f6fe6;" aria-expanded="true" aria-label="CareLink — Healthcare coordination platform. Open project">
+          <button class="pg-card is-active" type="button" data-index="0" data-key="hawkeye" style="--pg-accent: #2f6fe6;" aria-expanded="true" aria-label="HawkEye. Open project">
+            <video class="pg-video" muted loop playsinline autoplay aria-hidden="true"><!-- TODO: add src, e.g. <source src="./videos/hawkeye.mp4" type="video/mp4"> --></video>
             <span class="pg-code">01</span>
+            <span class="pg-spine"><span class="pg-spine-name">HawkEye</span></span>
+            <span class="pg-info">
+              <span class="pg-title">HawkEye</span>
+              <span class="pg-tagline">Add a short tagline</span>
+              <span class="pg-stack">Tech · Stack · Here</span>
+              <span class="pg-open">Open ▸</span>
+            </span>
+          </button>
+
+          <button class="pg-card" type="button" data-index="1" data-key="job-digest" style="--pg-accent: #e08a2f;" aria-expanded="false" aria-label="job-digest. Open project">
+            <video class="pg-video" muted loop playsinline autoplay aria-hidden="true"><!-- TODO: add src, e.g. <source src="./videos/job-digest.mp4" type="video/mp4"> --></video>
+            <span class="pg-code">02</span>
+            <span class="pg-spine"><span class="pg-spine-name">job-digest</span></span>
+            <span class="pg-info">
+              <span class="pg-title">job-digest</span>
+              <span class="pg-tagline">Add a short tagline</span>
+              <span class="pg-stack">Tech · Stack · Here</span>
+              <span class="pg-open">Open ▸</span>
+            </span>
+          </button>
+
+          <button class="pg-card" type="button" data-index="2" data-key="typical" style="--pg-accent: #2f9e5f;" aria-expanded="false" aria-label="Typical. Open project">
+            <video class="pg-video" muted loop playsinline autoplay aria-hidden="true"><!-- TODO: add src, e.g. <source src="./videos/typical.mp4" type="video/mp4"> --></video>
+            <span class="pg-code">03</span>
+            <span class="pg-spine"><span class="pg-spine-name">Typical</span></span>
+            <span class="pg-info">
+              <span class="pg-title">Typical</span>
+              <span class="pg-tagline">Add a short tagline</span>
+              <span class="pg-stack">Tech · Stack · Here</span>
+              <span class="pg-open">Open ▸</span>
+            </span>
+          </button>
+
+          <button class="pg-card" type="button" data-index="3" data-key="carelink" style="--pg-accent: #c8476b;" aria-expanded="false" aria-label="CareLink — Healthcare coordination platform. Open project">
+            <video class="pg-video" muted loop playsinline autoplay aria-hidden="true"><!-- TODO: add src, e.g. <source src="./videos/carelink.mp4" type="video/mp4"> --></video>
+            <span class="pg-code">04</span>
             <span class="pg-spine"><span class="pg-spine-name">CareLink</span></span>
             <span class="pg-info">
               <span class="pg-title">CareLink</span>
@@ -186,92 +226,62 @@
             </span>
           </button>
 
-          <button class="pg-card" type="button" data-index="1" data-key="smart-glove" style="--pg-accent: #e08a2f;" aria-expanded="false" aria-label="Smart Glove — Gesture-triggered emergency wearable. Open project">
-            <span class="pg-code">02</span>
+          <button class="pg-card" type="button" data-index="4" data-key="baitblock" style="--pg-accent: #8a5cd0;" aria-expanded="false" aria-label="BaitBlock. Open project">
+            <video class="pg-video" muted loop playsinline autoplay aria-hidden="true"><!-- TODO: add src, e.g. <source src="./videos/baitblock.mp4" type="video/mp4"> --></video>
+            <span class="pg-code">05</span>
+            <span class="pg-spine"><span class="pg-spine-name">BaitBlock</span></span>
+            <span class="pg-info">
+              <span class="pg-title">BaitBlock</span>
+              <span class="pg-tagline">Add a short tagline</span>
+              <span class="pg-stack">Tech · Stack · Here</span>
+              <span class="pg-open">Open ▸</span>
+            </span>
+          </button>
+
+          <button class="pg-card" type="button" data-index="5" data-key="fix-protocol-mcp" style="--pg-accent: #1f9aa8;" aria-expanded="false" aria-label="Fix-protocol-mcp. Open project">
+            <video class="pg-video" muted loop playsinline autoplay aria-hidden="true"><!-- TODO: add src, e.g. <source src="./videos/fix-protocol-mcp.mp4" type="video/mp4"> --></video>
+            <span class="pg-code">06</span>
+            <span class="pg-spine"><span class="pg-spine-name">Fix-protocol-mcp</span></span>
+            <span class="pg-info">
+              <span class="pg-title">Fix-protocol-mcp</span>
+              <span class="pg-tagline">Add a short tagline</span>
+              <span class="pg-stack">Tech · Stack · Here</span>
+              <span class="pg-open">Open ▸</span>
+            </span>
+          </button>
+
+          <button class="pg-card" type="button" data-index="6" data-key="federated-learning-benchmark" style="--pg-accent: #52618a;" aria-expanded="false" aria-label="Federated learning benchmark. Open project">
+            <video class="pg-video" muted loop playsinline autoplay aria-hidden="true"><!-- TODO: add src, e.g. <source src="./videos/federated-learning-benchmark.mp4" type="video/mp4"> --></video>
+            <span class="pg-code">07</span>
+            <span class="pg-spine"><span class="pg-spine-name">Federated Learning Benchmark</span></span>
+            <span class="pg-info">
+              <span class="pg-title">Federated Learning Benchmark</span>
+              <span class="pg-tagline">Add a short tagline</span>
+              <span class="pg-stack">Tech · Stack · Here</span>
+              <span class="pg-open">Open ▸</span>
+            </span>
+          </button>
+
+          <button class="pg-card" type="button" data-index="7" data-key="leafscan-pestdetection" style="--pg-accent: #c85a3c;" aria-expanded="false" aria-label="LeafScan — pest detection. Open project">
+            <video class="pg-video" muted loop playsinline autoplay aria-hidden="true"><!-- TODO: add src, e.g. <source src="./videos/leafscan-pestdetection.mp4" type="video/mp4"> --></video>
+            <span class="pg-code">08</span>
+            <span class="pg-spine"><span class="pg-spine-name">LeafScan</span></span>
+            <span class="pg-info">
+              <span class="pg-title">LeafScan — pest detection</span>
+              <span class="pg-tagline">Add a short tagline</span>
+              <span class="pg-stack">Tech · Stack · Here</span>
+              <span class="pg-open">Open ▸</span>
+            </span>
+          </button>
+
+          <button class="pg-card" type="button" data-index="8" data-key="smart-glove" style="--pg-accent: #2f8f7a;" aria-expanded="false" aria-label="Smart Glove — Gesture-triggered emergency wearable. Open project">
+            <video class="pg-video" muted loop playsinline autoplay aria-hidden="true"><!-- TODO: add src, e.g. <source src="./videos/smart-glove.mp4" type="video/mp4"> --></video>
+            <span class="pg-code">09</span>
             <span class="pg-spine"><span class="pg-spine-name">Smart Glove</span></span>
             <span class="pg-info">
               <span class="pg-title">Smart Glove</span>
               <span class="pg-tagline">Gesture-triggered emergency wearable</span>
               <span class="pg-stack">Arduino · C++ · IoT · Embedded</span>
-              <span class="pg-open">Open ▸</span>
-            </span>
-          </button>
-
-          <button class="pg-card" type="button" data-index="2" data-key="habit-forge" style="--pg-accent: #2f9e5f;" aria-expanded="false" aria-label="HabitTrackerForge — Habit analytics and streak engine. Open project">
-            <span class="pg-code">03</span>
-            <span class="pg-spine"><span class="pg-spine-name">HabitTrackerForge</span></span>
-            <span class="pg-info">
-              <span class="pg-title">HabitTrackerForge</span>
-              <span class="pg-tagline">Habit analytics &amp; streak engine</span>
-              <span class="pg-stack">Python · React · FastAPI · PostgreSQL</span>
-              <span class="pg-open">Open ▸</span>
-            </span>
-          </button>
-
-          <button class="pg-card" type="button" data-index="3" data-key="hack-me" style="--pg-accent: #c8476b;" aria-expanded="false" aria-label="Hack-Me-If-You-Can — Gamified security quiz platform. Open project">
-            <span class="pg-code">04</span>
-            <span class="pg-spine"><span class="pg-spine-name">Hack-Me-If-You-Can</span></span>
-            <span class="pg-info">
-              <span class="pg-title">Hack-Me-If-You-Can</span>
-              <span class="pg-tagline">Gamified security quiz platform</span>
-              <span class="pg-stack">JavaScript · HTML · CSS · Game UX</span>
-              <span class="pg-open">Open ▸</span>
-            </span>
-          </button>
-
-          <button class="pg-card" type="button" data-index="4" data-key="ai-companion" style="--pg-accent: #8a5cd0;" aria-expanded="false" aria-label="AI Companion — NLP support assistant research. Open project">
-            <span class="pg-code">05</span>
-            <span class="pg-spine"><span class="pg-spine-name">AI Companion</span></span>
-            <span class="pg-info">
-              <span class="pg-title">AI Companion</span>
-              <span class="pg-tagline">NLP support assistant research</span>
-              <span class="pg-stack">Python · NLP · ML · TensorFlow</span>
-              <span class="pg-open">Open ▸</span>
-            </span>
-          </button>
-
-          <!-- TODO: fill in name / tagline / stack, then point data-key at a real project key from PROJECTS (js/project-workspace.js) so the card opens it -->
-          <button class="pg-card" type="button" data-index="5" data-key="project-6" style="--pg-accent: #1f9aa8;" aria-expanded="false" aria-label="New project — details coming soon">
-            <span class="pg-code">06</span>
-            <span class="pg-spine"><span class="pg-spine-name">New Project</span></span>
-            <span class="pg-info">
-              <span class="pg-title">New Project</span>
-              <span class="pg-tagline">Add a short tagline</span>
-              <span class="pg-stack">Tech · Stack · Here</span>
-              <span class="pg-open">Open ▸</span>
-            </span>
-          </button>
-
-          <!-- TODO: fill in name / tagline / stack, then point data-key at a real project key from PROJECTS (js/project-workspace.js) so the card opens it -->
-          <button class="pg-card" type="button" data-index="6" data-key="project-7" style="--pg-accent: #52618a;" aria-expanded="false" aria-label="New project — details coming soon">
-            <span class="pg-code">07</span>
-            <span class="pg-spine"><span class="pg-spine-name">New Project</span></span>
-            <span class="pg-info">
-              <span class="pg-title">New Project</span>
-              <span class="pg-tagline">Add a short tagline</span>
-              <span class="pg-stack">Tech · Stack · Here</span>
-              <span class="pg-open">Open ▸</span>
-            </span>
-          </button>
-
-          <button class="pg-card" type="button" data-index="7" data-key="note-ninja" style="--pg-accent: #c85a3c;" aria-expanded="false" aria-label="NoteNinja — AI lecture-note summarizer">
-            <span class="pg-code">08</span>
-            <span class="pg-spine"><span class="pg-spine-name">NoteNinja</span></span>
-            <span class="pg-info">
-              <span class="pg-title">NoteNinja</span>
-              <span class="pg-tagline">AI lecture-note summarizer</span>
-              <span class="pg-stack">Python · Whisper · FastAPI</span>
-              <span class="pg-open">Open ▸</span>
-            </span>
-          </button>
-
-          <button class="pg-card" type="button" data-index="8" data-key="grid-guard" style="--pg-accent: #2f8f7a;" aria-expanded="false" aria-label="GridGuard — Smart-grid anomaly detector">
-            <span class="pg-code">09</span>
-            <span class="pg-spine"><span class="pg-spine-name">GridGuard</span></span>
-            <span class="pg-info">
-              <span class="pg-title">GridGuard</span>
-              <span class="pg-tagline">Smart-grid anomaly detector</span>
-              <span class="pg-stack">Python · PyTorch · Kafka</span>
               <span class="pg-open">Open ▸</span>
             </span>
           </button>
@@ -333,7 +343,7 @@
 
 
       <section class="stage-window" id="window-experience" data-label="Experience">
-        <h2 class="section-heading">Experience</h2>
+        <h2 class="section-heading" data-ransom>Experience</h2>
 
         <div class="exp-folders" id="expFolders"></div>
         <div class="exp-folder-detail xp-window" id="expFolderDetail" hidden></div>
@@ -344,7 +354,7 @@
       <section class="stage-window" id="window-education" data-label="Education">
         <div class="education-timeline-shell" id="educationTimelineShell">
           <header class="edu-timeline-head">
-            <h2 class="edu-timeline-title">Academic Timeline</h2>
+            <h2 class="edu-timeline-title" data-ransom>Academic Timeline</h2>
           </header>
           <div class="edu-timeline" id="eduTimeline">
 
@@ -430,7 +440,7 @@
 
 
       <section class="stage-window" id="window-skills" data-label="Skills">
-        <h2 class="section-heading">Skills</h2>
+        <h2 class="section-heading" data-ransom>Skills</h2>
         <div class="skills-globe-wrap" id="skillsGlobe" aria-label="Interactive skills globe">
           <canvas class="skills-bg-canvas" id="skillsBgCanvas" aria-hidden="true"></canvas>
           <canvas class="skills-wire-canvas" id="skillsGlobeCanvas" aria-hidden="true"></canvas>
@@ -448,21 +458,34 @@
     <span class="recycle-bin-ico" aria-hidden="true">
       <span class="rb-closed">
         <svg viewBox="0 0 48 48">
-          <ellipse cx="24" cy="13" rx="13" ry="3.4" fill="#c9ced4" stroke="#7c848d" stroke-width="1.3"/>
-          <rect x="21" y="7.5" width="6" height="4" rx="1.6" fill="#d6dbe0" stroke="#7c848d" stroke-width="1"/>
-          <path d="M12.4 14 l2 27 c.12 1.9 1.05 2.9 2.55 2.9 h14.1 c1.5 0 2.43-1 2.55-2.9 l2-27 Z" fill="#e2e6ea" stroke="#7c848d" stroke-width="1.3"/>
-          <path d="M12.4 14 l2 27 c.12 1.9 1.05 2.9 2.55 2.9 h3 L16.5 14 Z" fill="#cdd3da"/>
-          <g stroke="#b3bac2" stroke-width="1.5" stroke-linecap="round"><path d="M18.5 18 l1 22"/><path d="M24 18 v22.5"/><path d="M29.5 18 l-1 22"/></g>
-          <ellipse cx="24" cy="14" rx="10.6" ry="2.4" fill="none" stroke="#f2f5f8" stroke-width="1"/>
+          <!-- translucent grey XP bin -->
+          <ellipse cx="24" cy="13" rx="11" ry="3" fill="#d7dde6" stroke="#7d8895" stroke-width="1.2"/>
+          <path d="M13 13 L15.2 40.5 c.1 1.8 1 2.7 2.4 2.7 h12.8 c1.4 0 2.3-.9 2.4-2.7 L35 13 Z" fill="#c3ccd8" stroke="#7d8895" stroke-width="1.3"/>
+          <path d="M13 13 L15.2 40.5 c.1 1.8 1 2.7 2.4 2.7 h2.4 L16.7 13 Z" fill="#aab5c4"/>
+          <ellipse cx="24" cy="13.3" rx="9" ry="2.1" fill="none" stroke="#eef2f7" stroke-width="0.9"/>
+          <!-- green recycling arrows (pinwheel of 3) -->
+          <g transform="translate(4.8 9) scale(0.8)" fill="#37a437" stroke="#2b7d2b" stroke-width="0.4" stroke-linejoin="round">
+            <path d="M19 15 H26 V13 L31 16.25 L26 19.5 V17.5 H19 Z"/>
+            <path d="M19 15 H26 V13 L31 16.25 L26 19.5 V17.5 H19 Z" transform="rotate(120 24 24)"/>
+            <path d="M19 15 H26 V13 L31 16.25 L26 19.5 V17.5 H19 Z" transform="rotate(240 24 24)"/>
+          </g>
         </svg>
       </span>
       <span class="rb-open">
         <svg viewBox="0 0 48 48">
-          <rect x="14" y="5" width="8.5" height="12" rx="1" transform="rotate(-16 18 11)" fill="#ffffff" stroke="#b3bac2" stroke-width="0.9"/>
-          <rect x="24" y="6" width="8.5" height="12" rx="1" transform="rotate(13 28 12)" fill="#f5f2ea" stroke="#b3bac2" stroke-width="0.9"/>
-          <ellipse cx="37" cy="9" rx="11.5" ry="2.9" fill="#c9ced4" stroke="#7c848d" stroke-width="1.1" transform="rotate(23 37 9)"/>
-          <path d="M12.4 16 l2 25 c.12 1.9 1.05 2.9 2.55 2.9 h14.1 c1.5 0 2.43-1 2.55-2.9 l2-25 Z" fill="#e2e6ea" stroke="#7c848d" stroke-width="1.3"/>
-          <g stroke="#b3bac2" stroke-width="1.5" stroke-linecap="round"><path d="M18.5 20 l1 20"/><path d="M24 20 v20.5"/><path d="M29.5 20 l-1 20"/></g>
+          <!-- crumpled papers poking out -->
+          <path d="M16 12 l5 -5 5 3 -2 5 z" fill="#fbfaf5" stroke="#7d8895" stroke-width="0.8"/>
+          <path d="M25 11 l6 -3 3 5 -5 3 z" fill="#eef2f7" stroke="#7d8895" stroke-width="0.8"/>
+          <!-- translucent grey XP bin -->
+          <ellipse cx="24" cy="14" rx="11" ry="3" fill="#d7dde6" stroke="#7d8895" stroke-width="1.2"/>
+          <path d="M13 14 L15.2 41 c.1 1.8 1 2.7 2.4 2.7 h12.8 c1.4 0 2.3-.9 2.4-2.7 L35 14 Z" fill="#c3ccd8" stroke="#7d8895" stroke-width="1.3"/>
+          <path d="M13 14 L15.2 41 c.1 1.8 1 2.7 2.4 2.7 h2.4 L16.7 14 Z" fill="#aab5c4"/>
+          <!-- green recycling arrows (pinwheel of 3) -->
+          <g transform="translate(4.8 10) scale(0.8)" fill="#37a437" stroke="#2b7d2b" stroke-width="0.4" stroke-linejoin="round">
+            <path d="M19 15 H26 V13 L31 16.25 L26 19.5 V17.5 H19 Z"/>
+            <path d="M19 15 H26 V13 L31 16.25 L26 19.5 V17.5 H19 Z" transform="rotate(120 24 24)"/>
+            <path d="M19 15 H26 V13 L31 16.25 L26 19.5 V17.5 H19 Z" transform="rotate(240 24 24)"/>
+          </g>
         </svg>
       </span>
     </span>
@@ -524,6 +547,7 @@
     </div>
   </div>
 
+  <script src="./js/ransom.js"></script>
   <script src="./js/sounds.js"></script>
   <script src="./js/description-enhancer.js"></script>
   <script src="./js/github-loader.js"></script>

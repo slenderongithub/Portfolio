@@ -24,18 +24,18 @@ async function fetchGitHubRepos() {
     return [];
   }
 }
-function transformRepoToProjectNode(repo, index) {
-  const colors = [
-    { x: -0.95, y: 0.52, z: 0.34 },
-    { x: 1.02, y: 0.34, z: -0.22 },
-    { x: -0.52, y: -0.86, z: 0.44 },
-    { x: 0.86, y: -0.62, z: 0.52 },
-    { x: 0.08, y: 0.98, z: -0.08 },
-    { x: -0.68, y: 0.15, z: 0.72 },
-    { x: 0.72, y: 0.08, z: -0.68 },
-    { x: -0.34, y: -0.72, z: -0.58 },
-  ];
-  const position = colors[index % colors.length];
+// Evenly spread `count` points over a sphere (Fibonacci lattice) so any
+// number of repos gets its own non-overlapping node position.
+function fibonacciSpherePositions(count) {
+  const phi = Math.PI * (Math.sqrt(5) - 1);
+  return Array.from({ length: count }, (_, i) => {
+    const y = count === 1 ? 0 : 1 - (i / (count - 1)) * 2;
+    const radius = Math.sqrt(Math.max(0, 1 - y * y));
+    const theta = phi * i;
+    return { x: Math.cos(theta) * radius, y, z: Math.sin(theta) * radius };
+  });
+}
+function transformRepoToProjectNode(repo, position) {
   const tags = repo.topics && repo.topics.length > 0
     ? repo.topics
     : (repo.language ? [repo.language] : ["Project"]);
@@ -73,14 +73,10 @@ async function loadProjectsFromGitHub() {
     ...repo,
     description: getCustomDescription(repo.name) || repo.description,
   }));
-  const projectNodes = repos
-    .filter(repo => !repo.private && !repo.fork)
-    .slice(0, 8)
-    .map((repo, index) => transformRepoToProjectNode(repo, index));
-  const terminalCards = repos
-    .filter(repo => !repo.private && !repo.fork)
-    .slice(0, 12)
-    .map(repo => transformRepoToTerminalCard(repo));
+  const publicRepos = repos.filter(repo => !repo.private && !repo.fork);
+  const positions = fibonacciSpherePositions(publicRepos.length);
+  const projectNodes = publicRepos.map((repo, index) => transformRepoToProjectNode(repo, positions[index]));
+  const terminalCards = publicRepos.map(repo => transformRepoToTerminalCard(repo));
   return { projectNodes, terminalCards };
 }
 window.loadProjectsFromGitHub = loadProjectsFromGitHub;

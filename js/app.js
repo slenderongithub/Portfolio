@@ -710,13 +710,6 @@ function initializeSkillsGlobe() {
   function drawStarField() {
     if (lastGlobeW <= 0 || lastGlobeH <= 0) return;
     bgCtx.clearRect(0, 0, lastGlobeW, lastGlobeH);
-    const starRgb = "255, 255, 255";
-    stars.forEach(star => {
-      bgCtx.beginPath();
-      bgCtx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
-      bgCtx.fillStyle = `rgba(${starRgb}, ${star.a})`;
-      bgCtx.fill();
-    });
   }
 
   function applyRotation(baseX, baseY, baseZ) {

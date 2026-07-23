@@ -19,6 +19,9 @@
       } catch (error) {}
     })();
   </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" />
   <link rel="stylesheet" href="./styles.css" />
   <style>
     :root {
@@ -93,6 +96,7 @@
     }
     .contact-hero h1 span { color: #ffd75e; text-shadow: 0 1px 0 rgba(60, 40, 0, 0.35), 1px 2px 5px rgba(30, 20, 0, 0.5); }
     .contact-desc {
+      font-family: var(--font-body);
       font-size: 1.04rem;
       color: #f0f5ff;
       line-height: 1.72;
@@ -459,6 +463,8 @@
     </div>
 
 
+    <div class="sidebar-main">
+
     <nav class="sidebar-nav-container" id="sidebarNav" aria-label="Primary">
 
       <div class="sidebar-nav-indicator" id="sidebarNavIndicator"></div>
@@ -495,6 +501,8 @@
         </svg>
       </a>
     </div>
+
+    </div>
   </aside>
 
 
@@ -512,7 +520,7 @@
               <div class="contact-grid">
 
                 <div class="contact-hero">
-                  <h1>Let's <span>talk.</span></h1>
+                  <h1 data-ransom>Let's talk</h1>
                   <p class="contact-desc">
                     Send me a message, or reach out directly. I'm always open to collaborations, internships, and technical conversations.
                   </p>
@@ -726,6 +734,7 @@
       window.history.replaceState({}, "", window.location.pathname);
     }
   </script>
+  <script src="./js/ransom.js"></script>
   <script src="./js/sounds.js"></script>
   <script src="./js/app.js"></script>
   <script src="./js/lens.js"></script>
