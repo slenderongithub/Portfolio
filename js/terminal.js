@@ -88,12 +88,13 @@
     skills() {
       blank();
       const groups = [
-        ["Languages", "Python · JavaScript · TypeScript · C++"],
-        ["Frontend", "React · Next.js · TailwindCSS"],
-        ["Backend", "FastAPI · Node.js · Flask"],
-        ["AI / ML", "TensorFlow · PyTorch · Scikit-Learn · NLP"],
-        ["Data", "PostgreSQL · MongoDB · Firebase · Redis"],
-        ["Tooling", "Docker · Git · Vercel · AWS · Linux"],
+        ["Languages", "Python · Java · C/C++ · JavaScript · TypeScript · SQL"],
+        ["Frontend", "React · Next.js · React Native"],
+        ["Backend", "REST · Spring Boot · FastAPI · Node.js"],
+        ["AI / ML", "TensorFlow · PyTorch · Scikit-Learn · CNN · NLP · Federated Learning"],
+        ["Testing", "pytest · Test Automation · Coverage · REST/Protocol (FIX)"],
+        ["Data", "PostgreSQL · MongoDB · Firebase"],
+        ["Tooling", "Docker · Git · CI/CD · AWS · Azure · Linux"],
       ];
       groups.forEach(([k, v]) => print('  <span class="t-yellow">' + k + "</span>" + " ".repeat(Math.max(1, 11 - k.length)) + esc(v)));
       blank();
@@ -101,7 +102,7 @@
 
     contact() {
       blank();
-      print('  <span class="t-yellow">email </span> slenderisprogramming@gmail.com');
+      print('  <span class="t-yellow">email </span> slenderisincollege@gmail.com');
       print('  <span class="t-yellow">github</span> github.com/slenderongithub');
       print('  <span class="t-yellow">page  </span> <a href="./contact.html" style="color:#5fdc6b">open the contact window &rarr;</a>');
       blank();

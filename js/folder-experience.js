@@ -13,35 +13,27 @@
 
   const EXPERIENCES = [
     {
-      title: "Vice President", org: "Northeast Cultural Club", date: "2025", award: null,
-      papers: ["2025", "Leadership", "Events"],
+      title: "Research Intern", org: "NFSU · Cybersecurity & Digital Forensics", date: "2026", award: "88.36% peak", project: "federated-learning-benchmark",
+      papers: ["Federated Learning", "PyTorch", "Research"],
       points: [
-        "Managed planning cadence, delegation, and delivery across major events.",
-        "Aligned performers, volunteers, and campus stakeholders on execution timelines.",
-      ],
-    },
-    {
-      title: "CareLink", org: "App Development Hackathon", date: "Hackathon", award: "1st Place", project: "carelink",
-      papers: ["1st Place", "Healthcare", "React Native"],
-      points: [
-        "Built caregiver-patient coordination flows with reminder intelligence and tracking.",
-        "Delivered a polished demo under deadline with a clear product story.",
+        "Engineered a Federated Learning pipeline from scratch — FedAvg aggregation, non-IID partitioning across 5 clients — with no external FL framework, under Dr. Priya Saha.",
+        "Benchmarked 7 normalisation strategies over 20 communication rounds, reaching 88.36% peak accuracy; identified GroupNorm as the optimal accuracy-fairness trade-off.",
       ],
     },
     {
       title: "Marketing Lead", org: "Microsoft Student Chapter, VIT-AP", date: "2024 — 2025", award: null,
-      papers: ["2024–25", "Outreach", "Campaigns"],
+      papers: ["2024–25", "Outreach", "Workshops"],
       points: [
-        "Led outreach strategy and campaign messaging for chapter initiatives.",
-        "Coordinated event promotion with cross-team execution and partner support.",
+        "Organised 3+ ML workshops (supervised learning, neural nets, model evaluation) for 100+ students.",
+        "Grew event participation 30% and selected 15+ volunteers through structured interviews.",
       ],
     },
     {
-      title: "Smart Glove", org: "National Hackathon", date: "1000+ teams", award: "Top 4 Finalist", project: "smart-glove",
-      papers: ["Top 4", "Wearable", "IoT"],
+      title: "Vice President", org: "Northeast Cultural Club, VIT-AP", date: "2025", award: null,
+      papers: ["2025", "Leadership", "Events"],
       points: [
-        "Designed a wearable safety concept for rapid emergency communication use cases.",
-        "Ranked in the top finalists with strong prototype clarity and impact framing.",
+        "Founded the club and scaled it to 40+ active members within the first semester.",
+        "Coordinated cultural programmes attended by 150+ students campus-wide.",
       ],
     },
   ];

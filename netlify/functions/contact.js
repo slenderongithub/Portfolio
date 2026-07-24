@@ -10,7 +10,7 @@ const ALLOWED_ORIGINS = [
   "http://localhost:3000"
 ];
 const rateLimitStore = new Map();
-const DEFAULT_FALLBACK_URL = "https://formsubmit.co/slenderisprogramming@gmail.com";
+const DEFAULT_FALLBACK_URL = "https://formsubmit.co/slenderisincollege@gmail.com";
 const FALLBACK_URL = Object.prototype.hasOwnProperty.call(process.env, "CONTACT_FALLBACK_URL")
   ? process.env.CONTACT_FALLBACK_URL
   : DEFAULT_FALLBACK_URL;

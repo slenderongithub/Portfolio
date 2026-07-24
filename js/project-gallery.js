@@ -48,8 +48,17 @@
     }, 200);
   }
 
+  /* Debounced hover: the flex-basis transition moves card edges under the
+     cursor mid-animation, which can retrigger mouseenter on the neighbour
+     and make the row flicker. A short delay (cancelled on mouseleave)
+     absorbs that. */
+  let hoverTimer = null;
   cards.forEach((card, i) => {
-    card.addEventListener("mouseenter", () => setActive(i));
+    card.addEventListener("mouseenter", () => {
+      clearTimeout(hoverTimer);
+      hoverTimer = setTimeout(() => setActive(i), 80);
+    });
+    card.addEventListener("mouseleave", () => clearTimeout(hoverTimer));
     card.addEventListener("focus", () => setActive(i));
     card.addEventListener("click", () => {
       setActive(i);
